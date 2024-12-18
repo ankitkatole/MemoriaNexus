@@ -1,2 +1,2 @@
 # MemoriaNexus
-Memoria Nexus is a multifaceted platform that allows users to log diary entries, create memory vaults, and share experiences with others. It aims to foster empathy, connect generations, and explore the richness of personal and collective memories.
+Memoria Nexus is a multifaceted platform that allows users to log diary entries, create memory vaults, and share experiences with others. It aims to foster empathy, connect generations, and explore the richness of personal and collective memories..
