@@ -1,35 +1,42 @@
-const { z } = require("zod");
+// const { z } = require("zod");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const { SECRET_KEY_USER } = require("../../constants")
+const {sendEmail} = require("../utils/email");
+const { SECRET_KEY_USER,APP_EMAIL } = require("../../constants")
 const { User } = require("../models/user");
 
-const signup = async (req, res) =>  {
-    const requiredBody = z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string().email(),
-        password: z.string().min(8),
-    });
+const signup = async (req, res) => {
+    // const requiredBody = z.object({
+    //     firstName: z.string(),
+    //     lastName: z.string(),
+    //     email: z.string().email(),
+    //     password: z.string().min(8),
+    // });
 
-    const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
+    // const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
 
-    if (!parsedBodyWithSuccess.success) {
-        return res.status(400).json({
-            message: "Invalid Credentials",
-            errors: parsedBodyWithSuccess.error,
-        });
-    }
+    // if (!parsedBodyWithSuccess.success) {
+    //     const errorMessages = parsedBodyWithSuccess.error.errors.map(err => err.message);
+    //     console.log(parsedBodyWithSuccess.error.errors);
+    //     return res.status(400).json({
+    //         message: errorMessages,
+    //         errors: parsedBodyWithSuccess.error.errors,
+
+
+    //     });
+    // }
     const { firstName, lastName, email, password } = req.body;
     try {
-        const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await User.findOne({ email });
+        console.log(existingUser);
         if (existingUser) {
             return res.status(409).json({
                 message: "Email already in use",
             });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
+
         const newUser = await User.create({
             username: email,
             firstName,
@@ -37,6 +44,29 @@ const signup = async (req, res) =>  {
             email,
             password: hashedPassword,
         });
+        const token = jwt.sign({ id: newUser._id }, SECRET_KEY_USER,{ expiresIn: "24h" });
+
+        const subject = `Welcome to Memoria Nexus, ${firstName} ${lastName}!`;
+
+        const html = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                </head>
+                <body>
+                    <h1>Hi ${firstName} ${lastName},</h1>
+                    <p>We're thrilled to welcome you to the Memoria Nexus community!</p>
+                    <h2>Getting Started</h2>
+                    <p>If you have any questions or need help navigating the website, please don't hesitate to contact our friendly support team at <a href="mailto:${APP_EMAIL}">${APP_EMAIL}</a> .</p>
+                    <p>Welcome aboard! We're excited to have you as part of our community.</p>
+                    <p>Best regards,</p>
+                    <p>The Memoria Nexus Team</p>
+                </body>
+                </html>`;
+                await sendEmail(email, subject, html);
+                console.log("Account created successfully!");
+
         return res.status(201).json({
             message: "You are successfully signed up",
             user: {
@@ -45,6 +75,7 @@ const signup = async (req, res) =>  {
                 lastName: newUser.lastName,
                 email: newUser.email,
             },
+            token
         });
 
     } catch (error) {
@@ -72,7 +103,7 @@ const signin = async (req, res) => {
                 message: "Invalid Credentials"
             });
         }
-        const token = jwt.sign({ id: user._id }, SECRET_KEY_USER);
+        const token = jwt.sign({ id: user._id }, SECRET_KEY_USER,{ expiresIn: "24h" });
         res.json({
             message: "You are signed in",
             token
@@ -85,4 +116,4 @@ const signin = async (req, res) => {
     }
 };
 
-module.exports = {signup, signin};
+module.exports = { signup, signin };
