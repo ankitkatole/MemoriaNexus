@@ -18,7 +18,7 @@ const signup = async (req, res) =>  {
     if (!parsedBodyWithSuccess.success) {
         return res.status(400).json({
             message: "Invalid Credentials",
-            errors: parsedBodyWithSuccess.error,
+            errors: parsedBodyWithSuccess.error.errors,
         });
     }
     const { firstName, lastName, email, password } = req.body;
