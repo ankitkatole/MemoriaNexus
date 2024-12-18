@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './Pages/Resgistration/Login';
 import SignUp from './Pages/Resgistration/SignUp';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Navbar from './Components/SharedComponents/Navbar';
 
 function App() {
  
@@ -15,6 +16,11 @@ const router = createBrowserRouter([
     {
       path: '/SignUp',
       element: <SignUp/>,
+     
+    },
+    {
+      path: '/Navbar',
+      element: <Navbar/>,
      
     },
 
