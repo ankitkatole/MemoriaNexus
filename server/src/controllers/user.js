@@ -57,15 +57,21 @@ const signup = async (req, res) => {
                 <body>
                     <h1>Hi ${firstName} ${lastName},</h1>
                     <p>We're thrilled to welcome you to the Memoria Nexus community!</p>
+                    <h2>About Memoria Nexus</h2>
+                    <p>Memoria Nexus is your all-in-one platform for logging diaries, preserving memories, and sharing stories across generations. We believe that every moment, big or small, deserves to be remembered and cherished.</p>
+                    <h2>Why "Memoria Nexus"?</h2>
+                    <p>We chose the name "Memoria Nexus" because it perfectly captures our mission. "Memoria" stands for memories, and "Nexus" means a connection or link. Together, it signifies our goal to connect people through their shared experiences and precious memories.</p>
+                    <h2>What Makes Us Different?</h2>
+                    <p>Unlike common diary apps or discussion platforms, Memoria Nexus integrates diary logging, memory storage, empathy exchange, collaborative storytelling, and historical photo archiving into one seamless experience. We focus on bridging generational gaps and fostering deeper connections through shared life stories.</p>
                     <h2>Getting Started</h2>
-                    <p>If you have any questions or need help navigating the website, please don't hesitate to contact our friendly support team at <a href="mailto:${APP_EMAIL}">${APP_EMAIL}</a> .</p>
+                    <p>If you have any questions or need help navigating the website, please don't hesitate to contact our friendly support team at <a href="mailto:${APP_EMAIL}">${APP_EMAIL}</a>.</p>
                     <p>Welcome aboard! We're excited to have you as part of our community.</p>
                     <p>Best regards,</p>
                     <p>The Memoria Nexus Team</p>
                 </body>
                 </html>`;
-                await sendEmail(email, subject, html);
-                console.log("Account created successfully!");
+        await sendEmail(email, subject, html);
+        console.log("Account created successfully!");
 
         return res.status(201).json({
             message: "You are successfully signed up",
