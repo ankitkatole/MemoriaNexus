@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import SERVER_URL from '../../constant.mjs'
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: ''
   });
+
+  const[Loading,setLoading] =useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -16,16 +21,26 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      const response = await axios.post('https://your-api-endpoint.com/signup', formData, {
+      const response = await axios.post(`${SERVER_URL}/user/signup`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      
+       
+     
 
-      console.log('Signup successful:', response.data);
+      
+      setLoading(false);
+      alert('Signup successful:');
+      navigate('/');
+
 
     } catch (error) {
+      setLoading(false);
 
       console.error('Error during signup:', error.response ? error.response.data : error.message);
       
@@ -91,7 +106,7 @@ function SignUp() {
               className="w-full py-2 px-4 text-base font-bold text-cyan-300 border border-cyan-300 rounded-md transition duration-300"
               type="submit"
             >
-              SIGN UP
+            { Loading ? 'Signning up...' : 'SIGN UP'}
             </button>
           </form>
         </div>
