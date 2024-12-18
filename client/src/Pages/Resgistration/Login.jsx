@@ -4,7 +4,7 @@ function Login() {
   return (
   <>
       <div className="flex justify-center w-screen items-center h-screen ">
-    <div className="relative p-10 w-[90vw] sm:w-[80vw] md:w-auto  rounded-lg  border-[#8400ff] border-2 animate-breathe">
+    <div className="relative p-10 w-[90vw] sm:w-[80vw] md:w-auto  rounded-lg  border-cyan-300 border-2 animate-breathe">
       <h2 className="text-2xl font-semibold text-cyan-400 mb-6">LOGIN</h2>
       <form className='w-full md:min-w-96  '>
         <div className="mb-6">
