@@ -15,6 +15,7 @@ const signup = async (req, res) =>  {
 
     // const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
 
+<<<<<<< HEAD
     // if (!parsedBodyWithSuccess.success) {
     //     const errorMessages = parsedBodyWithSuccess.error.errors.map(err => err.message);
     //     console.log(parsedBodyWithSuccess.error.errors);
@@ -23,6 +24,14 @@ const signup = async (req, res) =>  {
     //         errors: parsedBodyWithSuccess.error.errors,
     //     });
     // }
+=======
+    if (!parsedBodyWithSuccess.success) {
+        return res.status(400).json({
+            message: "Invalid Credentials",
+            errors: parsedBodyWithSuccess.error.errors,
+        });
+    }
+>>>>>>> e25349ec95c0692f36f5b2c9df5a77af1a2d0194
     const { firstName, lastName, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ where: { email } });
