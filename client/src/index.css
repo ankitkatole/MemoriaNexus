@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -22,7 +23,7 @@
 
 
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   --button-bg:#141820;
@@ -46,7 +47,7 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px var(--background-dark) inset;/* Same background as the input */
   -webkit-text-fill-color: #5ceafa !important; /* Your custom text color */
 }
-.rdlGrdnt {
+/* .rdlGrdnt {
   background-image: radial-gradient(
     white 0%,
     #00f7ffc2 12%,
@@ -62,18 +63,12 @@ input:-webkit-autofill {
 .ctaBtn::after {
   content: "";
   @apply w-3/5 h-2 absolute left-1/2 -translate-x-1/2 bottom-[-4px] rounded-[100%] rdlGrdnt;
-}
+} */
 
-/* Add the custom CSS for the effect */
+
 .box {
-  width: 60vmin;
-  height: 50vmin;
-  display: grid;
-  place-content: center;
-  color: white;
-  text-shadow: 0 1px 0 #000;
-
-  --border-angle: 0turn; /* For animation */
+  
+  --border-angle: 0turn; 
   --main-bg: conic-gradient(
     from var(--border-angle),
     #213,
@@ -82,15 +77,15 @@ input:-webkit-autofill {
     #213 95%
   );
 
-  border: solid 5px transparent;
-  border-radius: 2em;
+  border: solid 2px transparent;
+  border-radius: 8px;
 
   /* Gradient border */
   --gradient-border: conic-gradient(
     from var(--border-angle),
-    transparent 25%,
-    #08f,
-    #f03 99%,
+    transparent 35%,
+    #00f6ff,
+    #8400ff 80%,
     transparent
   );
 
@@ -102,7 +97,39 @@ input:-webkit-autofill {
     
     var(--main-bg) border-box;
 
-  background-position: center center;
+
+  animation: bg-spin 3s linear infinite;
+}
+.box2 {
+  
+  --border-angle: 0turn; 
+  --main-bg: conic-gradient(
+    from var(--border-angle),
+    #131822,
+    #131822 5%,
+    #131822 60%,
+    #131822 95%
+  );
+
+  border: solid 2px transparent;
+  border-radius: 8px;
+
+  /* Gradient border */
+  --gradient-border: conic-gradient(
+    from var(--border-angle),
+    transparent 80%,
+    #00f7ff 5%,
+    transparent
+  );
+
+  background:
+   
+    var(--main-bg) padding-box,
+    
+    var(--gradient-border) border-box,
+    
+    var(--main-bg) border-box;
+
 
   animation: bg-spin 3s linear infinite;
 }
@@ -113,12 +140,11 @@ input:-webkit-autofill {
   }
 }
 
-/* Hover state to pause the animation */
 .box:hover {
   animation-play-state: paused;
 }
 
-/* CSS Property declaration */
+
 @property --border-angle {
   syntax: "<angle>";
   inherits: true;
@@ -126,8 +152,35 @@ input:-webkit-autofill {
 }
 
 
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+
 *{
   outline: none;
+  font-family: "Russo One", serif;
 }
 
 div{
@@ -184,6 +237,10 @@ a {
   font-weight: 500;
  
   text-decoration: inherit;
+}
+
+a:hover{
+  color: cyan !important;
 }
 
 

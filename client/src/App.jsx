@@ -3,6 +3,7 @@ import Login from './Pages/Resgistration/Login';
 import SignUp from './Pages/Resgistration/SignUp';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Navbar from './Components/SharedComponents/Navbar';
+import LandingPage from './Pages/Resgistration/LandingPage';
 
 function App() {
  
@@ -10,19 +11,24 @@ function App() {
 const router = createBrowserRouter([
     {
       path: '/',
-      element: <Login/>,
+      element: <LandingPage/>,
       errorElement: '404 Page not found',
     },
-    {
-      path: '/SignUp',
-      element: <SignUp/>,
+    // {
+    //   path: '/SignUp',
+    //   element: <SignUp/>,
      
-    },
-    {
-      path: '/Navbar',
-      element: <Navbar/>,
+    // },
+    // {
+    //   path: '/Navbar',
+    //   element: <Navbar/>,
      
-    },
+    // },
+    // {
+    //   path: '/Login',
+    //   element: <LandingPage/>,
+     
+    // },
 
 ]);
 
