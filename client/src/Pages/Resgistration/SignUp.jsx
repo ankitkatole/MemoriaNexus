@@ -3,6 +3,8 @@ import axios from 'axios';
 import SERVER_URL from '../../constant.mjs';
 import Logo from '../../assets/LogoTransparent.svg'
 import { X } from 'lucide-react';
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp({onClose, LoginOpen}) {
   const [formData, setFormData] = useState({
@@ -64,15 +66,17 @@ function OpenLogin(){
     }
 
     try {
-      await axios.post(`${SERVER_URL}/user/signup`, formData, {
+     const res= await axios.post(`${SERVER_URL}/user/signup`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       setLoading(false);
-      alert('Signup successful!');
-      OpenLogin();
+      toast.success(res.message || 'Signup done', { containerId: "SignUp" });
+      setTimeout(() => {
+        OpenLogin(); 
+      }, 2000);
     } catch (error) {
       setLoading(false);
       
@@ -91,6 +95,21 @@ function OpenLogin(){
   return (
     <>
       <div className="fixed inset-0 z-[9999] flex justify-center w-screen items-center h-screen">
+        <ToastContainer
+                position="top-right"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Slide}
+                closeButton={false}
+                containerId="SignUp"
+              />
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm" 
       
