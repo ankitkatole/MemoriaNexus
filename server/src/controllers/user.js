@@ -1,4 +1,4 @@
-const { z } = require("zod");
+// const { z } = require("zod");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -6,21 +6,23 @@ const { SECRET_KEY_USER } = require("../../constants")
 const { User } = require("../models/user");
 
 const signup = async (req, res) =>  {
-    const requiredBody = z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string().email(),
-        password: z.string().min(8),
-    });
+    // const requiredBody = z.object({
+    //     firstName: z.string(),
+    //     lastName: z.string(),
+    //     email: z.string().email(),
+    //     password: z.string().min(8),
+    // });
 
-    const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
+    // const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
 
-    if (!parsedBodyWithSuccess.success) {
-        return res.status(400).json({
-            message: "Invalid Credentials",
-            errors: parsedBodyWithSuccess.error,
-        });
-    }
+    // if (!parsedBodyWithSuccess.success) {
+    //     const errorMessages = parsedBodyWithSuccess.error.errors.map(err => err.message);
+    //     console.log(parsedBodyWithSuccess.error.errors);
+    //     return res.status(400).json({
+    //         message: errorMessages,
+    //         errors: parsedBodyWithSuccess.error.errors,
+    //     });
+    // }
     const { firstName, lastName, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ where: { email } });
