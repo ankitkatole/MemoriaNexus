@@ -19,7 +19,7 @@ function Login({onClose, SignUpOpen}) {
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
     if (loginTokenCookie) {
-      navigate('/Home'); 
+      navigate('/Diary'); 
     }
   }, [navigate]);
 
@@ -57,7 +57,7 @@ function Login({onClose, SignUpOpen}) {
         console.log(message);
         setLoading(false);
 
-        navigate('/Home'); 
+        navigate('/Diary'); 
       }
     } catch (err) {
       setLoading(false);
