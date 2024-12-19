@@ -18,7 +18,7 @@ function Navbar({LoginOpen, SignupOpen}) {
     { link:'How It Works',
       href:'/',
     },
-   
+ 
   ]
 
   return (
@@ -72,7 +72,7 @@ function Navbar({LoginOpen, SignupOpen}) {
       <div
         className={`slider ${
           isMenuClicked ? "translate-x-0" : " translate-x-full"
-        } w-full bg-black fixed z-[9999999] inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-center`}
+        } w-full bg-black fixed z-[7777] inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-center`}
       >
         <button  className=" absolute top-5 right-5 lg:hidden p-2" onClick={()=>{setisMenuClicked(false)}} >
             <Menu className="h-6 w-6 " />
@@ -90,7 +90,15 @@ function Navbar({LoginOpen, SignupOpen}) {
           <Link to={navLink.href}> {navLink.link}</Link> 
           </div>
         ))}
-       
+        <div className=" flex flex-col  items-center space-y-4 mx-4">
+            <a  className="navLink border-b-2 text-4xl  border-cyan-300 py-2  rounded-sm  " onClick={() => LoginOpen(true)}>
+              Sign In
+            </a>
+
+            <a className="navLink border-b-2 text-4xl  border-cyan-300 py-2 rounded-sm " onClick={() => SignupOpen(true)}>
+              Sign Up
+            </a>
+          </div>
       </div>
      
 

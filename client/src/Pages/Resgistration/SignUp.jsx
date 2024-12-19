@@ -36,7 +36,7 @@ function SignUp({onClose, LoginOpen}) {
     // Password validation: Minimum 8 characters, at least one letter and one number
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(password)) {
-      return 'Password must be at least 8 characters long and contain both letters and numbers.';
+      return 'Password must be at least 8 characters and contain letters and numbers.';
     }
 
     return '';

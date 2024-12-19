@@ -56,7 +56,7 @@ function LandingPage() {
         <p className="text-xl text-center md:w-[80vw] lg:w-[90%] xl:w-auto text-gray-100 max-w-2xl lg:text-left 2xl:mx-auto mb-8 relative z-10">
           Your digital sanctuary for preserving memories and sharing stories across generations
         </p>
-        <button className="box text-white px-8 max-w-[250px] py-2 text-lg relative z-10 transform transition-transform hover:scale-105">
+        <button className="box text-white px-8 max-w-[250px] py-2 text-lg relative z-10 transform transition-transform duration-500 hover:scale-105">
           Start Your Journey
         </button>
         </div>
@@ -69,8 +69,8 @@ function LandingPage() {
           <CardContent className="p-8 relative box !border-none bg-[#262d3c]">
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00f6ff] rounded-full  filter blur-xl   animate-blob"></div>
             <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-violet-500 rounded-full  blur-xl  filter animate-blob animation-delay-2000"></div>
-            <h3 className="text-3xl text-white font-semibold mb-6 text-center relative z-10" style={{ fontSize: "clamp(20px, 2.4vw, 30px)" }}>About Memoria Nexus</h3>
-            <p className="text-white text-lg text-center max-w-3xl mx-auto relative z-10" style={{ fontSize: "clamp(14px, 1.5vw, 18px)" }}>
+            <h3 className="text-3xl text-white font-semibold mb-6 text-center relative z-10" style={{ fontSize: "clamp(20px, 2.4vw, 35px)" }}>About Memoria Nexus</h3>
+            <p className="text-white text-lg text-center max-w-3xl mx-auto relative z-10" style={{ fontSize: "clamp(14px, 1.5vw, 16px)" }}>
               Memoria Nexus is your all-in-one platform for logging diary entries, preserving personal memories, 
               and sharing life stories across generations. We bridge generational gaps and foster deeper connections 
               through shared experiences.
@@ -83,8 +83,8 @@ function LandingPage() {
       <section id="features" className="container mx-auto px-6 xl:px-20 py-20">
 
       <div className='flex flex-col justify-center items-center w-full mb-12'>
-        <h3 className="text-3xl font-semibold  text-center relative z-10 mb-3  ">Features of Website</h3>
-        <span className='bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px] w-[80vw] md:w-[320px]'></span>
+        <h3 className="text-3xl md:text-4xl font-semibold  text-center relative z-10 mb-3  ">Features of Website</h3>
+        <span className='bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px] w-[80vw] md:w-[390px]'></span>
         </div>
 
         <div className="grid md:grid-cols-2  lg:grid-cols-4 gap-8">
