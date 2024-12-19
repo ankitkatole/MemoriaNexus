@@ -4,7 +4,7 @@ function StepCard({ number, title, description }) {
   return (
     <div className="text-center flex flex-col justify-center items-center group ">
       <div className="w-16 h-16 !rounded-full box bg-violet-600 flex items-center justify-center mx-auto mb-4 transform transition-transform duration-500 group-hover:scale-110 ">
-        <span className="text-2xl font-semibold ">{number}</span>
+        <span className="text-2xl font-semibold transition-all duration-500  group-hover:rotate-12 ">{number}</span>
       </div>
       <h4 className="text-xl font-semibold mb-2">{title}</h4>
       <p className="text-gray-300 max-w-[300px]">{description}</p>
