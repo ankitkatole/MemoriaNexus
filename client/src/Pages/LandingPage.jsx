@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Button } from '@mui/material';
-import { Card, CardContent } from "@mui/material";
+// import { Button } from '@mui/material';
+// import { Card, CardContent } from "@mui/material";
 import { BookHeart, History, Share2, Users2, } from 'lucide-react';
-import SignUp from './SignUp';
-import Login from './Login';
-import StepCard from '../../Components/SharedComponents/StepCard'
-import FeatureCard from '../../Components/SharedComponents/FeatureCard'
+import SignUp from './Resgistration/SignUp';
+import Login from './Resgistration/Login';
+import StepCard from '../Components/SharedComponents/StepCard'
+import FeatureCard from '../Components/SharedComponents/FeatureCard'
 import { createPortal } from "react-dom";
-import Navbar from '../../Components/SharedComponents/Navbar';
-import Heroimg from '../../assets/heroimage.svg'
-import Footer from '../../Components/SharedComponents/Footer';
+import Navbar from '../Components/SharedComponents/Navbar';
+import Heroimg from '../assets/heroimage.svg'
+import Footer from '../Components/SharedComponents/Footer';
 
 
 
@@ -65,8 +65,8 @@ function LandingPage() {
 
       {/* About Section */}
       <section id="about" className="container w-[90vw] rounded-xl  mx-auto px-4 py-20 relative">
-        <Card className="bg-gray-900/50 bg-[#262d3c]  border-gray-800 overflow-hidden">
-          <CardContent className="p-8 relative box !border-none bg-[#262d3c]">
+        <div className="bg-gray-900/50 bg-[#262d3c]  border-gray-800 overflow-hidden">
+          <div className="p-8 relative box !border-none bg-[#262d3c]">
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00f6ff] rounded-full  filter blur-xl   animate-blob"></div>
             <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-violet-500 rounded-full  blur-xl  filter animate-blob animation-delay-2000"></div>
             <h3 className="text-3xl text-white font-semibold mb-6 text-center relative z-10" style={{ fontSize: "clamp(20px, 2.4vw, 35px)" }}>About Memoria Nexus</h3>
@@ -75,8 +75,8 @@ function LandingPage() {
               and sharing life stories across generations. We bridge generational gaps and foster deeper connections 
               through shared experiences.
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}

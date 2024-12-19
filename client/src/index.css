@@ -296,3 +296,9 @@ button:hover {
 }
 
 
+.Diary{
+  scrollbar-width: thin;
+  user-select: none;
+  -moz-user-select: none;
+  scrollbar-color: #646cff #2a1454;
+}
