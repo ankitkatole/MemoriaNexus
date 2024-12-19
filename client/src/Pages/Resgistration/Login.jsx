@@ -11,6 +11,7 @@ import { X } from "lucide-react";
 function Login({onClose, SignUpOpen}) {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -31,6 +32,7 @@ function Login({onClose, SignUpOpen}) {
   //Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError('');
 
     try {
@@ -53,9 +55,13 @@ function Login({onClose, SignUpOpen}) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${loginTokenCookie}`;
 
         console.log(message);
-        navigate('/'); 
+        setLoading(false);
+
+        navigate('/Home'); 
       }
     } catch (err) {
+      setLoading(false);
+
       if (err.response && err.response.status ) {
         setError(err.response.data.message);
       }  else {
@@ -119,7 +125,7 @@ function Login({onClose, SignUpOpen}) {
               className="box w-full py-2 px-4 text-base font-bold text-cyan-300 border border-cyan-300 rounded-md transition duration-300"
               type="submit"
             >
-              LOGIN
+              {loading ? 'Logging up...' : 'Log In'}
             </button>
           </form>
         </div>
