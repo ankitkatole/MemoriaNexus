@@ -8,6 +8,7 @@ import Diary from './Pages/Diary/Diary';
 import UserChat from './Pages/UserChat/UserChat';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Chat from './Components/Chat';
+import ResetPassword from './Pages/Resgistration/ResetPassword';
 function App() {
  
 
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
     {
       path: '/Chat',
       element: <Chat/>,
+     
+    },
+    {
+      path: '/ResetPassword',
+      element: <ResetPassword/>,
      
     },
     // {
