@@ -5,7 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 // import Navbar from './Components/SharedComponents/Navbar';
 import LandingPage from './Pages/LandingPage';
 import Diary from './Pages/Diary/Diary';
-import Chat from './Pages/Chat/Chat';
+import UserChat from './Pages/UserChat/UserChat';
+import Dashboard from './Pages/Dashboard/Dashboard';
 
 function App() {
  
@@ -22,8 +23,14 @@ const router = createBrowserRouter([
      
     },
     {
-      path: '/Chat',
-      element: <Chat/>,
+      path: '/UserChat',
+      element: <UserChat/>,
+     
+    },
+   
+    {
+      path: '/Dashboard',
+      element: <Dashboard/>,
      
     },
     // {

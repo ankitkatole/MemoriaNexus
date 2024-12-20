@@ -19,7 +19,7 @@ function Login({onClose, SignUpOpen}) {
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
     if (loginTokenCookie) {
-      navigate('/Chat'); 
+      navigate('/Dashboard'); 
     }
   }, [navigate]);
 
@@ -63,7 +63,7 @@ function Login({onClose, SignUpOpen}) {
         });
         setLoading(false);
 
-        navigate('/Chat'); 
+        navigate('/Dashboard'); 
       }
     } catch (err) {
       setLoading(false);

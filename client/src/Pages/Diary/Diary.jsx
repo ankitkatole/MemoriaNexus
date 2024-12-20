@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { PenSquare,TableProperties } from "lucide-react";
 import arrow from "../../assets/Arrow.svg";
 import cover from "../../assets/LogoTransparent.svg";
-import Navbar from "../../Components/SharedComponents/Navbar";
+import { useNavigate } from "react-router-dom";
+// import Navbar from "../../Components/SharedComponents/Navbar";
+// import Sidebar from "../../Components/SharedComponents/Sidebar";
 
 const initialPages = [
   {
@@ -290,14 +292,20 @@ const Diary = memo(() => {
     setZIndices(initialZIndices);
   }, [pages.length, numberOfPagesRead]);
 
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // This goes back to the previous page
+  };
   return (
 <>
-    <Navbar/>
+   <button  className="box p-2 px-4  md:absolute my-5 md:my-0  top-5 left-5" onClick={goBack}>Back</button>
 
-    <section className="w-screen px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col ">
-      <h1 className="text-2xl md:text-3xl text-center mb-6 md:text-5xl font-bold font-greatVibes mt-4">
-        Your Memory Diary
-      </h1>
+    <section className="w-screen  px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col ">
+    <div className='flex flex-col justify-between  items-center w-full mb-8 md:mt-8 ' >
+        <h3 className="text-3xl font-semibold  text-center relative z-10 mb-3  ">  Your Memory Diary</h3>
+        <span className='bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px]  w-[280px]'></span>
+        </div>
       <div className="relative w-full md:w-[678px] h-[70vh] md:h-[576px] md:max-h-[70vh] md:max-w-[80vw] mx-auto" style={{ perspective: "2000px" }}>
         {pages.map((page, index) => (
           <motion.div

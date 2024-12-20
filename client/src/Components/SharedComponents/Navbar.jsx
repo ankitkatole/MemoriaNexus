@@ -23,8 +23,8 @@ function Navbar({LoginOpen, SignupOpen}) {
     { link:'Diary',
       href:'/Diary',
     },
-    { link:'Chat',
-      href:'/Chat',
+    { link:'User Chat',
+      href:'/UserChat',
     },
  
   ]
