@@ -7,13 +7,13 @@
 
 
 :root {
-  --background-dark:#131822;
-  
-  --text-color-dark:#ffffffde;
+  --background-dark: #131822;
+
+  --text-color-dark: #ffffffde;
   /* --text-color-light:black; */
   /* --background-light:#ffffff; */
   /* --button-bg:#efefef; */
-  --div-border:rgba(214, 214, 214, 0.566);
+  --div-border: rgba(214, 214, 214, 0.566);
 
 
   --toastify-toast-min-height: 44px;
@@ -28,8 +28,8 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  --button-bg:#141820;
-  --div-border:#2b2b2b;
+  --button-bg: #141820;
+  --div-border: #2b2b2b;
   color-scheme: light dark;
   color: var(--text-color-light);
   /* background-color: var(--background-light); */
@@ -46,9 +46,12 @@
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px var(--background-dark) inset;/* Same background as the input */
-  -webkit-text-fill-color: #5ceafa !important; /* Your custom text color */
+  -webkit-box-shadow: 0 0 0 1000px var(--background-dark) inset;
+  /* Same background as the input */
+  -webkit-text-fill-color: #5ceafa !important;
+  /* Your custom text color */
 }
+
 /* .rdlGrdnt {
   background-image: radial-gradient(
     white 0%,
@@ -69,67 +72,60 @@ input:-webkit-autofill {
 
 
 .box {
-  
-  --border-angle: 0turn; 
-  --main-bg: conic-gradient(
-    from var(--border-angle),
-    #213,
-    #112 5%,
-    #112 60%,
-    #213 95%
-  );
+
+  --border-angle: 0turn;
+  --main-bg: conic-gradient(from var(--border-angle),
+      #213,
+      #112 5%,
+      #112 60%,
+      #213 95%);
 
   border: solid 2px transparent;
   border-radius: 8px;
 
   /* Gradient border */
-  --gradient-border: conic-gradient(
-    from var(--border-angle),
-    transparent 35%,
-    #00f6ff,
-    #8400ff 80%,
-    transparent
-  );
+  --gradient-border: conic-gradient(from var(--border-angle),
+      transparent 35%,
+      #00f6ff,
+      #8400ff 80%,
+      transparent);
 
   background:
-   
+
     var(--main-bg) padding-box,
-    
+
     var(--gradient-border) border-box,
-    
+
     var(--main-bg) border-box;
 
 
   animation: bg-spin 3s linear infinite;
 }
+
 .box2 {
-  
-  --border-angle: 0turn; 
-  --main-bg: conic-gradient(
-    from var(--border-angle),
-    #131822,
-    #131822 5%,
-    #131822 60%,
-    #131822 95%
-  );
+
+  --border-angle: 0turn;
+  --main-bg: conic-gradient(from var(--border-angle),
+      #131822,
+      #131822 5%,
+      #131822 60%,
+      #131822 95%);
 
   border: solid 2px transparent;
   border-radius: 8px;
 
   /* Gradient border */
-  --gradient-border: conic-gradient(
-    from var(--border-angle),
-    transparent 80%,
-    #00f7ff 5%,
-    transparent
-  );
+  --gradient-border: conic-gradient(from var(--border-angle),
+      transparent 80%,
+      #00f7ff 5%,
+      transparent);
 
   background:
-   
+
     var(--main-bg) padding-box,
-    
+
     var(--gradient-border) border-box,
-    
+
     var(--main-bg) border-box;
 
 
@@ -158,7 +154,7 @@ input:-webkit-autofill {
   .animation-delay-2000 {
     animation-delay: 2s;
   }
-  
+
   .animate-blob {
     animation: blob 7s infinite;
   }
@@ -168,19 +164,22 @@ input:-webkit-autofill {
   0% {
     transform: translate(0px, 0px) scale(1);
   }
+
   33% {
     transform: translate(30px, -50px) scale(1.1);
   }
+
   66% {
     transform: translate(-20px, 20px) scale(0.9);
   }
+
   100% {
     transform: translate(0px, 0px) scale(1);
   }
 }
 
 
-*{
+* {
   outline: none;
   /* font-family: "Russo One", serif; */
   /* font-family: "Titillium Web", serif; */
@@ -194,12 +193,12 @@ input:-webkit-autofill {
 
 
 
-div{
+div {
   border-color: var(--div-border);
 }
 
 
-.Toastify__toast-body{
+.Toastify__toast-body {
   flex: none;
 }
 
@@ -208,11 +207,13 @@ div{
   position: absolute;
   bottom: 0;
 }
+
 .Toastify__progress-bar--error {
   height: 2px;
   position: absolute;
   bottom: 0;
 }
+
 .Toastify__progress-bar {
   height: 2px;
   position: absolute;
@@ -220,7 +221,7 @@ div{
 }
 
 .Toastify__toast {
-  border: 0.1px solid ;
+  border: 0.1px solid;
   border-color: #585858;
   font-size: small;
 }
@@ -232,32 +233,34 @@ div{
 
 
 .Toastify__progress-bar {
-  background-color: #fff; /* Replace with your desired color */
+  background-color: #fff;
+  /* Replace with your desired color */
 }
 
 .Toastify__progress-bar--container {
-  background-color: #ffffff; /* Set this to white */
+  background-color: #ffffff;
+  /* Set this to white */
 }
 
-.toastify-icon-success{
+.toastify-icon-success {
   width: 10px;
   height: 10px;
 }
 
 a {
   font-weight: 500;
- 
+
   text-decoration: inherit;
 }
 
-a:hover{
+a:hover {
   color: cyan !important;
 }
 
 
 body {
-    background-color: var(--background-dark);
-    color: var(--text-color-dark);
+  background-color: var(--background-dark);
+  color: var(--text-color-dark);
   margin: 0;
   display: flex;
   place-items: center;
@@ -265,7 +268,35 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   /* overflow-x: hidden; */
+
+  /*Ankit Added these */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*Ankit Added these above */
 }
+
+/*Again ankit added this*/
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+/* up until here above */
+
 
 h1 {
   font-size: 3.2em;
@@ -275,16 +306,16 @@ h1 {
 
 
 
-input[data-theme="dark"]{
+input[data-theme="dark"] {
   background-color: var(--button-dark);
 }
 
-input{
+input {
   background-color: var(--button-light);
 }
 
 
- 
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

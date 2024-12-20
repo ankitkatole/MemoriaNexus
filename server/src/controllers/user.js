@@ -45,7 +45,7 @@ const signup = async (req, res) => {
             password: hashedPassword,
         });
         const token = jwt.sign({ id: newUser._id }, SECRET_KEY_USER,{ expiresIn: "24h" });
-
+        console.log("here tk aa gaya",token)
         const subject = `Welcome to Memoria Nexus, ${firstName} ${lastName}!`;
 
         const html = `
@@ -122,4 +122,14 @@ const signin = async (req, res) => {
     }
 };
 
-module.exports = { signup, signin };
+const signout = (req, res) => {
+    try {
+      res.cookie("jwt", "", { maxAge: 0 });
+      res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+      console.log("Error in logout controller", error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+
+module.exports = { signup, signin,signout };
