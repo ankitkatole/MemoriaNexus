@@ -18,7 +18,7 @@ Welcome to **Memoria Nexus**, your all-in-one platform for logging diaries, pres
 
 ## Features
 
-- **Reflections**: Log your daily thoughts and experiences in our empathetic diary feature.
+- **Reflections**: Log your daily thoughts and experiences in our empathetic diary feature...
 - **Memory Vault**: Upload and manage your precious memories with customizable privacy settings.
 - **Empathy Exchange**: Share your life experiences and connect with others who understand.
 - **Global Storybook**: Collaboratively write and contribute to ongoing global stories.
