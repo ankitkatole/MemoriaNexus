@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { PenSquare,TableProperties } from "lucide-react";
 import arrow from "../../assets/Arrow.svg";
 import cover from "../../assets/LogoTransparent.svg";
+import Navbar from "../../Components/SharedComponents/Navbar";
 
 const initialPages = [
   {
@@ -30,39 +31,68 @@ const initialPages = [
 ];
 
 const Page = memo(({ page, onEdit, JumpToindex }) => {
-    if (page.isCover) {
-      return (
-        <div className="w-full h-full bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 flex flex-col items-center gap-8 md:gap-16 justify-center text-white overflow-hidden relative">
-          <img src={cover} alt="bg-img" className="object-cover w-16 h-16 md:w-20 md:h-20 z-0" />
-          <div className="relative text-3xl md:text-5xl z-10 px-4 text-center">
-            <a>{page.title}</a>
-          </div>
-        </div>
-      );
-    }
-  
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(page.title);
+
+  const handleTitleChange = (e) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleTitleEdit = () => {
+    setIsEditingTitle(true);
+  };
+
+  const handleTitleSave = () => {
+    setIsEditingTitle(false);
+    onEdit({ ...page, title: editedTitle });
+  };
+
+  if (page.isCover) {
     return (
-      <div className="text-center space-y-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 w-full h-full text-white pt-8 px-4 md:px-6 relative">
-        <button 
-          onClick={() => onEdit(page)}
-          className="absolute top-4 right-4 p-1.5 md:p-2 box hover:bg-white/10 !rounded-full transition-colors"
-        >
-          <PenSquare className="w-4 h-4 md:w-5 md:h-5" />
-        </button>
-  
-        <button 
-          onClick={() => JumpToindex(1)}
-          className="absolute top-0 md:top-0 right-14 md:right-16 p-1.5 md:p-2 box hover:bg-white/10 !rounded-full transition-colors"
-        >
-          <TableProperties className="w-4 h-4 md:w-5 md:h-5" />
-        </button>
-        <h2 className="text-[1.2em] sm:text-[3vmin] font-bold">{page.title}</h2>
-        <p className="text-gray-300 text-[0.8em] sm:text-[1.8vmin] whitespace-pre-wrap break-words">
-          {page.content}
-        </p>
+      <div className="w-full h-full bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 flex flex-col items-center gap-8 md:gap-16 justify-center text-white overflow-hidden relative">
+        <img src={cover} alt="bg-img" className="object-cover w-16 h-16 md:w-20 md:h-20 z-0" />
+        <div className="relative text-3xl md:text-5xl z-10 px-4 text-center">
+          {isEditingTitle ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={handleTitleChange}
+              onBlur={handleTitleSave}
+              className="bg-transparent border-b-2 border-white text-center outline-none text-white w-full"
+              autoFocus
+            />
+          ) : (
+            <a onClick={handleTitleEdit} className="cursor-pointer">
+              {page.title}
+            </a>
+          )}
+        </div>
       </div>
     );
-  });
+  }
+
+  return (
+    <div className="text-center space-y-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 w-full h-full text-white pt-8 px-4 md:px-6 relative">
+      <button 
+        onClick={() => onEdit(page)}
+        className="absolute top-4 right-4 p-1.5 md:p-2 box hover:bg-white/10 !rounded-full transition-colors"
+      >
+        <PenSquare className="w-4 h-4 md:w-5 md:h-5" />
+      </button>
+
+      <button 
+        onClick={() => JumpToindex(1)}
+        className="absolute top-0 md:top-0 right-14 md:right-16 p-1.5 md:p-2 box hover:bg-white/10 !rounded-full transition-colors"
+      >
+        <TableProperties className="w-4 h-4 md:w-5 md:h-5" />
+      </button>
+      <h2 className="text-[1.2em] sm:text-[3vmin] font-bold">{page.title}</h2>
+      <p className="text-gray-300 text-[0.8em] sm:text-[1.8vmin] whitespace-pre-wrap break-words">
+        {page.content}
+      </p>
+    </div>
+  );
+});
   
   const Index = memo(({ pages, currentPage, onPageSelect, onDelete }) => {
     const contentPages = pages.filter(page => !page.isCover && !page.isIndex);
@@ -125,8 +155,8 @@ const EditDialog = memo(({ page, isOpen, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-gray-900 p-6 rounded-lg w-full max-w-lg mx-4">
-        <h2 className="text-xl text-white mb-4">Edit Memory</h2>
+      <div className="bg-gray-900 border-2 border-cyan-300 p-6 rounded-lg w-full max-w-lg mx-4">
+        <h2 className="text-xl text-white mb-4">{page.isCover ? 'Edit Diary Title' : 'Edit Memory'}</h2>
         <form onSubmit={handleSave} className="space-y-4">
           <div>
             <input
@@ -138,12 +168,14 @@ const EditDialog = memo(({ page, isOpen, onClose, onSave }) => {
             />
           </div>
           <div>
+          {!page.isCover && (
             <textarea
               placeholder="Write your memory here..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500 min-h-[200px]"
             />
+          )}
           </div>
           <div className="flex justify-end gap-4">
             <button
@@ -155,7 +187,7 @@ const EditDialog = memo(({ page, isOpen, onClose, onSave }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-500 transition-colors"
+              className="px-4 py-2 rounded box2 bg-blue-600 text-white hover:bg-blue-500 transition-colors"
             >
               Save Changes
             </button>
@@ -259,7 +291,10 @@ const Diary = memo(() => {
   }, [pages.length, numberOfPagesRead]);
 
   return (
-    <section className="w-screen px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col justify-center">
+<>
+    <Navbar/>
+
+    <section className="w-screen px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col ">
       <h1 className="text-2xl md:text-3xl text-center mb-6 md:text-5xl font-bold font-greatVibes mt-4">
         Your Memory Diary
       </h1>
@@ -339,6 +374,7 @@ const Diary = memo(() => {
         onSave={handleSave}
       />
     </section>
+    </>
   );
 });
 
