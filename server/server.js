@@ -18,7 +18,12 @@ if (require.main === module) {
     app.use(express.json()); 
 
     // cors
-    app.use(cors({origin : true}));
+    // app.use(cors({origin : true}));
+    app.use(cors({
+        origin: 'https://memoria-nexus.vercel.app',  // Adjust this for your front-end URL
+        methods: ['GET', 'POST'],  // Allow these methods
+        allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+      }));
 
     // socket.io server
     const server = createServer(app)
