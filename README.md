@@ -1,4 +1,3 @@
-
 # Memoria Nexus
 
 Welcome to **Memoria Nexus**, your all-in-one platform for logging diaries, preserving memories, and sharing stories across generations. We believe that every moment, big or small, deserves to be remembered and cherished.
