@@ -23,7 +23,8 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
   const navLinks = [
     { link: 'Dashboard', href: '/Dashboard' },
     { link: 'User Chat', href: '/UserChat' },
-    { link: 'Settings', href: '#' },
+    { link: 'Horizon Ai', href: '/Chat' },
+    // { link: 'Settings', href: '#' },
   ];
 
   return (
@@ -65,7 +66,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
           G
         </div>
 
-        {navLinks.slice(0, 2).map((link, index) => (
+        {navLinks.slice(0, 3).map((link, index) => (
           <Link
             key={index}
             to={link.href}
