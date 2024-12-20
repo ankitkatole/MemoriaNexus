@@ -48,7 +48,9 @@ const Chat = () => {
         },
       }
     );
-      setMessages(prev => [...prev, { role: 'assistant', content: response.data.output }]);
+    const raw = response.data.output;
+    const text = raw.replace(/\*+\s?/g, '');
+      setMessages(prev => [...prev, { role: 'assistant', content:text  }]);
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error sending message.' }]);
