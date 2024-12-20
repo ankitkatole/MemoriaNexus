@@ -19,7 +19,7 @@ function Login({onClose, SignUpOpen}) {
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
     if (loginTokenCookie) {
-      navigate('/Diary'); 
+      navigate('/Chat'); 
     }
   }, [navigate]);
 
@@ -55,9 +55,15 @@ function Login({onClose, SignUpOpen}) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${loginTokenCookie}`;
 
         console.log(message);
+        Cookies.set('LoginStatus', JSON.stringify(token), {
+          expires: 1,
+          path: '/',
+          secure: true,
+          sameSite: 'strict',
+        });
         setLoading(false);
 
-        navigate('/Diary'); 
+        navigate('/Chat'); 
       }
     } catch (err) {
       setLoading(false);

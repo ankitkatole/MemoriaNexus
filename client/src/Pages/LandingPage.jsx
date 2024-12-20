@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 // import { Button } from '@mui/material';
 // import { Card, CardContent } from "@mui/material";
 import { BookHeart, History, Share2, Users2, } from 'lucide-react';
@@ -10,10 +10,19 @@ import { createPortal } from "react-dom";
 import Navbar from '../Components/SharedComponents/Navbar';
 import Heroimg from '../assets/heroimage.svg'
 import Footer from '../Components/SharedComponents/Footer';
-
-
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 function LandingPage() {
+  const navigate = useNavigate();
+
+    useEffect(() => {
+      const loginTokenCookie = Cookies.get('LoginStatus');
+      if (loginTokenCookie) {
+        navigate('/Diary'); 
+      }
+    }, [navigate]);
+
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
@@ -30,7 +39,7 @@ function LandingPage() {
       document.body
   
     )}
-    <div className="min-h-screen w-screen bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 text-gray-100 overflow-hidden">
+    <div className="min-h-screen w-screen bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 text-gray-100 ">
       
       {/* Header */}
      <Navbar LoginOpen={setIsSignInOpen} SignupOpen={setIsSignUpOpen} />

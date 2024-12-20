@@ -1,25 +1,38 @@
 import React,{useState} from 'react'
 import Logo from '../../assets/LogoTransparent.svg'
-import { Menu } from 'lucide-react'
-import { Link } from 'react-router-dom';
+import { Menu,LogOut } from 'lucide-react'
+import { Link,useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 
 function Navbar({LoginOpen, SignupOpen}) {
+  const navigate = useNavigate();  
 
   const [isMenuClicked,setisMenuClicked] = useState(false);
 
   const navLinks =[
     { link:'Features',
-      href:'/',
+      href:'#',
     },
     { link:'About',
-      href:'/',
+      href:'#',
     },
     { link:'How It Works',
-      href:'/',
+      href:'#',
+    },
+    { link:'Diary',
+      href:'/Diary',
+    },
+    { link:'Chat',
+      href:'/Chat',
     },
  
   ]
+  function Logout(){
+    Cookies.remove('LoginStatus');
+    navigate('/');
+ }
+
 
   return (
     <>
@@ -31,7 +44,7 @@ function Navbar({LoginOpen, SignupOpen}) {
       </div>
     </div> */}
 
-    <header className="border-b w-full border-gray-800  relative z-10">
+    <header className="border-b  w-full border-gray-800  bg-[#070a1a] sticky top-0 z-50">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className='flex  items-center gap-10'>
            
@@ -45,9 +58,9 @@ function Navbar({LoginOpen, SignupOpen}) {
 
 
           <div className="hidden lg:flex space-x-6">
-            <a href="#features" className="hover:text-violet-400 transition-colors hover:underline underline-offset-4 ">Features</a>
-            <a href="#about" className="hover:text-violet-400 transition-colors hover:underline underline-offset-4">About</a>
-            <a href="#how-it-works" className="hover:text-violet-400 transition-colors hover:underline underline-offset-4">How It Works</a>
+          {navLinks.map((navLink, index) => (
+            <a key={index} href={navLink.href} className="hover:text-violet-400 transition-colors hover:underline underline-offset-4 ">{navLink.link}</a>
+          ))}
           </div>
 
           </div>
@@ -59,6 +72,8 @@ function Navbar({LoginOpen, SignupOpen}) {
             <button className="border-cyan-300  p-[6px] px-5 hover:bg-violet-950 transition-all duration-500 " onClick={() => SignupOpen(true)}>
               Sign Up
             </button>
+
+            <a href="" className='flex items-center gap-1' onClick={Logout}><LogOut/>Logout</a>
           </div>
 
           <button  className=" lg:hidden p-2" onClick={()=>{setisMenuClicked(true)}} >
