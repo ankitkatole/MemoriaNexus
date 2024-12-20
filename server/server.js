@@ -3,7 +3,7 @@ const cors = require('cors');
 const {createServer} = require('http')
 const {Server} = require('socket.io')
 
-const {PORT} = require('./constants');
+const {PORT,FRONTEND_URL} = require('./constants');
 const {ConnectDB} = require('./src/db/connection');
 const {userRouter} = require('./src/routes/user');
 const {messageRouter} = require("./src/routes/message");
@@ -18,7 +18,14 @@ if (require.main === module) {
     app.use(express.json()); 
 
     // cors
-    app.use(cors({origin : true}));
+    // app.use(cors({origin : true}));
+
+    //yThis cors for development purpose
+    app.use(cors({
+        origin: FRONTEND_URL,  
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+        allowedHeaders: ['Content-Type', 'Authorization'], 
+      }));
 
     // socket.io server
     const server = createServer(app)
