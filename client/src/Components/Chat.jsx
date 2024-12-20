@@ -45,7 +45,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen text-white bg-gray-900">
+    <div className="flex flex-col w-screen h-screen text-white bg-gray-900">
       <header className="p-4 text-center bg-gray-800">
         <h1 className="text-3xl font-bold">Horizon</h1>
       </header>

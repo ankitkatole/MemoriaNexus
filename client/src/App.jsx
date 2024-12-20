@@ -7,7 +7,7 @@ import LandingPage from './Pages/LandingPage';
 import Diary from './Pages/Diary/Diary';
 import UserChat from './Pages/UserChat/UserChat';
 import Dashboard from './Pages/Dashboard/Dashboard';
-
+import Chat from './Components/Chat';
 function App() {
  
 
@@ -31,6 +31,11 @@ const router = createBrowserRouter([
     {
       path: '/Dashboard',
       element: <Dashboard/>,
+     
+    },
+    {
+      path: '/Chat',
+      element: <Chat/>,
      
     },
     // {
