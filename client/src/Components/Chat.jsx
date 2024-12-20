@@ -3,11 +3,22 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef(null);
+
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const loginTokenCookie = Cookies.get('LoginStatus');
+    if (!loginTokenCookie) {
+      navigate('/'); 
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (chatContainerRef.current) {

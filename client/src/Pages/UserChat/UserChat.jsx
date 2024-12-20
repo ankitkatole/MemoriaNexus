@@ -1,9 +1,22 @@
-import React, { useState } from "react";
-import Navbar from "../../Components/SharedComponents/Navbar";
+import React, { useState,useEffect } from "react";
+// import Navbar from "../../Components/SharedComponents/Navbar";
 import { MessageSquare, Menu } from "lucide-react";
 import Sidebar from "../../Components/SharedComponents/Sidebar";
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 const UserChat = () => {
+
+ const navigate = useNavigate();
+  
+      useEffect(() => {
+        const loginTokenCookie = Cookies.get('LoginStatus');
+        console.log('LoginStatus Cookie:', loginTokenCookie);
+        if (!loginTokenCookie) {
+          navigate('/'); 
+        }
+      }, [navigate]);
+
   const [input, setInput] = useState("");
   const [onlineStatus, setonlineStatus] = useState(false);
   const [messages, setMessages] = useState([
