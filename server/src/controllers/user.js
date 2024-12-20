@@ -176,7 +176,7 @@ const forgotPassword = async (req, res) => {
                 <li>If you did not request a password reset, please ignore this email or contact our support team immediately.</li>
                 </ul>
                 <p>To proceed with resetting your password, please use the OTP that will be sent to your registered email address shortly.</p>
-                <p>If you have any questions or need further assistance, don't hesitate to contact our support team at <a href="mailto:support@memorianexus.com">support@memorianexus.com</a>.</p>
+                <p>If you have any questions or need further assistance, don't hesitate to contact our support team at <a href="mailto:${APP_EMAIL}">${APP_EMAIL}</a>.</p>
                 <p>Best regards,</p>
                 <p>The Memoria Nexus Team</p>
             </body>
