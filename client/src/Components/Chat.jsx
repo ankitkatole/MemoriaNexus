@@ -14,11 +14,11 @@ const Chat = () => {
   const chatContainerRef = useRef(null);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
     if (!loginTokenCookie) {
-      navigate('/'); 
+      navigate('/');
     }
   }, [navigate]);
 
@@ -36,21 +36,21 @@ const Chat = () => {
 
     try {
 
-    const response = await axios.post(
-      `${SERVER_URL}/horizon`, 
-      {
-        userInput: message,
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_GEMINI_API_KEY}`,
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        `${SERVER_URL}/horizon`,
+        {
+          userInput: message,
         },
-      }
-    );
-    const raw = response.data.output;
-    const text = raw.replace(/\*+\s?/g, '');
-      setMessages(prev => [...prev, { role: 'assistant', content:text  }]);
+        {
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_GEMINI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const raw = response.data.output;
+      const text = raw.replace(/\*+\s?/g, '');
+      setMessages(prev => [...prev, { role: 'assistant', content: text }]);
     } catch (error) {
       console.error('Error:', error);
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error sending message.' }]);
@@ -64,7 +64,7 @@ const Chat = () => {
       <header className="p-4 text-center bg-gray-800">
         <h1 className="text-3xl font-bold">Horizon</h1>
       </header>
-      <div 
+      <div
         ref={chatContainerRef}
         className="flex-1 p-4 space-y-4 overflow-auto"
       >
