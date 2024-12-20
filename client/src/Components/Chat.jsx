@@ -5,6 +5,8 @@ import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
+import SERVER_URL from '../constant.mjs';
+
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -35,7 +37,7 @@ const Chat = () => {
     try {
 
     const response = await axios.post(
-      'http://localhost:5000/horizon', 
+      `${SERVER_URL}/horizon`, 
       {
         userInput: message,
       },
