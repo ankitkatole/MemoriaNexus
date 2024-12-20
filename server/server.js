@@ -7,6 +7,8 @@ const {PORT} = require('./constants');
 const {ConnectDB} = require('./src/db/connection');
 const {userRouter} = require('./src/routes/user');
 const {messageRouter} = require("./src/routes/message");
+const Forum = require('./src/models/forum');  
+const forumRouter = require("./src/routes/forum");
 
 if (require.main === module) {
 
@@ -21,39 +23,69 @@ if (require.main === module) {
 
     // socket.io server
     const server = createServer(app)
-
-    //mapping
-    const emailToSocketIdMap = new Map()
-
-    io.on("connection",(socket)=>{
-        console.log("User connected : ",socket.id)
-    
-        socket.on("user:connected",async (data)=>{
-            if(data.email){
-                emailToSocketIdMap.set(data.email, socket.id)
-                console.log("new map inserted")
-            }
-        })
-    
-        socket.on("user:message", async(data)=>{
-            if(data.to){
-                let reciverSocketID = emailToSocketIdMap.get(data.to)
-                console.log(data.from,data.to,data.message)
-                console.log("reciver socket.id : ",reciverSocketID)
-                io.to(reciverSocketID).emit("user:message",{mes : data.message, at : Date.now()})
-            }
-        })
-    
-        socket.on("disconnect", async()=>{
-            
-            for (const [key, value] of emailToSocketIdMap.entries()) {
-                if (value === socket.id) {
-                    emailToSocketIdMap.delete(key)
-                }
-            }
-            console.log("map deleted")  
-        })
+    const io = new Server(server, {
+        cors : {
+            origin : true
+        }
     })
+    
+
+    // Maintain a list of online users
+    let onlineUsers = {};
+
+    io.on('connection', (socket) => {
+    console.log('New client connected:', socket.id);
+
+    // When a user joins a forum
+    socket.on('joinForum', ({ forumId, userId }) => {
+        socket.join(forumId);
+
+        // Add user to onlineUsers list
+        if (!onlineUsers[forumId]) {
+        onlineUsers[forumId] = [];
+        }
+        if (!onlineUsers[forumId].includes(userId)) {
+        onlineUsers[forumId].push(userId);
+        }
+
+        // Emit the updated list of online users to the forum
+        io.to(forumId).emit('onlineUsers', onlineUsers[forumId]);
+    });
+
+    // When a user sends a message
+    socket.on('sendMessage', async (data) => {
+        const { forumId, userId, message } = data;
+
+        try {
+        const forum = await Forum.findById(forumId);
+        if (!forum) {
+            console.error('Forum not found');
+            return;
+        }
+
+        const newMessage = {
+            userId,
+            message,
+            timestamp: new Date()
+        };
+        forum.chats.push(newMessage);
+        await forum.save();
+
+        io.to(forumId).emit('receiveMessage', newMessage);
+        } catch (error) {
+        console.error('Error sending message:', error);
+        }
+    });
+
+    // When a user disconnects
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+        for (let forumId in onlineUsers) {
+        onlineUsers[forumId] = onlineUsers[forumId].filter(id => id !== socket.userId);
+        io.to(forumId).emit('onlineUsers', onlineUsers[forumId]);
+        }
+    });
+    });
 
     server.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
@@ -63,4 +95,5 @@ if (require.main === module) {
     // Routes
     app.use("/user",userRouter);
     app.use("/message", messageRouter);
+    app.use("/forum", forumRouter);
 }
