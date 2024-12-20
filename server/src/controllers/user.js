@@ -45,7 +45,7 @@ const signup = async (req, res) => {
             password: hashedPassword,
         });
         const token = jwt.sign({ id: newUser._id }, SECRET_KEY_USER,{ expiresIn: "24h" });
-
+        console.log("here tk aa gaya",token)
         const subject = `Welcome to Memoria Nexus, ${firstName} ${lastName}!`;
 
         const html = `
