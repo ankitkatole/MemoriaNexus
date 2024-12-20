@@ -43,17 +43,21 @@ const Chat = () => {
         <div className="hidden md:block fixed left-0 top-[64px] bottom-0 w-64 bg-gray-900 p-4 overflow-y-auto">
           <div className="text-center text-xl font-semibold mb-6 text-white">Online Users</div>
           <div className="space-y-4">
-            {onlineUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center space-x-3 p-2 bg-gray-800 rounded-lg"
-              >
-                <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                  {user.name[0]}
+            {onlineUsers.length === 0 ? (
+              <div className="text-center text-gray-400">No users online</div>
+            ) : (
+              onlineUsers.map((user) => (
+                <div
+                  key={user.id}
+                  className="flex items-center space-x-3 p-2 bg-gray-800 rounded-lg"
+                >
+                  <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                    {user.name[0]}
+                  </div>
+                  <span className="text-white">{user.name}</span>
                 </div>
-                <span className="text-white">{user.name}</span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -62,38 +66,42 @@ const Chat = () => {
           {/* Scrollable messages container */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div className="max-w-6xl mx-auto space-y-4">
-              {messages.map((msg) => {
-                const isOwnMessage = msg.sender === "Me";
-                return (
-                  <div
-                    key={msg.id}
-                    className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
-                  >
+              {messages.length === 0 ? (
+                <div className="text-center text-gray-400">No messages yet</div>
+              ) : (
+                messages.map((msg) => {
+                  const isOwnMessage = msg.sender === "Me";
+                  return (
                     <div
-                      className={`max-w-[80%] md:max-w-[60%] rounded-lg p-3 ${
-                        isOwnMessage
-                          ? 'box2 text-white rounded-br-none'
-                          : 'bg-gray-800 text-gray-300 rounded-bl-none'
-                      }`}
+                      key={msg.id}
+                      className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
                     >
-                      <div className="flex justify-between items-center gap-4">
-                        <strong className="text-sm">{msg.sender}</strong>
-                        <small className="text-xs opacity-75">{msg.time}</small>
+                      <div
+                        className={`max-w-[80%] md:max-w-[60%] rounded-lg p-3 ${
+                          isOwnMessage
+                            ? 'box2 text-white rounded-br-none'
+                            : 'bg-gray-800 text-gray-300 rounded-bl-none'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center gap-4">
+                          <strong className="text-sm">{msg.sender}</strong>
+                          <small className="text-xs opacity-75">{msg.time}</small>
+                        </div>
+                        <p className={`mt-1 !select-text break-words ${
+                          isOwnMessage
+                            ? 'text-[#5cff1c]'
+                            : 'text-cyan-400'
+                        }`}>{msg.text}</p>
                       </div>
-                      <p className={`mt-1 !select-text break-words ${
-                        isOwnMessage
-                          ? 'text-[#5cff1c]'
-                          : 'text-cyan-400'
-                      }`}>{msg.text}</p>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
 
           {/* Fixed input area */}
-          <div className="p-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950">
+          <div className="p-4 bg-[#111826]">
             <div className="max-w-6xl mx-auto flex items-center gap-2">
               <input
                 type="text"

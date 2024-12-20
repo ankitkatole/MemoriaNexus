@@ -21,7 +21,11 @@ if (require.main === module) {
 
     // socket.io server
     const server = createServer(app)
-
+    const io = new Server(server, {
+        cors : {
+            origin : true
+        }
+    })
     //mapping
     const emailToSocketIdMap = new Map()
 
