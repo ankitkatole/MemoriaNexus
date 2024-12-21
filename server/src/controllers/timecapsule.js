@@ -1,12 +1,11 @@
 const { sendEmail } = require("../utils/email");
 const { SECRET_KEY_USER, APP_EMAIL } = require("../../constants");
-const {TimeCapsule} = require("../models/timeCapsule");
+const { TimeCapsule } = require("../models/timeCapsule");
 const { User } = require("../models/user");
 
-const uploadTimeCapsule = async(req, res) => {
-    try{
-        const {userId} = req.userId;
-        const {title,description,geo_tag,unlock_date} = req.body;
+const uploadTimeCapsule = async (req, res) => {
+    try {
+        const { title, description, geo_tag, unlock_date, userId } = req.body;
         const image = req.file.filename;
         const timeCapsule = new TimeCapsule({
             user_id: userId,
@@ -18,8 +17,8 @@ const uploadTimeCapsule = async(req, res) => {
         });
         await timeCapsule.save();
         res.status(201).json(timeCapsule);
-    }catch(error){
-        console.log("Error in uploadTimeCapsule controller: ",error);
+    } catch (error) {
+        console.log("Error in uploadTimeCapsule controller: ", error);
         res.status(500).json({
             message: error.message
         });
@@ -28,8 +27,7 @@ const uploadTimeCapsule = async(req, res) => {
 
 const unlockTimeCapsule = async (req, res) => {
     try {
-        const { userId } = req.userId; 
-        const { timeCapsuleId } = req.params;
+        const { userId, timeCapsuleId } = req.body;
 
         const timeCapsule = await TimeCapsule.findById(timeCapsuleId);
         if (!timeCapsule) {
@@ -44,11 +42,11 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
-        const unlockDate = new Date(timeCapsule.unlock_date); 
+        const unlockDate = new Date(timeCapsule.unlock_date);
         const currentDate = new Date();
 
         if (currentDate < unlockDate) {
-            const formattedUnlockDate = unlockDate.toDateString(); 
+            const formattedUnlockDate = unlockDate.toDateString();
             return res.status(400).json({
                 message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
             });
@@ -74,8 +72,26 @@ const unlockTimeCapsule = async (req, res) => {
     }
 };
 
+const getTimeCapsules = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const timeCapsules = await TimeCapsule.find({ user_id: userId });
+        res.status(200).json(
+            {
+                message: "Time Capsules fetched successfully",
+                timeCapsules
+            }
+        );
+    } catch (error) {
+        console.log("Error in getTimeCapsules controller: ", error);
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
 
 module.exports = {
     uploadTimeCapsule,
-    unlockTimeCapsule
+    unlockTimeCapsule,
+    getTimeCapsules
 }
