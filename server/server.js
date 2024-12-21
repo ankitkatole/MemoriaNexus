@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const {createServer} = require('http')
 const {Server} = require('socket.io')
+const bodyParser = require('body-parser');
 
 const {PORT,FRONTEND_URL} = require('./constants');
 const {ConnectDB} = require('./src/db/connection');
@@ -18,6 +19,9 @@ if (require.main === module) {
     
     const app = express();
     app.use(express.json()); 
+
+    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     // cors
     app.use(cors({origin : true}));
