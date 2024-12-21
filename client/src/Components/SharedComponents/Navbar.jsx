@@ -28,10 +28,10 @@ function Navbar({LoginOpen, SignupOpen}) {
     },
  
   ]
-  function Logout(){
-    Cookies.remove('LoginStatus');
-    navigate('/');
- }
+//   function Logout(){
+//     Cookies.remove('LoginStatus');
+//     navigate('/');
+//  }
 
 
   return (
@@ -73,7 +73,7 @@ function Navbar({LoginOpen, SignupOpen}) {
               Sign Up
             </button>
 
-            <a href="" className='flex items-center gap-1' onClick={Logout}><LogOut/>Logout</a>
+            {/* <a href="" className='flex items-center gap-1' onClick={Logout}><LogOut/>Logout</a> */}
           </div>
 
           <button  className=" lg:hidden p-2" onClick={()=>{setisMenuClicked(true)}} >

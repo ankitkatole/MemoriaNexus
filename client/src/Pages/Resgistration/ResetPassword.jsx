@@ -3,8 +3,11 @@ import axios from 'axios';
 import SERVER_URL from '../../constant.mjs';
 import { X } from "lucide-react";
 import Logo from '../../assets/LogoTransparent.svg';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword({ onClose }) {
+    const navigate = useNavigate();
+  
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(''); // Still need to capture OTP for submission
   const [newPassword, setNewPassword] = useState('');
@@ -54,6 +57,7 @@ function ResetPassword({ onClose }) {
       setOtp('');
       setNewPassword('');
       setConfirmPassword('');
+      navigate('/Dashboard');
     } catch (err) {
       setError('Failed to change password. Please check your details.');
     } finally {
