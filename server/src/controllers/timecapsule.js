@@ -58,7 +58,7 @@ const unlockTimeCapsule = async (req, res) => {
                 message: "User not found"
             });
         }
-
+        console.log(user);
         const base64Image = timeCapsule.image.toString('base64');
 
         res.status(200).json({
