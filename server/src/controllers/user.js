@@ -3,30 +3,13 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const { sendEmail } = require("../utils/email");
-const { generateOTP } = require("../utils/helper")
-const { SECRET_KEY_USER, APP_EMAIL } = require("../../constants")
+const { generateOTP } = require("../utils/helper");
+const { assignRandomAvatar, generateUsername } = require("../utils/avatar");
+const { SECRET_KEY_USER, APP_EMAIL, USERNAME_URL } = require("../../constants")
 const { User } = require("../models/user");
 
+
 const signup = async (req, res) => {
-    // const requiredBody = z.object({
-    //     firstName: z.string(),
-    //     lastName: z.string(),
-    //     email: z.string().email(),
-    //     password: z.string().min(8),
-    // });
-
-    // const parsedBodyWithSuccess = requiredBody.safeParse(req.body);
-
-    // if (!parsedBodyWithSuccess.success) {
-    //     const errorMessages = parsedBodyWithSuccess.error.errors.map(err => err.message);
-    //     console.log(parsedBodyWithSuccess.error.errors);
-    //     return res.status(400).json({
-    //         message: errorMessages,
-    //         errors: parsedBodyWithSuccess.error.errors,
-
-
-    //     });
-    // }
     const { firstName, lastName, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ email });
@@ -36,10 +19,16 @@ const signup = async (req, res) => {
                 message: "Email already in use",
             });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
 
+        const username = generateUsername(firstName, lastName, email);
+        console.log("Username: ", username);
+        const avatar = assignRandomAvatar();
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("Avatar: ", avatar);
         const newUser = await User.create({
-            username: email,
+            profileImage: avatar.toString(),
+            username: username,
             firstName,
             lastName,
             email,
@@ -71,6 +60,7 @@ const signup = async (req, res) => {
                     <p>The Memoria Nexus Team</p>
                 </body>
                 </html>`;
+
         await sendEmail(email, subject, html);
         console.log("Account created successfully!");
 
@@ -78,6 +68,8 @@ const signup = async (req, res) => {
             message: "You are successfully signed up",
             user: {
                 id: newUser.id,
+                profileImage: newUser.profileImage,
+                username: newUser.username,
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 email: newUser.email,
@@ -93,6 +85,8 @@ const signup = async (req, res) => {
         });
     }
 };
+
+
 
 const signin = async (req, res) => {
     const { email, password } = req.body;
@@ -111,8 +105,16 @@ const signin = async (req, res) => {
             });
         }
         const token = jwt.sign({ id: user._id }, SECRET_KEY_USER, { expiresIn: "24h" });
-        res.json({
+        res.status(200).json({
             message: "You are signed in",
+            user: {
+                id: user.id,
+                profileImage: user.profileImage,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+            },
             token
         });
     } catch (e) {
@@ -122,6 +124,8 @@ const signin = async (req, res) => {
         });
     }
 };
+
+
 
 const signout = (req, res) => {
     try {
@@ -133,15 +137,10 @@ const signout = (req, res) => {
     }
 };
 
+
+
 const forgotPassword = async (req, res) => {
     try {
-        // const userId = req.userId;
-        // const user = await User.findById(userId);
-        // if (!user) {
-        //     return res.status(404).json({
-        //         message: "User not found"
-        //     });
-        // }
         const { email } = req.body;
 
         if (!email) {
@@ -195,6 +194,8 @@ const forgotPassword = async (req, res) => {
         });
     }
 }
+
+
 const updatePassword = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
@@ -228,7 +229,7 @@ const updatePassword = async (req, res) => {
                 <p>The Memoria Nexus Team</p>
             </body>
             </html>`;
-            console.log("Email sent")
+        console.log("Email sent")
         await sendEmail(user.email, subject, html);
         res.status(200).json({
             message: "Password updated successfully"
@@ -240,4 +241,24 @@ const updatePassword = async (req, res) => {
 }
 
 
-module.exports = { signup, signin, signout, updatePassword, forgotPassword }; 
+const deleteAccount = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const {inputPassword} = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const isPasswordValid = await bcrypt.compare(inputPassword, user.password);
+        if (!isPasswordValid) {
+            return res.status(403).json({ message: 'Invalid password' });
+        }
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({ message: 'Account deleted successfully' });
+    } catch (e) {
+        console.error('Error in /deleteaccount controlller:', e.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+module.exports = { signup, signin, signout, updatePassword, forgotPassword,deleteAccount }; 
