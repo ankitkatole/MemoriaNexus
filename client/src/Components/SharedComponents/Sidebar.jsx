@@ -131,6 +131,10 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
         >
           <Menu className="w-6 h-6" />
         </button>
+        <div className="flex flex-col items-center justify-center w-full gap-3 mb-4 ">
+        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full  left-1/2' />
+         <p className='text-base text-center text-cyan-300'>@{Username}</p>
+        </div>
 
         {navLinks.map((navLink, index) => (
           <div
