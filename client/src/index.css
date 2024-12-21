@@ -260,7 +260,7 @@ a {
 }
 
 a:hover {
-  color: cyan !important;
+  color: cyan ;
 }
 
 

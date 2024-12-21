@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Plus } from "lucide-react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SERVER_URL from '../../constant.mjs';
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from 'js-cookie';
 
 function ForumAdd() {
+    useEffect(() => {
+          
+            var userIdFromCookie = Cookies.get('Userid');
+            
+            if (userIdFromCookie) {
+              setUsername(JSON.parse(userIdFromCookie)); 
+            }
+          
+         
+          }, []);
+  const [Username, setUsername] = useState('');
   const [isForumMenuClicked, setisForumMenuClicked] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [forumName, setForumName] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);  // State to store error messages
+  const [error, setError] = useState(null); 
 
   const handleCreateForum = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);  // Reset error before new submission
+    setError(null); 
     try {
       const response = await axios.post(`${SERVER_URL}/forum/createForum`, {
         name: forumName,
         category: category,
+        members: Username,
       });
   toast.success(response.data || 'Forum created successfully:', { containerId: "Forum" });
       
@@ -32,7 +45,7 @@ function ForumAdd() {
       // setIsPopupOpen(false);
     } catch (error) {
       setLoading(false);
-      setError('Error creating forum. Please try again.');  // Set error message
+      setError('Error creating forum. Please try again.'); 
       console.error('Error creating forum:', error);
     }
   };
@@ -48,7 +61,7 @@ function ForumAdd() {
       </div>
 
       <aside className="hidden lg:flex flex-col p-4 w-48 border-l border-[#646cff] bg-gray-900 space-y-4">
-        <Link to='/Diary' className="box mt-3 text-white flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
+        <Link to='/Diary' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
           <Plus size={20} /> New Diary
         </Link>
 
@@ -61,8 +74,9 @@ function ForumAdd() {
 
       {/* Mobile forum menu slider */}
       <div
-        className={`slider ${isForumMenuClicked ? 'translate-x-0' : 'translate-x-full'} w-full bg-black fixed md:hidden z-[7777] inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-center`}
+        className={`slider ${isForumMenuClicked ? 'translate-x-0' : 'translate-x-full'}   pl-2 fixed lg:hidden  inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-end`}
       >
+       <div className='flex flex-col items-center justify-center gap-4 h-screen border-l border-cyan-300 bg-gray-900 w-64'> 
         <button className="absolute top-5 right-5 lg:hidden p-2" onClick={() => setisForumMenuClicked(false)}>
           <Menu className="h-6 w-6" />
         </button>
@@ -74,6 +88,7 @@ function ForumAdd() {
         <a className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm" onClick={() => setIsPopupOpen(true)}>
           <Plus size={26} /> New Forum
         </a>
+      </div>
       </div>
 
       {isPopupOpen && (
