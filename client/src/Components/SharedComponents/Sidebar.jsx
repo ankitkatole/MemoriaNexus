@@ -83,7 +83,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
          <p className='text-base text-center text-cyan-300'>@{Username}</p>
         </div>
 
-        {navLinks.slice(0, 3).map((link, index) => (
+        {navLinks.slice(0, 4).map((link, index) => (
           <Link
             key={index}
             to={link.href}
