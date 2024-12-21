@@ -64,8 +64,8 @@ const unlockTimeCapsule = async (req, res) => {
         res.status(200).json({
             message: "TimeCapsule unlocked successfully!",
             timeCapsule: {
-                ...timeCapsule._doc,  
-                image: base64Image  
+                ...timeCapsule._doc,
+                image: base64Image
             }
         });
 
@@ -79,20 +79,17 @@ const unlockTimeCapsule = async (req, res) => {
 
 const getTimeCapsules = async (req, res) => {
     try {
-        const userId = req.userId;
+        const { userId } = req.body;
         const timeCapsules = await TimeCapsule.find({ user_id: userId });
 
-        const timeCapsulesWithBase64Images = timeCapsules.map(capsule => {
-            const base64Image = capsule.image.toString('base64');
-            return {
-                ...capsule._doc,  
-                image: base64Image 
-            };
-        });
-
+        if (!timeCapsules.length) {
+            return res.status(404).json({
+                message: "You don’t have any time capsules yet."
+            });
+        }
         res.status(200).json({
             message: "Time Capsules fetched successfully",
-            timeCapsules: timeCapsulesWithBase64Images
+            timeCapsules
         });
     } catch (error) {
         console.log("Error in getTimeCapsules controller: ", error);
