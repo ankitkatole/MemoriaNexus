@@ -241,4 +241,24 @@ const updatePassword = async (req, res) => {
 }
 
 
-module.exports = { signup, signin, signout, updatePassword, forgotPassword }; 
+const deleteAccount = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const {inputPassword} = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const isPasswordValid = await bcrypt.compare(inputPassword, user.password);
+        if (!isPasswordValid) {
+            return res.status(403).json({ message: 'Invalid password' });
+        }
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({ message: 'Account deleted successfully' });
+    } catch (e) {
+        console.error('Error in /deleteaccount controlller:', e.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+module.exports = { signup, signin, signout, updatePassword, forgotPassword,deleteAccount }; 

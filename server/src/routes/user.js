@@ -1,4 +1,4 @@
-const {signup , signin,signout,forgotPassword,updatePassword} = require("../controllers/user");
+const {signup , signin,signout,forgotPassword,updatePassword,deleteAccount} = require("../controllers/user");
 const {uploadTimeCapsule,unlockTimeCapsule} = require("../controllers/timecapsule");
 const {userMiddleware} = require("../middlewares/user");
 
@@ -12,6 +12,8 @@ userRouter.post("/forgotpassword",forgotPassword);
 userRouter.post("/updatepassword",updatePassword);
 userRouter.post("/uploadTimeCapsule",userMiddleware,uploadTimeCapsule);
 userRouter.post("/unlockTimeCapsule/:timeCapsuleId",userMiddleware,unlockTimeCapsule);
+userRouter.delete('/deleteaccount',userMiddleware,deleteAccount);
+
 
 module.exports = {
     userRouter
