@@ -29,6 +29,7 @@ const unlockTimeCapsule = async (req, res) => {
     try {
         const { userId, timeCapsuleId } = req.body;
 
+        // Find the Time Capsule by ID
         const timeCapsule = await TimeCapsule.findById(timeCapsuleId);
         if (!timeCapsule) {
             return res.status(404).json({
@@ -36,12 +37,14 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
+        // Check if the user is authorized to unlock the Time Capsule
         if (timeCapsule.user_id.toString() !== userId) {
             return res.status(403).json({
                 message: "You are not authorized to unlock this time capsule"
             });
         }
 
+        // Check if the Time Capsule can be unlocked yet
         const unlockDate = new Date(timeCapsule.unlock_date);
         const currentDate = new Date();
 
@@ -51,16 +54,19 @@ const unlockTimeCapsule = async (req, res) => {
                 message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
             });
         }
-        console.log(timeCapsule);
-        const user = await User.find({_id: userId});
+
+        // Find the User by ID
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
             });
         }
-        console.log(user);
+
+        // Convert the image to Base64
         const base64Image = timeCapsule.image.toString('base64');
 
+        // Respond with the unlocked Time Capsule
         res.status(200).json({
             message: "TimeCapsule unlocked successfully!",
             timeCapsule: {
@@ -68,7 +74,6 @@ const unlockTimeCapsule = async (req, res) => {
                 image: base64Image
             }
         });
-
     } catch (error) {
         console.error("Error in unlockTimeCapsule controller: ", error);
         res.status(500).json({
@@ -76,6 +81,7 @@ const unlockTimeCapsule = async (req, res) => {
         });
     }
 };
+
 
 const getTimeCapsules = async (req, res) => {
     try {

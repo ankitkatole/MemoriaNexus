@@ -23,7 +23,7 @@ Welcome to **Memoria Nexus**, your all-in-one platform for logging diaries, pres
 - **Empathy Exchange**: Share your life experiences and connect with others who understand.
 - **Global Storybook**: Collaboratively write and contribute to ongoing global stories.
 - **Time-Travel Photo Archive**: Explore and upload geo-tagged historical photos.
-- **AI Chatbot "Horizon"**: Talk to our AI companion for assistance and support..
+- **AI Chatbot "Horizon"**: Talk to our AI companion for assistance and support...
 
 ## Installation
 
