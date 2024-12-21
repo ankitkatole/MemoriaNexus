@@ -3,11 +3,11 @@ const { User } = require("../models/user");
 
 const uploadTimeCapsule = async (req, res) => {
     try {
-        const { title, description, unlock_date, userId } = req.body;
-        const image = req.files['image'][0].buffer;
+        const { title, description, unlock_date, user_id } = req.body;
+        const image = req.file.buffer;
 
         const timeCapsule = new TimeCapsule({
-            user_id: userId,
+            user_id: user_id,
             title,
             description,
             image,
