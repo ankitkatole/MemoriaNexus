@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Logo from '../../assets/LogoTransparent.svg';
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,11 +9,26 @@ import ResetPassword from '../../Pages/Resgistration/ResetPassword'
 
 function Sidebar({ className, setonlineStatus, onlineStatus }) {
 
+      const [Username, setUsername] = useState('');
+      const [ProfileImage, setProfileImage] = useState('');
   
   const navigate = useNavigate();
   const [isMenuClicked, setisMenuClicked] = useState(false);
   const [IsResetpassOpen, setIsResetpassOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false); // State to toggle settings dropdown
+
+    useEffect(() => {
+        
+          var userIdFromCookie = Cookies.get('Userid');
+          var ProfileImageCooke = Cookies.get('ProfileImage');
+          if (userIdFromCookie) {
+            setUsername(JSON.parse(userIdFromCookie)); // Update Username state
+          }
+          if(ProfileImageCooke){
+            setProfileImage(JSON.parse(ProfileImageCooke));
+          }
+       
+        }, []);
 
   function Logout() {
     Cookies.remove('LoginStatus');
@@ -62,8 +77,9 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
           </h1>
         </div>
 
-        <div className="h-28 w-28 relative text-5xl left-1/2 -translate-x-1/2 mb-4 bg-[#131822] border-2 border-cyan-300 rounded-full flex items-center justify-center text-white">
-          G
+        <div className=" w-full  mb-4   flex flex-col items-center gap-3 justify-center ">
+        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full  left-1/2' />
+         <p className='text-base  text-center text-cyan-300'>{Username}</p>
         </div>
 
         {navLinks.slice(0, 3).map((link, index) => (

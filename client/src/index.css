@@ -101,6 +101,12 @@ input:-webkit-autofill {
 
   animation: bg-spin 3s linear infinite;
 }
+select option {
+ 
+  background: #131721;
+  color: #00f6ff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
 
 .box2 {
 

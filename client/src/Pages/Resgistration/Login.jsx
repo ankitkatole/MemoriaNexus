@@ -45,7 +45,7 @@ function Login({onClose, SignUpOpen}) {
         password,
       });
 
-      const { token, message } = response.data;
+      const { token, message,user } = response.data;
       Cookies.set('LoginStatus', JSON.stringify(token), {
         expires: 1,
         path: '/',
@@ -65,6 +65,22 @@ function Login({onClose, SignUpOpen}) {
           secure: true,
           sameSite: 'strict',
         });
+       
+{user &&
+  console.log(user.username);
+        Cookies.set('Userid', JSON.stringify(user.username), {
+          expires: 1,
+          path: '/',
+          secure: true,
+          sameSite: 'strict',
+        });
+        Cookies.set('ProfileImage', JSON.stringify(user.profileImage), {
+          expires: 1,
+          path: '/',
+          secure: true,
+          sameSite: 'strict',
+        });
+      }
         setLoading(false);
 
         navigate('/Dashboard'); 

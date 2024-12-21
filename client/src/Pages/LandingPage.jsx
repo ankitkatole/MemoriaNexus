@@ -60,7 +60,7 @@ function LandingPage() {
           <div className="w-96 h-96 bg-violet-500 rounded-full filter blur-3xl animate-pulse"></div>
         </div>
         <h2 style={{ fontSize: "clamp(30px, 4vw, 60px)" }} className=" text-center font-bold  lg:text-left   mb-6 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent relative z-10">
-          Connecting Hearts, Preserving Legacies
+          Preserving memories, Connecting lives
         </h2>
         <p className="text-xl text-center md:w-[80vw] lg:w-[90%] xl:w-auto text-gray-100 max-w-2xl lg:text-left 2xl:mx-auto mb-8 relative z-10">
           Your digital sanctuary for preserving memories and sharing stories across generations
