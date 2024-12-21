@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const TimeTravelPhotoSchema = new Schema({
+const TimeCapsuleSchema = new Schema({
     user_id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
@@ -15,14 +15,17 @@ const TimeTravelPhotoSchema = new Schema({
     },
     geo_tag: {
         type: String,
-        required: true
     },
-    media_url: {
+    image: {
         type: String,
         required: true
-    }
+    },
+    unlock_date: {
+        type: Date,
+        required: true
+    },
 }, { timestamps: true });
 
-const TimeTravelPhoto = mongoose.model('TimeTravelPhoto', TimeTravelPhotoSchema);
+const TimeCapsule = mongoose.model('TimeCapsule', TimeCapsuleSchema);
 
-module.exports = { TimeTravelPhoto };
+module.exports = { TimeCapsule };

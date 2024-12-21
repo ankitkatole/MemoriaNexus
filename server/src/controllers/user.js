@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/email");
 const { generateOTP } = require("../utils/helper")
 const { SECRET_KEY_USER, APP_EMAIL } = require("../../constants")
-const { User } = require("../models/user");
+c
 
 const signup = async (req, res) => {
     // const requiredBody = z.object({

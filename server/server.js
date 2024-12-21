@@ -100,6 +100,7 @@ if (require.main === module) {
     });
 
     // Routes
+    
     app.use("/user",userRouter);
     app.use("/message", messageRouter);
     app.use("/forum", forumRouter);
