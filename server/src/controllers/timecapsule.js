@@ -47,7 +47,7 @@ const unlockTimeCapsule = async (req, res) => {
 
         if (currentDate < unlockDate) {
             const formattedUnlockDate = unlockDate.toDateString();
-            return res.status(400).json({
+            return res.status(200).json({
                 message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
             });
         }
