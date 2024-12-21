@@ -10,8 +10,9 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import Chat from './Components/Chat';
 import ResetPassword from './Pages/Resgistration/ResetPassword';
 import ForumPage from './Pages/Forum/ForumPage';
-import TimeCapsuleCard from './Pages/TimeCapsule/TimeCapsuleCard';
-
+import TimeCapsuleForm from './Pages/TimeCapsule/TimeCapsuleForm';
+import TimeCapsuleindex from './Pages/TimeCapsule/TimeCapsuleindex';
+import TimeCapsuleDetail from './Pages/TimeCapsule/TimeCapsuleDetail';  
 function App() {
  
 
@@ -53,8 +54,18 @@ const router = createBrowserRouter([
      
     },
     {
-      path: '/TimeCapsuleCard',
-      element: <TimeCapsuleCard/>,
+      path: '/TimeCapsuleForm',
+      element: <TimeCapsuleForm/>,
+     
+    },
+    {
+      path: '/TimeCapsuleindex',
+      element: <TimeCapsuleindex/>,
+     
+    },
+    {
+      path: '/TimeCapsuleDetail/:id',
+      element: <TimeCapsuleDetail/>,
      
     },
     // {

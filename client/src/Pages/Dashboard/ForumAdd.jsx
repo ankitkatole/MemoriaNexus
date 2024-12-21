@@ -76,6 +76,9 @@ function ForumAdd() {
         <Link to='/ForumPage' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
           See Forums
         </Link>
+        <Link to='/TimeCapsuleindex' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
+           Time Capsule
+        </Link>
       </aside>
 
       {/* Mobile forum menu slider */}
@@ -99,6 +102,9 @@ function ForumAdd() {
 
         <Link to='/ForumPage' className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm">
            See Forums
+        </Link>
+        <Link to='/TimeCapsuleindex' className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm">
+           Time Capsule
         </Link>
 
       </div>

@@ -345,3 +345,17 @@ button:hover {
   -moz-user-select: none;
   scrollbar-color: #646cff #2a1454;
 } */
+
+.timeCapsuleDiscription{
+
+    max-lines: 2;
+    
+    text-overflow: ellipsis;
+    
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Number of lines to clamp */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  
+}
