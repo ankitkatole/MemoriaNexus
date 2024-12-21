@@ -13,6 +13,7 @@ import ForumPage from './Pages/Forum/ForumPage';
 import TimeCapsuleForm from './Pages/TimeCapsule/TimeCapsuleForm';
 import TimeCapsuleindex from './Pages/TimeCapsule/TimeCapsuleindex';
 import TimeCapsuleDetail from './Pages/TimeCapsule/TimeCapsuleDetail';  
+import ChatNexus from './Components/ChatNexus';
 function App() {
  
 
@@ -66,6 +67,11 @@ const router = createBrowserRouter([
     {
       path: '/TimeCapsuleDetail/:id',
       element: <TimeCapsuleDetail/>,
+     
+    },
+    {
+      path: '/ChatNexus',
+      element: <ChatNexus/>,
      
     },
     // {

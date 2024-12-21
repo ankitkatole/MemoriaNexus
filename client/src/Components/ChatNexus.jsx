@@ -2,14 +2,17 @@ import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import {APPID, SERVERSECRET} from '../constant.mjs';
+import Cookies from 'js-cookie';
+
 export default function ChatNexus() {
   const rootRef = useRef(null);
   const { roomID } = useParams();
+  const userId = Cookies.get('Userid');
 
   useEffect(() => {
     const init = async () => {
       const userID = Math.floor(Math.random() * 10000).toString();
-      const userName = "Anonymous";
+      const userName = userId;
       const appID = APPID;
       const serverSecret = SERVERSECRET;
 

@@ -39,6 +39,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
     { link: 'Dashboard', href: '/Dashboard' },
     { link: 'User Chat', href: '/UserChat' },
     { link: 'Horizon Ai', href: '/Chat' },
+    { link: 'ChatNexus', href: '/ChatNexus' },
     // { link: 'Settings', href: '#' },
   ];
 
