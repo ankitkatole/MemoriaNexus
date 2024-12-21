@@ -51,7 +51,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
             
               )}
       {/* Button for mobile screens to toggle the menu */}
-      <div className='flex sticky w-screen top-0 p-2 lg:hidden right-5 justify-between bg-black '> 
+      <div className='flex sticky w-screen z-50 top-0 p-2 lg:hidden right-5 justify-between bg-black '> 
         <button
           className="rounded-md  p-2"
           onClick={() => setisMenuClicked(true)}

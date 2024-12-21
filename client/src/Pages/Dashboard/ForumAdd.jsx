@@ -36,7 +36,8 @@ function ForumAdd() {
         category: category,
         members: Username,
       });
-  toast.success(response.data || 'Forum created successfully:', { containerId: "Forum" });
+      
+  toast.success('Forum created successfully:', { containerId: "Forum" });
       
       console.log('Forum created successfully:', response.data);
       setLoading(false);
@@ -54,7 +55,7 @@ function ForumAdd() {
     <>
  
 
-      <div className='flex fixed w-fit top-0 p-2 lg:hidden right-0 justify-end bg-black '>
+      <div className='flex fixed w-fit top-0 p-2 z-50 lg:hidden right-0 justify-end bg-black '>
         <button className="rounded-md p-2" onClick={() => setisForumMenuClicked(true)}>
           <Menu className="h-6 w-6" />
         </button>
@@ -64,17 +65,22 @@ function ForumAdd() {
         <Link to='/Diary' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
           <Plus size={20} /> New Diary
         </Link>
+       
 
         <button className="box text-white bg-gray-700 flex items-center gap-2 justify-center hover:bg-gray-800 py-2 px-4 rounded-lg"
           onClick={() => setIsPopupOpen(true)}
         >
           <Plus size={20} /> New Forum
         </button>
+
+        <Link to='/ForumPage' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
+          See Forums
+        </Link>
       </aside>
 
       {/* Mobile forum menu slider */}
       <div
-        className={`slider ${isForumMenuClicked ? 'translate-x-0' : 'translate-x-full'}   pl-2 fixed lg:hidden  inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-end`}
+        className={`slider ${isForumMenuClicked ? 'translate-x-0' : 'translate-x-full'}   pl-2 fixed lg:hidden z-[9999]  inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-end`}
       >
        <div className='flex flex-col items-center justify-center gap-4 h-screen border-l border-cyan-300 bg-gray-900 w-64'> 
         <button className="absolute top-5 right-5 lg:hidden p-2" onClick={() => setisForumMenuClicked(false)}>
@@ -85,9 +91,16 @@ function ForumAdd() {
           <Plus size={26} /> New Diary
         </Link>
 
+      
+
         <a className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm" onClick={() => setIsPopupOpen(true)}>
           <Plus size={26} /> New Forum
         </a>
+
+        <Link to='/ForumPage' className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm">
+           See Forums
+        </Link>
+
       </div>
       </div>
 
@@ -136,12 +149,18 @@ function ForumAdd() {
                   required
                 >
                   <option value="" disabled>Select Category</option>
-                  <option value="kids">Kids</option>
-                  <option value="sports">Sports</option>
-                  <option value="music">Music</option>
-                  <option value="education">Education</option>
+                  <option value="Life Stories & Memories">Life Stories & Memories</option>
+                  <option value="Creative Corner">Creative Corner</option>
+                  <option value="Health & Wellness">Health & Wellness</option>
+                  <option value="Relationships & Advice">Relationships & Advice</option>
+                  <option value="Inspirational & Motivational">Inspirational & Motivational</option>
+                  <option value="Hobbies & Interests">Hobbies & Interests</option>
+                  <option value="Time Capsule">Time Capsule</option>
+                  <option value="General Discussion">General Discussion</option>
+                  <option value="Memoria Nexus News & Updates">Memoria Nexus News & Updates</option>
                 </select>
               </div>
+              
 
               <div className="flex justify-end">
                 <button type="button" className="mr-2 py-2 px-4 bg-gray-700 text-white rounded-lg" onClick={() => setIsPopupOpen(false)}>
