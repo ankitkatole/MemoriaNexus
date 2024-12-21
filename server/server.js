@@ -11,6 +11,7 @@ const {messageRouter} = require("./src/routes/message");
 const Forum = require('./src/models/forum');  
 const forumRouter = require("./src/routes/forum");
 const {horizonRouter} = require("./src/routes/horizon");
+const diaryRouter = require("./src/routes/diary.js");
 
 if (require.main === module) {
 
@@ -109,4 +110,5 @@ if (require.main === module) {
     app.use("/message", messageRouter);
     app.use("/forum", forumRouter);
     app.use("/horizon",horizonRouter)
+    app.use("/diary",diaryRouter)
 }
