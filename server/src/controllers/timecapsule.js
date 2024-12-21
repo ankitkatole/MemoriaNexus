@@ -51,7 +51,7 @@ const unlockTimeCapsule = async (req, res) => {
                 message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
             });
         }
-
+        console.log(timeCapsule);
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
