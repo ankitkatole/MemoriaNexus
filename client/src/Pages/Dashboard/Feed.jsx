@@ -104,7 +104,7 @@ function Feed() {
                 <img src={Joke} alt="fact" className='object-cover' />
               </div>
               <div>
-                <p className="font-bold text-white">Random Fact</p>
+                <p className="font-bold text-white">Beluga</p>
                 <p className="text-sm text-gray-400">{new Date().toLocaleDateString('en-GB')}</p>
               </div>
             </div>
@@ -136,7 +136,7 @@ function Feed() {
                 <img src={Joke} alt="trivia" className='object-cover' />
               </div>
               <div>
-                <p className="font-bold text-white">Trivia</p>
+                <p className="font-bold text-white">Beluga</p>
                 <p className="text-sm text-gray-400">{new Date().toLocaleDateString('en-GB')}</p>
               </div>
             </div>
