@@ -38,7 +38,7 @@ function Feed() {
                 <img src={Joke} alt="joke" className='object-cover' />
               </div>
               <div>
-                <p className="text-white font-bold">Random Joke</p>
+                <p className="text-white font-bold">Beluga</p>
                 <p className="text-gray-400 text-sm">{new Date().toLocaleDateString('en-GB')}</p>
               </div>
             </div>

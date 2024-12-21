@@ -4,6 +4,7 @@ import SERVER_URL from '../../constant.mjs';
 import { X } from "lucide-react";
 import Logo from '../../assets/LogoTransparent.svg';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function ResetPassword({ onClose }) {
     const navigate = useNavigate();
@@ -57,7 +58,8 @@ function ResetPassword({ onClose }) {
       setOtp('');
       setNewPassword('');
       setConfirmPassword('');
-      navigate('/Dashboard');
+      Cookies.remove('LoginStatus');
+      navigate('/Login');
     } catch (err) {
       setError('Failed to change password. Please check your details.');
     } finally {

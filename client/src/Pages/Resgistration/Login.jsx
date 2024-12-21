@@ -5,11 +5,15 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/LogoTransparent.svg'
 import { X } from "lucide-react";
+import { createPortal } from "react-dom";
+import ResetPassword from './ResetPassword';
 
 
 
 function Login({onClose, SignUpOpen}) {
   const navigate = useNavigate();
+    const [IsResetpassOpen, setIsResetpassOpen] = useState(false);
+  
   const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
@@ -80,6 +84,12 @@ function Login({onClose, SignUpOpen}) {
 
   return (
     <>
+     {IsResetpassOpen && createPortal(
+                
+                <ResetPassword onClose={setIsResetpassOpen}  />,
+                document.body
+            
+              )}
       <div className="flex fixed inset-0 z-[9999]  justify-center w-screen items-center h-screen">
      
       <div 
@@ -124,9 +134,12 @@ function Login({onClose, SignUpOpen}) {
               />
             </div>
             {error && <p className="text-red-500 mb-4">{error}</p>}
-            <label className="block text-cyan-300 mb-6 text-base" htmlFor="password">
+            <label className="block text-cyan-300 mb-2 text-base" htmlFor="password">
               New here? <a className="hover:underline" onClick={OpenSignup} >Sign Up</a>
             </label>
+
+            <p className='text-cyan-300 mb-6 text-base cursor-pointer hover:underline'  onClick={() => setIsResetpassOpen(true)}  > forgot password? </p>
+
             <button
               className="box w-full py-2 px-4 text-base font-bold text-cyan-300 border border-cyan-300 rounded-md transition duration-300"
               type="submit"
