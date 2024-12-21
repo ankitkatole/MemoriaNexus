@@ -13,11 +13,8 @@ const TimeCapsuleSchema = new Schema({
     description: {
         type: String
     },
-    geo_tag: {
-        type: String,
-    },
     image: {
-        type: String,
+        type: Buffer,
         required: true
     },
     unlock_date: {

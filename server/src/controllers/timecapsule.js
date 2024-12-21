@@ -1,21 +1,21 @@
-const { sendEmail } = require("../utils/email");
-const { SECRET_KEY_USER, APP_EMAIL } = require("../../constants");
 const { TimeCapsule } = require("../models/timeCapsule");
 const { User } = require("../models/user");
 
 const uploadTimeCapsule = async (req, res) => {
     try {
-        const { title, description, geo_tag, unlock_date, userId } = req.body;
-        const image = req.file.filename;
+        const { title, description, unlock_date, userId } = req.body;
+        const image = req.files['image'][0].buffer;
+
         const timeCapsule = new TimeCapsule({
             user_id: userId,
             title,
             description,
-            geo_tag,
             image,
             unlock_date
         });
+
         await timeCapsule.save();
+
         res.status(201).json(timeCapsule);
     } catch (error) {
         console.log("Error in uploadTimeCapsule controller: ", error);
@@ -59,9 +59,14 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
+        const base64Image = timeCapsule.image.toString('base64');
+
         res.status(200).json({
             message: "TimeCapsule unlocked successfully!",
-            timeCapsule
+            timeCapsule: {
+                ...timeCapsule._doc,  
+                image: base64Image  
+            }
         });
 
     } catch (error) {
@@ -76,12 +81,19 @@ const getTimeCapsules = async (req, res) => {
     try {
         const userId = req.userId;
         const timeCapsules = await TimeCapsule.find({ user_id: userId });
-        res.status(200).json(
-            {
-                message: "Time Capsules fetched successfully",
-                timeCapsules
-            }
-        );
+
+        const timeCapsulesWithBase64Images = timeCapsules.map(capsule => {
+            const base64Image = capsule.image.toString('base64');
+            return {
+                ...capsule._doc,  
+                image: base64Image 
+            };
+        });
+
+        res.status(200).json({
+            message: "Time Capsules fetched successfully",
+            timeCapsules: timeCapsulesWithBase64Images
+        });
     } catch (error) {
         console.log("Error in getTimeCapsules controller: ", error);
         res.status(500).json({
