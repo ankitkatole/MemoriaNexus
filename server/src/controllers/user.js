@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/email");
 const { generateOTP } = require("../utils/helper")
 const { SECRET_KEY_USER, APP_EMAIL } = require("../../constants")
-c
+const { User } = require("../models/user");
+
 
 const signup = async (req, res) => {
     // const requiredBody = z.object({
@@ -78,6 +79,7 @@ const signup = async (req, res) => {
             message: "You are successfully signed up",
             user: {
                 id: newUser.id,
+                username: newUser.username,
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 email: newUser.email,
@@ -113,6 +115,13 @@ const signin = async (req, res) => {
         const token = jwt.sign({ id: user._id }, SECRET_KEY_USER, { expiresIn: "24h" });
         res.json({
             message: "You are signed in",
+            user: {
+                id: user.id,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+            },
             token
         });
     } catch (e) {
