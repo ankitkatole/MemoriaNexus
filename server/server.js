@@ -23,11 +23,11 @@ if (require.main === module) {
     app.use(cors({origin : true}));
 
     //This cors for development purpose
-    app.use(cors({
-        origin: FRONTEND_URL,  
-        methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-        allowedHeaders: ['Content-Type', 'Authorization'], 
-      }));
+    // app.use(cors({
+    //     origin: FRONTEND_URL,  
+    //     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    //     allowedHeaders: ['Content-Type', 'Authorization'], 
+    //   }));
 
     // socket.io server
     const server = createServer(app)
