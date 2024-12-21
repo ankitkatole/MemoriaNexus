@@ -42,6 +42,7 @@ function Feed() {
     setLoadingTrivia(true);
     try {
       const response = await axios.get('http://numbersapi.com/random/trivia');
+      console.log(response.data)
       setRandomTrivia(response.data);
     } catch (error) {
       setRandomTrivia('Oops! Couldn’t fetch a random trivia at the moment.');
@@ -57,13 +58,13 @@ function Feed() {
 
   return (
     <>
-      <main className="flex flex-col overflow-auto flex-1 p-4 space-y-4">
+      <main className="flex flex-col flex-1 p-4 space-y-4 overflow-auto">
         <div className='flex flex-col items-start justify-between w-full mb-8'>
           <h3 className="relative z-10 mb-3 text-3xl font-semibold text-start">Feeds</h3>
           <span className='bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px] w-[100px]'></span>
         </div>
 
-        <div className="p-4 transition-shadow duration-300 ease-in-out  bg-gray-800 border rounded-lg shadow-lg border-cyan-300 hover:shadow-2xl">
+        <div className="p-4 transition-shadow duration-300 ease-in-out bg-gray-800 border rounded-lg shadow-lg border-cyan-300 hover:shadow-2xl">
             <div className="flex items-center space-x-4">
               <div className="flex items-center justify-center w-10 h-10 overflow-hidden text-white bg-blue-600 rounded-full">
                 <img src={Joke} alt="joke" className='object-cover' />
