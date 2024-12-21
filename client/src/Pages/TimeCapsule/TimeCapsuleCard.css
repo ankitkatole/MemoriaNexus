@@ -1,0 +1,29 @@
+.capsule-card {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .capsule-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .capsule-card h3 {
+    color: var(--highlight-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .capsule-details {
+    margin-top: 1rem;
+  }
+  
+  .capsule-details img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  

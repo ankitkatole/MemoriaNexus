@@ -10,6 +10,7 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import Chat from './Components/Chat';
 import ResetPassword from './Pages/Resgistration/ResetPassword';
 import ForumPage from './Pages/Forum/ForumPage';
+import TimeCapsuleCard from './Pages/TimeCapsule/TimeCapsuleCard';
 
 function App() {
  
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
     {
       path: '/ForumPage',
       element: <ForumPage/>,
+     
+    },
+    {
+      path: '/TimeCapsuleCard',
+      element: <TimeCapsuleCard/>,
      
     },
     // {

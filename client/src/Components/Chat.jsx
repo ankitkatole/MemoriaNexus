@@ -58,10 +58,13 @@ const Chat = () => {
       setIsLoading(false);
     }
   };
-
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="flex flex-col w-screen h-screen text-white bg-gray-900">
       <header className="p-4 text-center bg-gray-800">
+      <button  className="box p-2 px-4  md:absolute my-5 md:my-0  top-5 left-5" onClick={goBack}>Back</button>
         <h1 className="text-3xl font-bold">Horizon</h1>
       </header>
       <div
