@@ -52,7 +52,7 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
         console.log(timeCapsule);
-        const user = await User.findById(userId);
+        const user = await User.find({_id: userId});
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
