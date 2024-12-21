@@ -26,42 +26,54 @@ const uploadTimeCapsule = async(req, res) => {
     }
 }
 
-const unlockTimeCapsule = async(req, res) => {
-    try{
-        const {userId} = req.userId;
-        const {timeCapsuleId} = req.params;
+const unlockTimeCapsule = async (req, res) => {
+    try {
+        const { userId } = req.userId; 
+        const { timeCapsuleId } = req.params;
+
         const timeCapsule = await TimeCapsule.findById(timeCapsuleId);
-        if(!timeCapsule){
+        if (!timeCapsule) {
             return res.status(404).json({
                 message: "TimeCapsule not found"
             });
         }
-        if(timeCapsule.user_id.toString() !== userId){
+
+        if (timeCapsule.user_id.toString() !== userId) {
             return res.status(403).json({
-                message: "You are not authorized to unlock this timeCapsule"
+                message: "You are not authorized to unlock this time capsule"
             });
         }
-        const unlockDate = timeCapsule.unlock_date;
+
+        const unlockDate = new Date(timeCapsule.unlock_date); 
         const currentDate = new Date();
-        if(currentDate >= unlockDate){
-            return res.status(400).json({    
-                message: "TimeCapsule is already unlocked"
+
+        if (currentDate < unlockDate) {
+            const formattedUnlockDate = unlockDate.toDateString(); 
+            return res.status(400).json({
+                message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
             });
         }
+
         const user = await User.findById(userId);
-        if(!user){
+        if (!user) {
             return res.status(404).json({
                 message: "User not found"
             });
         }
-        res.status(200).json(timeCapsule);
-    }catch(error){
-        console.log("Error in unlockTimeCapsule controller: ",error);
+
+        res.status(200).json({
+            message: "TimeCapsule unlocked successfully!",
+            timeCapsule
+        });
+
+    } catch (error) {
+        console.error("Error in unlockTimeCapsule controller: ", error);
         res.status(500).json({
             message: error.message
         });
     }
-}
+};
+
 
 module.exports = {
     uploadTimeCapsule,

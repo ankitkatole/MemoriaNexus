@@ -53,17 +53,17 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
       {/* Button for mobile screens to toggle the menu */}
       <div className='flex sticky w-screen z-50 top-0 p-2 lg:hidden right-5 justify-between bg-black '> 
         <button
-          className="rounded-md  p-2"
+          className="p-2 rounded-md"
           onClick={() => setisMenuClicked(true)}
         >
-          <Menu className="h-6 w-6" />
+          <Menu className="w-6 h-6" />
         </button>
         {onlineStatus && (
           <button
-            className="rounded-md  p-2"
+            className="p-2 rounded-md"
             onClick={() => setonlineStatus(true)}
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="w-6 h-6" />
           </button>
         )}
       </div>
@@ -72,21 +72,21 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
       <aside className={`hidden ${className} lg:flex flex-col gap-4 p-4 w-64 bg-gray-900 border-r pr-5 border-[#646cff] h-screen`}>
         <div className="flex gap-4 my-3">
           <img src={Logo} alt="" className="w-7 h-7" />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text">
             MemoriaNexus
           </h1>
         </div>
 
-        <div className=" w-full  mb-4   flex flex-col items-center gap-3 justify-center ">
+        <div className="flex flex-col items-center justify-center w-full gap-3 mb-4 ">
         <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full  left-1/2' />
-         <p className='text-base  text-center text-cyan-300'>{Username}</p>
+         <p className='text-base text-center text-cyan-300'>@{Username}</p>
         </div>
 
         {navLinks.slice(0, 3).map((link, index) => (
           <Link
             key={index}
             to={link.href}
-            className="text-white box hover:bg-gray-800 py-2 px-4 rounded-lg"
+            className="px-4 py-2 text-white rounded-lg box hover:bg-gray-800"
           >
             {link.link}
           </Link>
@@ -95,7 +95,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
         {/* Settings dropdown */}
         <div className="relative">
           <button
-            className="text-white box hover:bg-gray-800 flex items-center justify-between px-4 py-2 w-full rounded-lg"
+            className="flex items-center justify-between w-full px-4 py-2 text-white rounded-lg box hover:bg-gray-800"
             onClick={() => setIsSettingsOpen(!isSettingsOpen)}
           >
             Settings
@@ -103,15 +103,15 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
           </button>
 
           {isSettingsOpen && (
-            <div className="absolute left-0 my-2  w-full bg-gray-800 rounded-lg shadow-lg">
+            <div className="absolute left-0 w-full my-2 bg-gray-800 rounded-lg shadow-lg">
               <button
                 onClick={() => setIsResetpassOpen(true)} 
-                className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 rounded-none"
+                className="w-full px-4 py-2 text-left text-white rounded-none hover:bg-gray-700"
               >
                 Reset Password
               </button>
               <button
-                className="w-full text-left px-4 py-2 text-white hover:bg-gray-700 rounded-none"
+                className="w-full px-4 py-2 text-left text-white rounded-none hover:bg-gray-700"
                 onClick={Logout}
               >
                 Logout
@@ -126,15 +126,15 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
         className={`slider ${isMenuClicked ? 'translate-x-0' : '-translate-x-full'} w-64 bg-gray-900 border-r border-cyan-300 fixed lg:hidden z-[7777] inset-0 h-screen transition-transform duration-500 text-white text-5xl flex flex-col gap-4 justify-center items-center`}
       >
         <button
-          className="absolute top-5 left-5  p-2"
+          className="absolute p-2 top-5 left-5"
           onClick={() => setisMenuClicked(false)}
         >
-          <Menu className="h-6 w-6" />
+          <Menu className="w-6 h-6" />
         </button>
 
         {navLinks.map((navLink, index) => (
           <div
-            className="navLink border-b-2 text-4xl border-cyan-300 py-2 rounded-sm"
+            className="py-2 text-4xl border-b-2 rounded-sm navLink border-cyan-300"
             key={index}
           >
             <Link to={navLink.href}>{navLink.link}</Link>
@@ -142,7 +142,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
         ))}
 
         <a
-          className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm"
+          className="flex items-center gap-2 py-2 text-4xl border-b-2 rounded-sm navLink border-cyan-300"
           onClick={Logout}
         >
           <LogOut size={26} />

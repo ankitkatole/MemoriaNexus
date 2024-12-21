@@ -42,7 +42,6 @@ function Feed() {
     setLoadingTrivia(true);
     try {
       const response = await axios.get('http://numbersapi.com/random/trivia');
-      console.log(response.data)
       setRandomTrivia(response.data);
     } catch (error) {
       setRandomTrivia('Oops! Couldn’t fetch a random trivia at the moment.');
