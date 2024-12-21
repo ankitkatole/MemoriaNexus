@@ -1,7 +1,7 @@
 const Forum = require('../models/forum');
 
 const createForum = async (req, res) => {
-  const { name, category } = req.body;
+  const { name, category, members} = req.body;
 
   if (!name || !category) {
     return res.status(400).json({ message: 'Name and category are required.' });
@@ -11,7 +11,7 @@ const createForum = async (req, res) => {
     const newForum = new Forum({
       name,
       category,
-      members: [], 
+      members: members, 
       chats: []     
     });
 
