@@ -1,9 +1,7 @@
-const {createForum} = require("../controllers/message");
+const {createForum} = require("../controllers/forum");
 const { Router } = require("express");
-const forumRouter = Router();
+const router = Router();
 
-forumRouter.post("/createForum", createForum);
+router.post("/createForum", createForum);
 
-module.exports = {
-    forumRouter
-}
+module.exports = router;

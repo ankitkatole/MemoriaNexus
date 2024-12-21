@@ -19,7 +19,7 @@ function LandingPage() {
     useEffect(() => {
       const loginTokenCookie = Cookies.get('LoginStatus');
       if (loginTokenCookie) {
-        navigate('/Diary'); 
+        navigate('/Dashboard'); 
       }
     }, [navigate]);
 

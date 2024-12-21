@@ -3,12 +3,13 @@ const cors = require('cors');
 const {createServer} = require('http')
 const {Server} = require('socket.io')
 
-const {PORT} = require('./constants');
+const {PORT,FRONTEND_URL} = require('./constants');
 const {ConnectDB} = require('./src/db/connection');
 const {userRouter} = require('./src/routes/user');
 const {messageRouter} = require("./src/routes/message");
 const Forum = require('./src/models/forum');  
 const forumRouter = require("./src/routes/forum");
+const {horizonRouter} = require("./src/routes/horizon");
 
 if (require.main === module) {
 
@@ -21,6 +22,13 @@ if (require.main === module) {
     // cors
     app.use(cors({origin : true}));
 
+    //This cors for development purpose
+    app.use(cors({
+        origin: FRONTEND_URL,  
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+        allowedHeaders: ['Content-Type', 'Authorization'], 
+      }));
+
     // socket.io server
     const server = createServer(app)
     const io = new Server(server, {
@@ -28,7 +36,6 @@ if (require.main === module) {
             origin : true
         }
     })
-    
 
     // Maintain a list of online users
     let onlineUsers = {};
@@ -96,4 +103,5 @@ if (require.main === module) {
     app.use("/user",userRouter);
     app.use("/message", messageRouter);
     app.use("/forum", forumRouter);
+    app.use("/horizon",horizonRouter)
 }

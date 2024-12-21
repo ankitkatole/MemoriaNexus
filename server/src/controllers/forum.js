@@ -1,4 +1,3 @@
-const express = require('express');
 const Forum = require('../models/forum');
 
 const createForum = async (req, res) => {
