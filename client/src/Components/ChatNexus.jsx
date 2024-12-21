@@ -6,15 +6,15 @@ import Cookies from 'js-cookie';
 
 export default function ChatNexus() {
   const rootRef = useRef(null);
-  const { roomID } = useParams();
+  const  roomID  = Math.floor(Math.random() * 10000).toString();
   const userId = Cookies.get('Userid');
 
   useEffect(() => {
     const init = async () => {
       const userID = Math.floor(Math.random() * 10000).toString();
       const userName = userId;
-      const appID = APPID;
-      const serverSecret = SERVERSECRET;
+      const appID = 246806963;
+      const serverSecret = "3d1a1e10260f5df79e25d531f57b171e";
 
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
