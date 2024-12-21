@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Joke from '../../assets/joke.svg'
+import Joke from '../../assets/Joke.svg'
 
 function Feed() {
   const [joke, setJoke] = useState('');
