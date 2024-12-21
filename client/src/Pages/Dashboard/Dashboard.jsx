@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen w-screen flex flex-col bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950">
 
-      <div className="flex flex-col md:flex-row flex-1">
+      <div className="flex flex-col lg:flex-row flex-1">
        
         <Sidebar/>
 

@@ -8,14 +8,14 @@ function ForumAdd() {
 
   return (
     <>
-     <div className='flex sticky w-full top-0 p-2 md:hidden right-5 justify-between bg-black '>  <button
+     <div className='flex fixed w-fit top-0 p-2 lg:hidden right-0 justify-end bg-black '>  <button
           className=" rounded-md  p-2"
           onClick={() => setisForumMenuClicked(true)}
         >
           <Menu className="h-6 w-6" />
         </button>
        </div>
-               <aside className="hidden md:flex flex-col p-4 w-48 border-l border-[#646cff] bg-gray-900 space-y-4">
+               <aside className="hidden lg:flex flex-col p-4 w-48 border-l border-[#646cff] bg-gray-900 space-y-4">
           
           <Link to='/Diary' className="box mt-3 text-white flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
           <Plus size={20} /> New Diary
