@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const {createServer} = require('http')
 const {Server} = require('socket.io')
+const bodyParser = require('body-parser');
 
 const {PORT,FRONTEND_URL} = require('./constants');
 const {ConnectDB} = require('./src/db/connection');
@@ -10,6 +11,7 @@ const {messageRouter} = require("./src/routes/message");
 const Forum = require('./src/models/forum');  
 const forumRouter = require("./src/routes/forum");
 const {horizonRouter} = require("./src/routes/horizon");
+const diaryRouter = require("./src/routes/diary.js");
 
 if (require.main === module) {
 
@@ -18,6 +20,9 @@ if (require.main === module) {
     
     const app = express();
     app.use(express.json()); 
+
+    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     // cors
     app.use(cors({origin : true}));
@@ -105,4 +110,5 @@ if (require.main === module) {
     app.use("/message", messageRouter);
     app.use("/forum", forumRouter);
     app.use("/horizon",horizonRouter)
+    app.use("/diary",diaryRouter)
 }

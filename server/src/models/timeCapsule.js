@@ -2,8 +2,7 @@ const {mongoose, Schema} = require('mongoose');
 
 const TimeCapsuleSchema = new Schema({
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         required: true
     },
     title: {
@@ -13,11 +12,8 @@ const TimeCapsuleSchema = new Schema({
     description: {
         type: String
     },
-    geo_tag: {
-        type: String,
-    },
     image: {
-        type: String,
+        type: Buffer,
         required: true
     },
     unlock_date: {
