@@ -20,12 +20,12 @@ function Navbar({LoginOpen, SignupOpen}) {
     { link:'How It Works',
       href:'#',
     },
-    { link:'Diary',
-      href:'/Diary',
-    },
-    { link:'User Chat',
-      href:'/UserChat',
-    },
+    // { link:'Diary',
+    //   href:'/Diary',
+    // },
+    // { link:'User Chat',
+    //   href:'/UserChat',
+    // },
  
   ]
 //   function Logout(){
