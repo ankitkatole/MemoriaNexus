@@ -27,7 +27,7 @@ function Footer() {
             </div>
             <div>
               <h5 className="font-semibold mb-4">Contact</h5>
-              <p className="text-gray-400">support@memorianexus.com</p>
+              <p className="text-gray-400">memorianexusofficial@gmail.com</p>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
