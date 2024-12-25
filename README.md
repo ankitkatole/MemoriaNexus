@@ -14,14 +14,14 @@ Welcome to **Memoria Nexus**, your all-in-one platform for logging diaries, pres
 
 ## Project Overview
 
-**Memoria Nexus** integrates diary logging, memory storage, empathy exchange, collaborative storytelling, and historical photo archiving into one seamless experience. Our goal is to bridge generational gaps and foster deeper connections through shared life stories.....
+**Memoria Nexus** integrates diary logging, memory storage, empathy exchange, collaborative storytelling, and historical photo archiving into one seamless experience. Our goal is to bridge generational gaps and foster deeper connections through shared life stories......
 
 ## Features
 
 - **Reflections**: Log your daily thoughts and experiences in our empathetic diary feature...
 - **Memory Vault**: Upload and manage your precious memories with customizable privacy settings.
 - **Empathy Exchange**: Share your life experiences and connect with others who understand.
-- **Global Storybook**: Collaboratively write and contribute to ongoing global stories.
+- **Global Storybook**: Collaboratively write and contribute to ongoing global stories....
 - **Time-Travel Photo Archive**: Explore and upload geo-tagged historical photos.
 - **AI Chatbot "Horizon"**: Talk to our AI companion for assistance and support...
 
