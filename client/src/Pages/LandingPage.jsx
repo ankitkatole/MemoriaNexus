@@ -65,7 +65,7 @@ function LandingPage() {
         <p className="text-xl text-center md:w-[80vw] lg:w-[90%] xl:w-auto text-gray-100 max-w-2xl lg:text-left 2xl:mx-auto mb-8 relative z-10">
           Your digital sanctuary for preserving memories and sharing stories across generations
         </p>
-        <button className="box text-white px-8 max-w-[250px] py-2 text-lg relative z-10 transform transition-transform duration-500 hover:scale-105">
+        <button onClick={() => setIsSignUpOpen(true)} className="box text-white px-8 max-w-[250px] py-2 text-lg relative z-10 transform transition-transform duration-500 hover:scale-105">
           Start Your Journey
         </button>
         </div>
