@@ -90,3 +90,5 @@ We hope you enjoy using **Memoria Nexus** as much as we enjoyed creating it!!!
 
 **The Memoria Nexus Team**
 ```
+[Gajendra Naphade](https://github.com/gajju44)
+```
