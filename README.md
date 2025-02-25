@@ -95,3 +95,6 @@ We hope you enjoy using **Memoria Nexus** as much as we enjoyed creating it!!!
 [Jitesh Varade](https://github.com/jiteshvarade).
 
 
+[Ankit Katole](https://github.com/ankitkatole).
+
+
