@@ -1,14 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import axios from 'axios';
 import Page from "../../Components/DiaryComponents/Page";
 import IndexPage from "../../Components/DiaryComponents/IndexPage";
 import EditDialog from "../../Components/DiaryComponents/EditDialog";
 import DiaryControls from "../../Components/DiaryComponents/DiaryControls";
 import arrow from "../../assets/Arrow.svg";
 import { motion } from "framer-motion";
+import SERVER_URL from '../../constant.mjs';
 
-const initialPages = [
+// Default pages to use if no diary exists yet
+const defaultPages = [
   {
     id: 0,
     title: "Memoria Diary",
@@ -21,42 +24,87 @@ const initialPages = [
     content: "",
     isIndex: true,
   },
-  {
-    id: 2,
-    title: "My First Memory",
-    content: "Write your precious memory here..."
-  },
-  {
-    id: 3,
-    title: "Another Beautiful Day",
-    content: "Capture the moments that matter..."
-  }
 ];
 
 const cardVariants = {
-  read: {
-    rotateY: -180,
-  },
-  notRead: {
-    rotateY: 0,
-  },
+  read: { rotateY: -180 },
+  notRead: { rotateY: 0 },
 };
 
 const Diary = () => {
   const navigate = useNavigate();
-    
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
+    const user = Cookies.get('Userid');
+    setUserId(user);
     if (!loginTokenCookie) {
       navigate('/'); 
+      return;
     }
   }, [navigate]);
 
-  const [pages, setPages] = useState(initialPages);
+  const [pages, setPages] = useState([]);
   const [zIndices, setZIndices] = useState([]);
   const [numberOfPagesRead, setNumberOfPagesRead] = useState(0);
   const [editingPage, setEditingPage] = useState(null);
   const [showEditDialog, setShowEditDialog] = useState(false);
+
+  // Fetch diary entries from API
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchDiary = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${SERVER_URL}/diary/${userId}`);
+        if (response.data && response.data.diary && response.data.diary.length > 0) {
+          // Flatten the diary array and ensure unique IDs
+          const flattenedPages = response.data.diary.flat(Infinity)
+            .filter((page, index, self) => 
+              index === self.findIndex(p => p.id === page.id) // Remove duplicates by id
+            )
+            .map((page, index) => ({
+              ...page,
+              id: page.id !== null ? page.id : index // Assign a valid ID if null
+            }));
+          setPages(flattenedPages.length > 0 ? flattenedPages : defaultPages);
+        } else {
+          setPages(defaultPages);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setPages(defaultPages);
+        } else {
+          console.error("Error fetching diary:", error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiary();
+  }, [userId]);
+
+  // Save diary updates to API
+  const saveDiaryToServer = async (updatedPages, currentUserId) => {
+    if (!currentUserId) {
+      console.error("Cannot save diary: No user ID available");
+      return;
+    }
+    
+    try {
+      console.log("Saving diary for user:", currentUserId);
+      await axios.post(`${SERVER_URL}/diary/update/`, {
+        user_id: currentUserId,
+        diaryEntry: updatedPages // Send flat array
+      });
+    } catch (error) {
+      console.error("Error saving diary:", error);
+    }
+  };
 
   const handleEdit = useCallback((page) => {
     setEditingPage(page);
@@ -64,33 +112,39 @@ const Diary = () => {
   }, []);
 
   const handleSave = useCallback((updatedPage) => {
-    setPages(prevPages => 
-      prevPages.map(p => p.id === updatedPage.id ? { ...p, ...updatedPage } : p)
-    );
-  }, []);
+    setPages(prevPages => {
+      const newPages = prevPages.map(p => 
+        p.id === updatedPage.id ? { ...p, ...updatedPage } : p
+      );
+      saveDiaryToServer(newPages, userId);
+      return newPages;
+    });
+  }, [userId]);
 
   const handleDelete = useCallback((pageId) => {
     setPages(prevPages => {
       const newPages = prevPages.filter(page => page.id !== pageId);
-      // Adjust currentPage if necessary
       if (numberOfPagesRead >= newPages.length) {
         setNumberOfPagesRead(Math.max(0, newPages.length - 1));
       }
+      saveDiaryToServer(newPages, userId);
       return newPages;
     });
-  }, [numberOfPagesRead]);
+  }, [numberOfPagesRead, userId]);
 
   const addNewPage = useCallback(() => {
     setPages(prevPages => {
-      const maxId = Math.max(...prevPages.map(p => p.id));
+      const maxId = Math.max(...prevPages.map(p => p.id), 0);
       const newPage = {
         id: maxId + 1,
         title: "New Memory",
         content: "Write your new memory here..."
       };
-      return [...prevPages, newPage];
+      const newPages = [...prevPages, newPage];
+      saveDiaryToServer(newPages, userId);
+      return newPages;
     });
-  }, []);
+  }, [userId]);
 
   const increasePageReadCount = useCallback(() => {
     setNumberOfPagesRead(prevState => 
@@ -113,18 +167,13 @@ const Diary = () => {
 
   const handleWheel = useCallback((e) => {
     const container = e.currentTarget;
-    
-    // Prevent the default scroll behavior
     e.preventDefault();
-    
-    // Smooth scroll
     container.scrollBy({
       top: e.deltaY,
       behavior: 'smooth'
     });
   }, []);
 
-  // Update z-indices whenever pages or currentPage changes
   useEffect(() => {
     const initialZIndices = Array.from({ length: pages.length }).map((_, index) =>
       Math.abs(index - (pages.length - 1))
@@ -133,13 +182,20 @@ const Diary = () => {
   }, [pages.length, numberOfPagesRead]);
 
   const goBack = () => {
-    navigate(-1); // This goes back to the previous page
+    navigate(-1);
   };
+
+  if (loading) {
+    return (
+      <section className="w-screen bg-gradient-to-b from-gray-900 to-violet-900 px-4 h-screen flex items-center justify-center">
+        <div className="text-cyan-300 text-xl">Loading your diary...</div>
+      </section>
+    );
+  }
 
   return (
     <>
       <button className="box p-2 px-4 md:absolute my-5 md:my-0 top-5 left-5" onClick={goBack}>Back</button>
-
       <section className="w-screen bg-gradient-to-b from-gray-900 to-violet-900 px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col">
         <div className="flex flex-col justify-between items-center w-full mb-8 md:mt-8">
           <h3 className="text-3xl font-semibold text-center relative z-10 mb-3">Your Memory Diary</h3>
