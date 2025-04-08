@@ -63,7 +63,7 @@ function ForumAdd() {
 
       <aside className="hidden lg:flex flex-col p-4 w-48 border-l border-[#646cff] bg-gray-900 space-y-4">
         <Link to='/Diary' className="box mt-3  hover:!text-white hover:border-[#646cff] flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 py-2 px-4 rounded-lg">
-          <Plus size={20} /> New Diary
+          Memory Diary
         </Link>
        
 
@@ -91,7 +91,7 @@ function ForumAdd() {
         </button>
 
         <Link to='/Diary' className="navLink flex items-center gap-2 border-b-2 text-4xl border-cyan-300 py-2 rounded-sm">
-          <Plus size={26} /> New Diary
+          Memory Diary
         </Link>
 
       
