@@ -187,7 +187,7 @@ const Diary = () => {
 
   if (loading) {
     return (
-      <section className="w-screen bg-gradient-to-b from-gray-900 to-violet-900 px-4 h-screen flex items-center justify-center">
+      <section className="w-screen bg-gradient-to-b bg-black px-4 h-screen flex items-center justify-center">
         <div className="text-cyan-300 text-xl">Loading your diary...</div>
       </section>
     );
@@ -196,7 +196,7 @@ const Diary = () => {
   return (
     <>
       <button className="box p-2 px-4 md:absolute my-5 md:my-0 top-5 left-5" onClick={goBack}>Back</button>
-      <section className="w-screen bg-gradient-to-b from-gray-900 to-violet-900 px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col">
+      <section className="w-screen bg-gradient-to-b bg-black px-4 md:px-[10%] lg:px-[17%] xl:px-[27%] h-screen flex flex-col">
         <div className="flex flex-col justify-between items-center w-full mb-8 md:mt-8">
           <h3 className="text-3xl font-semibold text-center relative z-10 mb-3">Your Memory Diary</h3>
           <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px] w-[280px]"></span>
