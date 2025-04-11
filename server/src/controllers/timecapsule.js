@@ -38,7 +38,8 @@ const unlockTimeCapsule = async (req, res) => {
         }
 
         // Check if the user is authorized to unlock the Time Capsule
-        if (timeCapsule.user_id.toString() !== userId) {
+        if (timeCapsule.user_id.toString() !== user._id.toString()) {
+            {
             return res.status(403).json({
                 message: "You are not authorized to unlock this time capsule"
             });
@@ -56,7 +57,7 @@ const unlockTimeCapsule = async (req, res) => {
         }
 
         // Find the User by ID
-        const user = await User.findOne(userId);
+        const user = await User.findOne({ username: userId });
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
