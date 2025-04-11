@@ -75,7 +75,7 @@ const unlockTimeCapsule = async (req, res) => {
                 image: base64Image
             }
         });
-    } catch (error) {
+    } } catch (error) {
         console.error("Error in unlockTimeCapsule controller: ", error);
         res.status(500).json({
             message: error.message
