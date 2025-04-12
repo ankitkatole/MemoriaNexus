@@ -52,7 +52,9 @@ const unlockTimeCapsule = async (req, res) => {
         console.log("Time Capsule User ID: ", timeCapsule.user_id);
         if (timeCapsule.user_id !== user.username) {
             return res.status(403).json({
-                message: "You are not authorized to unlock this time capsule"
+                message: "You are not authorized to unlock this time capsule",
+                username: user.username,
+                usernameTIme: timeCapsule.user_id,
             });
         }
 
