@@ -37,24 +37,10 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
-        // Find the User by ID
-        const cleanedUsername = userId.replace(/^"|"$/g, ''); 
-        const user = await User.findOne({ username: cleanedUsername });
-        
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
         // Check if the user is authorized to unlock the Time Capsule
-        console.log("User ID: ", user.username);
-        console.log("Time Capsule User ID: ", timeCapsule.user_id);
-        if (timeCapsule.user_id !== user.username) {
+        if (timeCapsule.user_id.toString() !== userId) {
             return res.status(403).json({
-                message: "You are not authorized to unlock this time capsule",
-                username: user.username,
-                usernameTIme: timeCapsule.user_id,
+                message: "You are not authorized to unlock this time capsule"
             });
         }
 
@@ -66,6 +52,14 @@ const unlockTimeCapsule = async (req, res) => {
             const formattedUnlockDate = unlockDate.toDateString();
             return res.status(200).json({
                 message: `TimeCapsule is yet to unlock. Please wait until ${formattedUnlockDate}.`
+            });
+        }
+
+        // Find the User by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
             });
         }
 
