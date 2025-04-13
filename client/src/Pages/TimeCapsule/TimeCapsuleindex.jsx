@@ -55,9 +55,20 @@ function TimeCapsuleindex() {
         document.body
       )}
 
-      <div className="flex flex-col w-screen min-h-screen px-[2vw] gap-4">
-        <button className="box p-2 px-4 z-50 max-w-[100px] md:absolute my-5 md:my-0 top-2 left-2" onClick={goBack}><ArrowLeft /></button>
-
+      <div className="flex bg-gradient-to-b from-black via-gray-950 to-gray-800/10 flex-col w-screen min-h-screen px-[2vw] gap-4">
+      <header className="sticky top-0 z-10 backdrop-blur-md bg-black/50 border-b border-gray-800">
+        <div className="container mx-auto px-4 py-4 flex items-center">
+          <button
+           
+            size="icon"
+            onClick={goBack}
+            className="mr-4 text-gray-400 box hover:text-white hover:bg-gray-800"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className="text-lg font-medium text-white">Create & Explore Time Capsule</h1>
+        </div>
+      </header>
         <div className="bg-gray-800 flex gap-4 relative justify-center mt-10 py-10 lg:rounded-lg w-screen md:w-auto">
           <button className="box2 w-[50%] py-3 h-fit" onClick={() => setOpenStatus(true)}>Create Time Capsule</button>
         </div>
@@ -74,13 +85,14 @@ function TimeCapsuleindex() {
             timeCapsules.map((capsule) => (
               <div 
                 key={capsule._id} 
-                className="bg-gray-800 box rounded-lg h-32 flex justify-start px-10 items-center p-4 cursor-pointer"
+                className=" backdrop-blur-lg  bg-gradient-to-br  from-black via-black to-cyan-400/25 border-2 border-gray-700/50  rounded-lg h-32 flex justify-start px-10 items-center p-4 cursor-pointer"
                 onClick={() => viewTimeCapsuleDetail(capsule._id)} 
               >
+
                 <div className="text-left">
-                  <p className="font-bold text-2xl">{capsule.title}</p>
-                  <p className="text-base timeCapsuleDiscription">{capsule.description}</p>
-                  <p className="text-xs text-gray-500">Unlock Date: {new Date(capsule.unlock_date).toLocaleDateString()}</p>
+                  <p className="font-bold text-2xl text-cyan-300 ">{capsule.title}</p>
+                 <p className="text-xs text-gray-500">Unlock Date: {new Date(capsule.unlock_date).toLocaleDateString()}</p>
+                  <p className="text-base timeCapsuleDiscription text-gray-400">{capsule.description}</p>
                 </div>
               </div>
             ))

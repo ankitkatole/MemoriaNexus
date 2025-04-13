@@ -5,12 +5,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, LogOut, ChevronDown } from 'lucide-react';
 import { createPortal } from "react-dom";
 import ResetPassword from '../../Pages/Resgistration/ResetPassword'
+import green from '../../assets/green.webp'
+import tom from '../../assets/tom.webp'
+import tom2 from '../../assets/tom2.webp'
+import tom3 from '../../assets/tom3.webp'
+import pinkpanther from '../../assets/pinkpanther.webp'
+import spondgebox from '../../assets/spondgebox.webp'
 
 
 function Sidebar({ className, setonlineStatus, onlineStatus }) {
 
+  const ProfileImagearr = [green, tom, tom2, pinkpanther, spondgebox,tom3];
+  const randomIndex = Math.floor(Math.random() * ProfileImagearr.length);
       const [Username, setUsername] = useState('');
-      const [ProfileImage, setProfileImage] = useState('');
+      const [ProfileImage, setProfileImage] = useState(ProfileImagearr[randomIndex]);
   
   const navigate = useNavigate();
   const [isMenuClicked, setisMenuClicked] = useState(false);
@@ -20,13 +28,13 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
     useEffect(() => {
         
           var userIdFromCookie = Cookies.get('Userid');
-          var ProfileImageCooke = Cookies.get('ProfileImage');
+          // var ProfileImageCooke = Cookies.get('ProfileImage');
           if (userIdFromCookie) {
             setUsername(userIdFromCookie); // Update Username state
           }
-          if(ProfileImageCooke){
-            setProfileImage(JSON.parse(ProfileImageCooke));
-          }
+          // if(ProfileImageCooke){
+          //   setProfileImage(JSON.parse(ProfileImageCooke));
+          // }
        
         }, []);
 
@@ -79,7 +87,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
         </div>
 
         <div className="flex flex-col items-center justify-center w-full gap-3 mb-4 ">
-        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full  left-1/2' />
+        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full object-cover  left-1/2' />
          <p className='text-base text-center text-cyan-300'>@{Username}</p>
         </div>
 
@@ -133,7 +141,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
           <Menu className="w-6 h-6" />
         </button>
         <div className="flex flex-col items-center justify-center w-full gap-3 mb-4 ">
-        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full  left-1/2' />
+        <img src={ProfileImage} alt="" className='h-28 w-28 bg-[#131822] border-2 border-cyan-300 rounded-full object-cover  left-1/2' />
          <p className='text-base text-center text-cyan-300'>@{Username}</p>
         </div>
 
