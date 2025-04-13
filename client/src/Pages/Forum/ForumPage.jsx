@@ -21,7 +21,7 @@ const navigate = useNavigate();
   useEffect(() => {
     const userIdFromCookie = Cookies.get('Userid');
     if (userIdFromCookie) {
-      const parsedUserId = JSON.parse(userIdFromCookie);
+      const parsedUserId = userIdFromCookie;
       setUserId(parsedUserId);
       // First fetch joined forums
       fetchUserJoinedForums(parsedUserId);

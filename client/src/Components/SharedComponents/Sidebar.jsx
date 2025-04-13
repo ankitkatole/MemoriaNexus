@@ -22,7 +22,7 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
           var userIdFromCookie = Cookies.get('Userid');
           var ProfileImageCooke = Cookies.get('ProfileImage');
           if (userIdFromCookie) {
-            setUsername(JSON.parse(userIdFromCookie)); // Update Username state
+            setUsername(userIdFromCookie); // Update Username state
           }
           if(ProfileImageCooke){
             setProfileImage(JSON.parse(ProfileImageCooke));

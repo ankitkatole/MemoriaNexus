@@ -68,7 +68,7 @@ function Login({onClose, SignUpOpen}) {
        
 {user &&
   console.log(user.username);
-        Cookies.set('Userid', JSON.stringify(user.username), {
+        Cookies.set('Userid', user.username, {
           expires: 1,
           path: '/',
           secure: true,

@@ -29,6 +29,17 @@ const unlockTimeCapsule = async (req, res) => {
     try {
         const { userId, timeCapsuleId } = req.body;
 
+        // Find the user by username
+        const user = await User.findOne({username:userId});
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                
+
+            });
+        }
+        
+
         // Find the Time Capsule by ID
         const timeCapsule = await TimeCapsule.findById(timeCapsuleId);
         if (!timeCapsule) {
@@ -37,17 +48,17 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
-        // Check if the user is authorized to unlock the Time Capsule
-        if (timeCapsule.user_id.toString() !== userId) {
+        // Check if the user is authorized
+        if (timeCapsule.user_id !== userId) {
             return res.status(403).json({
-                message: "You are not authorized to unlock this time capsule"
+                message: "You are not authorized to unlock this time capsule",
+                
             });
         }
 
-        // Check if the Time Capsule can be unlocked yet
+        // Check unlock date
         const unlockDate = new Date(timeCapsule.unlock_date);
         const currentDate = new Date();
-
         if (currentDate < unlockDate) {
             const formattedUnlockDate = unlockDate.toDateString();
             return res.status(200).json({
@@ -55,18 +66,10 @@ const unlockTimeCapsule = async (req, res) => {
             });
         }
 
-        // Find the User by ID
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
-        }
-
-        // Convert the image to Base64
+        // Convert image to Base64
         const base64Image = timeCapsule.image.toString('base64');
 
-        // Respond with the unlocked Time Capsule
+        // Respond with unlocked Time Capsule
         res.status(200).json({
             message: "TimeCapsule unlocked successfully!",
             timeCapsule: {
@@ -81,7 +84,6 @@ const unlockTimeCapsule = async (req, res) => {
         });
     }
 };
-
 
 const getTimeCapsules = async (req, res) => {
     try {

@@ -31,7 +31,8 @@ function TimeCapsuleindex() {
           setError(response.data.message || 'No time capsules found.');
         }
       } catch (error) {
-        setError('Error fetching time capsules.');
+      
+        setError(error.response.data.message || 'Error fetching time capsules. Please try again.');
       }
     };
 
@@ -63,7 +64,7 @@ function TimeCapsuleindex() {
 
         <div className="col-span-2 flex flex-col gap-4">
           <div className='flex flex-col items-center justify-between w-full mb-8'>
-            <h3 className="relative z-10 mb-3 text-3xl font-semibold text-start">Time Capsules</h3>
+            <h3 className="relative z-0 mb-3 text-3xl font-semibold text-start">Time Capsules</h3>
             <span className='bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-border h-[2px] w-[280px]'></span>
           </div>
 

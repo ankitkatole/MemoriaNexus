@@ -4,14 +4,17 @@ import axios from 'axios';
 import SERVER_URL from '../../constant.mjs';
 import Cookies from 'js-cookie';
 import { ArrowLeft } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 function TimeCapsuleDetail() {
+   const navigate = useNavigate();
   const { id } = useParams(); 
   const [timeCapsule, setTimeCapsule] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const userId = Cookies.get('Userid');
-
+  const goBack = () => {
+    navigate(-1); // This goes back to the previous page
+  };
   useEffect(() => {
     const fetchTimeCapsuleDetail = async () => {
       try {

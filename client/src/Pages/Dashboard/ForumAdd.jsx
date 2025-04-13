@@ -13,7 +13,7 @@ function ForumAdd() {
             var userIdFromCookie = Cookies.get('Userid');
             
             if (userIdFromCookie) {
-              setUsername(JSON.parse(userIdFromCookie)); 
+              setUsername(userIdFromCookie); 
             }
           
          
