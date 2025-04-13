@@ -1,47 +1,135 @@
-import React, { useState,useEffect } from "react";
-// import Navbar from "../../Components/SharedComponents/Navbar";
+import React, { useState, useEffect } from "react";
 import { MessageSquare, Menu } from "lucide-react";
 import Sidebar from "../../Components/SharedComponents/Sidebar";
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import SERVER_URL from "../../constant.mjs";
 
 const UserChat = () => {
-
- const navigate = useNavigate();
-  
-      useEffect(() => {
-        const loginTokenCookie = Cookies.get('LoginStatus');
-        console.log('LoginStatus Cookie:', loginTokenCookie);
-        if (!loginTokenCookie) {
-          navigate('/'); 
-        }
-      }, [navigate]);
-
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
-  const [onlineStatus, setonlineStatus] = useState(false);
-  const [messages, setMessages] = useState([
-    { id: 1, sender: "Alex", text: "Hey, how's the auction going?", time: "12m ago" },
-    { id: 2, sender: "Haley", text: "It's been great! Just waiting for more bids.", time: "10m ago" },
-    { id: 3, sender: "Raj", text: "sxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaa sxaaaaaaaaaaaaaaaaaaaasxaaaaaaaaaaaaaaaaaaaa", time: "5m ago" },
-  ]);
+  const [onlineStatus, setOnlineStatus] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [inboxUsers, setInboxUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentUserEmail, setCurrentUserEmail] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const [onlineUsers, setOnlineUsers] = useState([
-    { id: 1, name: "Alex" },
-    { id: 2, name: "Haley" },
-    { id: 3, name: "Raj" },
-    { id: 4, name: "Amanda" },
-  ]);
+  useEffect(() => {
+    const loginTokenCookie = Cookies.get('LoginStatus');
+    if (!loginTokenCookie) {
+      navigate('/');
+      return;
+    }
+    
+    // Get current user email from cookie or localStorage
+    // const email = Cookies.get('userEmail') || localStorage.getItem('userEmail');
+    const email = 'xdxchh8@gmail.com';
+    if (email) {
+      setCurrentUserEmail(email);
+      fetchInbox(email);
+    }
+  }, [navigate]);
 
-  const handleSendMessage = () => {
-    if (input.trim()) {
+  const fetchInbox = async (email) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${SERVER_URL}/message/inbox`, { email });
+      
+      if (response.data === "inbox empty") {
+        setInboxUsers([]);
+        setLoading(false);
+      } else {
+        setInboxUsers(response.data.data);
+        setLoading(false);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch inbox:", error);
+      setLoading(false);
+    }
+  };
+
+  const fetchChat = async (otherUserEmail) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${SERVER_URL}/message/chats`, { 
+        me: currentUserEmail, 
+        other: otherUserEmail 
+      });
+      
+      // Combine and sort messages by timestamp
+      const myMessages = response.data.myMessages.map(msg => ({
+        id: `my-${msg.at}`,
+        sender: "Me",
+        text: msg.mes,
+        time: formatTime(msg.at),
+        timestamp: msg.at
+      }));
+      
+      const otherMessages = response.data.senderMessages.map(msg => ({
+        id: `other-${msg.at}`,
+        sender: selectedUser?.name || "User",
+        text: msg.mes,
+        time: formatTime(msg.at),
+        timestamp: msg.at
+      }));
+      
+      const allMessages = [...myMessages, ...otherMessages].sort((a, b) => a.timestamp - b.timestamp);
+      setMessages(allMessages);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch chat:", error);
+      setLoading(false);
+    }
+  };
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMinutes = Math.floor((now - date) / (1000 * 60));
+    
+    if (diffMinutes < 1) return "Just now";
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    
+    return date.toLocaleDateString();
+  };
+
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+    fetchChat(user.email);
+  };
+
+  const handleSendMessage = async () => {
+    if (input.trim() && selectedUser) {
+      // Optimistically update UI
       const newMessage = {
-        id: messages.length + 1,
+        id: `my-${Date.now()}`,
         sender: "Me",
         text: input,
         time: "Just now",
+        timestamp: Date.now()
       };
       setMessages([...messages, newMessage]);
-      setInput("");
+      
+      // Send to backend
+      try {
+        await axios.post(`${SERVER_URL}/message/chat/send`, {
+          from: currentUserEmail,
+          to: selectedUser.email,
+          message: input
+        });
+        
+        // Success, clear input
+        setInput("");
+      } catch (error) {
+        console.error("Failed to send message:", error);
+        // Could add error handling here to notify user
+      }
     }
   };
 
@@ -52,25 +140,38 @@ const UserChat = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col lg:flex-row ">
-      <Sidebar className='fixed inset-0 z-50' setonlineStatus={setonlineStatus} onlineStatus={true} />
+    <div className="h-screen w-screen flex flex-col lg:flex-row">
+      <Sidebar className='fixed inset-0 z-50' setonlineStatus={setOnlineStatus} onlineStatus={true} />
       <div className="flex-1 relative bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950">
         
-        {/* Sidebar */}
+        {/* User list sidebar */}
         <div className="hidden border-l border-[#646cff] lg:block fixed right-0 top-0 bottom-0 w-64 bg-gray-900 p-4 overflow-y-auto">
-          <div className="text-center text-xl font-semibold mb-6 text-white">Online Users</div>
+          <div className="text-center text-xl font-semibold mb-6 text-white">Inbox</div>
           <div className="space-y-4">
-            {onlineUsers.length === 0 ? (
-              <div className="text-center text-gray-400">No users online</div>
+            {loading ? (
+              <div className="text-center text-gray-400">Loading...</div>
+            ) : inboxUsers.length === 0 ? (
+              <div className="text-center text-gray-400">No conversations yet</div>
             ) : (
-              onlineUsers.map((user) => (
+              inboxUsers.map((user) => (
                 <div
-                  key={user.id}
-                  className="flex items-center space-x-3 p-2 bg-gray-800 rounded-lg"
+                  key={user.email}
+                  className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
+                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                  } hover:bg-gray-700`}
+                  onClick={() => handleUserSelect(user)}
                 >
-                  <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                    {user.name[0]}
-                  </div>
+                  {user.image ? (
+                    <img 
+                      src={user.image} 
+                      className="h-10 w-10 rounded-full object-cover" 
+                      alt={user.name}
+                    />
+                  ) : (
+                    <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                      {user.name ? user.name[0] : '?'}
+                    </div>
+                  )}
                   <span className="text-white">{user.name}</span>
                 </div>
               ))
@@ -78,77 +179,94 @@ const UserChat = () => {
           </div>
         </div>
 
-
+        {/* Mobile user list */}
         <div
-        className={`slider ${
-          onlineStatus ? 'translate-x-0' : 'translate-x-full'
-        } block fixed right-0 z-50 top-0 bottom-0 w-64 bg-gray-900 p-4 overflow-y-auto`}
-      >
-      
-        <div className="block fixed right-0 top-0 bottom-0 w-64 bg-gray-900 p-4 overflow-y-auto">
-        <button
-          className="absolute top-2 right-2  p-2"
-          onClick={() => setonlineStatus(false)}
+          className={`slider ${
+            onlineStatus ? 'translate-x-0' : 'translate-x-full'
+          } block fixed right-0 z-50 top-0 bottom-0 w-64 bg-gray-900 p-4 overflow-y-auto`}
         >
-          <Menu className="h-6 w-6" />
-        </button>
-          <div className="text-center mt-10 text-xl font-semibold mb-6 text-white">Online Users</div>
+          <button
+            className="absolute top-2 right-2 p-2"
+            onClick={() => setOnlineStatus(false)}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          <div className="text-center mt-10 text-xl font-semibold mb-6 text-white">Inbox</div>
           <div className="space-y-4">
-            {onlineUsers.length === 0 ? (
-              <div className="text-center text-gray-400">No users online</div>
+            {loading ? (
+              <div className="text-center text-gray-400">Loading...</div>
+            ) : inboxUsers.length === 0 ? (
+              <div className="text-center text-gray-400">No conversations yet</div>
             ) : (
-              onlineUsers.map((user) => (
+              inboxUsers.map((user) => (
                 <div
-                  key={user.id}
-                  className="flex items-center space-x-3 p-2 bg-gray-800 rounded-lg"
+                  key={user.email}
+                  className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
+                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                  } hover:bg-gray-700`}
+                  onClick={() => {
+                    handleUserSelect(user);
+                    setOnlineStatus(false);
+                  }}
                 >
-                  <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                    {user.name[0]}
-                  </div>
+                  {user.image ? (
+                    <img 
+                      src={user.image} 
+                      className="h-10 w-10 rounded-full object-cover" 
+                      alt={user.name}
+                    />
+                  ) : (
+                    <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                      {user.name ? user.name[0] : '?'}
+                    </div>
+                  )}
                   <span className="text-white">{user.name}</span>
                 </div>
               ))
             )}
           </div>
         </div>
-       
-      </div>
-
-
-
 
         {/* Main chat area */}
-        <div className="lg:mx-64 lg:max-w-[calc(100vw-506px)]  h-screen flex flex-col" >
-        
-          {/* Scrollable messages container */}
+        <div className="lg:mx-64 lg:max-w-[calc(100vw-506px)] h-screen flex flex-col">
+          
+          {/* Messages container */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            <div className="max-w-6xl  mx-auto space-y-4">
-              {messages.length === 0 ? (
-                 
-              //  no msg yet notification shuru
-               <div className="w-full flex flex-1 mt-[24vh] flex-col items-center justify-center p-16 ">
-                   <div className="max-w-md text-center space-y-6">
-                    
-                     <div className="flex justify-center gap-4 mb-4">
-                       <div className="relative">
-                         <div
-                           className="w-16 h-16 rounded-2xl flex items-center
-                          justify-center animate-bounce"
-                         >
-                           <MessageSquare className="w-8 h-8 text-primary " />
-                         </div>
-                       </div>
-                     </div>
-             
-                    
-                     <h2 className="text-2xl font-bold">Welcome to Memoria Nexus!</h2>
-                     <p className="text-base-content/60">
-                       Messages will appear here
-                     </p>
-                   </div>
-                 </div>
-        //  no msg yet notification Khatam
-
+            <div className="max-w-6xl mx-auto space-y-4">
+              {!selectedUser ? (
+                <div className="w-full flex flex-1 mt-[24vh] flex-col items-center justify-center p-16">
+                  <div className="max-w-md text-center space-y-6">
+                    <div className="flex justify-center gap-4 mb-4">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-2xl flex items-center justify-center animate-bounce">
+                          <MessageSquare className="w-8 h-8 text-primary" />
+                        </div>
+                      </div>
+                    </div>
+                    <h2 className="text-2xl font-bold">Welcome to Memoria Nexus!</h2>
+                    <p className="text-base-content/60">
+                      Select a conversation from the sidebar to start chatting
+                    </p>
+                  </div>
+                </div>
+              ) : loading ? (
+                <div className="text-center text-white p-8">Loading messages...</div>
+              ) : messages.length === 0 ? (
+                <div className="w-full flex flex-1 mt-[24vh] flex-col items-center justify-center p-16">
+                  <div className="max-w-md text-center space-y-6">
+                    <div className="flex justify-center gap-4 mb-4">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-2xl flex items-center justify-center animate-bounce">
+                          <MessageSquare className="w-8 h-8 text-primary" />
+                        </div>
+                      </div>
+                    </div>
+                    <h2 className="text-2xl font-bold">Start a conversation with {selectedUser.name}</h2>
+                    <p className="text-base-content/60">
+                      No messages yet. Say hello!
+                    </p>
+                  </div>
+                </div>
               ) : (
                 messages.map((msg) => {
                   const isOwnMessage = msg.sender === "Me";
@@ -181,7 +299,7 @@ const UserChat = () => {
             </div>
           </div>
 
-          {/* msg input area */}
+          {/* Message input area */}
           <div className="p-4 pb-6 bg-[#111826]">
             <div className="max-w-6xl mx-auto flex items-center gap-2">
               <input
@@ -189,12 +307,16 @@ const UserChat = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder={selectedUser ? `Message ${selectedUser.name}...` : "Select a user to chat with..."}
                 className="flex-1 p-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border-2 border-cyan-300 hover:border-[#646cff]"
+                disabled={!selectedUser}
               />
               <button
                 onClick={handleSendMessage}
-                className="box text-white  px-4 py-2 rounded-lg transition-colors"
+                disabled={!input.trim() || !selectedUser}
+                className={`box text-white px-4 py-2 rounded-lg transition-colors ${
+                  !input.trim() || !selectedUser ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
                 Send
               </button>

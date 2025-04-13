@@ -1,7 +1,7 @@
 const express = require('express')
 
 const Inbox = require('../models/inbox')
-
+const { User } = require("../models/user")
 const getInbox = async (req, res) => {
 
     // logic to send profile photo and name of the user

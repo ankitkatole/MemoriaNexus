@@ -47,7 +47,7 @@ const getForumUsingUserId = async (req, res) => {
 
 const getAllForumNames = async (req, res) => {
     try {
-        const forums = await Forum.find({}, 'name category');
+        const forums = await Forum.find({}, 'name category members');
 
         if (!forums.length) {
             return res.status(404).json({ message: 'No forums found.' });

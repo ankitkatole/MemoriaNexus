@@ -12,7 +12,7 @@ function ForumPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [joinedForums, setJoinedForums] = useState([]);
-  const [showJoinedForumsOnly, setShowJoinedForumsOnly] = useState(true);
+  const [showJoinedForumsOnly, setShowJoinedForumsOnly] = useState(false);
   const [userId, setUserId] = useState('');
   const [loading, setLoading] = useState(true); 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,8 +37,10 @@ const navigate = useNavigate();
     try {
       const response = await axios.get(`${SERVER_URL}/forum/getAllForumNames`);
       setForums(response.data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching all forums:', error);
+      setLoading(false);
     }
   };
 
@@ -46,8 +48,10 @@ const navigate = useNavigate();
     try {
       const response = await axios.get(`${SERVER_URL}/forum/getForumUsingUserId/${userId}`);
       setJoinedForums(response.data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching user joined forums:', error);
+      setLoading(false);
     }
   };
 
@@ -238,7 +242,7 @@ const navigate = useNavigate();
                     <h2 className="text-xl font-bold">{forum.name}</h2>
                     <p className="text-gray-400">Category: {forum.category}</p>
                   </div>
-                  {showJoinedForumsOnly && (
+                  {forum.members && forum.members.includes(userId) && (
                     <span className="px-3 py-1 bg-cyan-500 text-white rounded-full text-sm">
                       Joined
                     </span>
