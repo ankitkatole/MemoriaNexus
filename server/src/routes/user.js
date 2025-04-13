@@ -1,4 +1,4 @@
-const {signup , signin,signout,forgotPassword,updatePassword,deleteAccount} = require("../controllers/user");
+const {signup , signin,signout,forgotPassword,updatePassword,deleteAccount, findUsers} = require("../controllers/user");
 const {uploadTimeCapsule,unlockTimeCapsule,getTimeCapsules} = require("../controllers/timecapsule");
 const {userMiddleware} = require("../middlewares/user");
 const multer = require("multer")
@@ -17,7 +17,7 @@ userRouter.post("/uploadTimeCapsule",upload.single('image'),uploadTimeCapsule);
 userRouter.post("/unlockTimeCapsule",unlockTimeCapsule);
 userRouter.post("/timeCapsules",getTimeCapsules)
 userRouter.delete('/deleteaccount',userMiddleware,deleteAccount);
-
+userRouter.post('/findUsers',findUsers);
 
 module.exports = {
     userRouter

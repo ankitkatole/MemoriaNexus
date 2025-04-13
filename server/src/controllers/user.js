@@ -261,4 +261,41 @@ const deleteAccount = async (req, res) => {
     }
 }
 
-module.exports = { signup, signin, signout, updatePassword, forgotPassword,deleteAccount }; 
+const findUsers = async (req, res) => {
+    try{
+        const {search} =req.body;
+        let users = [];
+        if (search && search.trim() !== "") {
+            const regex = new RegExp(search, 'i'); // made case-insensitive
+            users = await User.find({
+                $or: [
+                    { firstName: regex },
+                    { lastName: regex },
+                    { username: regex }
+                ]
+            });
+        } else {
+            users = await User.find();
+        }
+
+        if(users.length === 0){
+            return res.status(404).json({message:"No users found"});
+        }
+     
+        const formattedUsers = users.map(user => ({
+            email: user.email,   
+            profileImage: user.profileImage,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        }));
+        
+        res.status(200).json(formattedUsers);
+    }
+    catch(e){
+        console.log("Error finding user :", e.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+module.exports = { signup, signin, signout, updatePassword, forgotPassword,deleteAccount,findUsers }; 

@@ -40,7 +40,7 @@ function TimeCapsuleindex() {
   }, []);
 
   const goBack = () => {
-    navigate(-1); // This goes back to the previous page
+    navigate(-1); 
   };
 
   const viewTimeCapsuleDetail = (capsuleId) => {

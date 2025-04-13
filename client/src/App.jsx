@@ -14,6 +14,7 @@ import TimeCapsuleForm from './Pages/TimeCapsule/TimeCapsuleForm';
 import TimeCapsuleindex from './Pages/TimeCapsule/TimeCapsuleindex';
 import TimeCapsuleDetail from './Pages/TimeCapsule/TimeCapsuleDetail';  
 import ChatNexus from './Components/ChatNexus';
+import SearchUsers from './Pages/UserChat/SearchUsers';
 function App() {
  
 
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
      
     },
     {
-      path: '/UserChat',
+      path: '/UserChat/:encodedEmail',
       element: <UserChat/>,
      
     },
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       element: <ChatNexus/>,
      
     },
+    {
+      path: '/SearchUsers',
+      element: <SearchUsers/>,
+    }
     // {
     //   path: '/SignUp',
     //   element: <SignUp/>,

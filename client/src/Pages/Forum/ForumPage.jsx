@@ -112,7 +112,7 @@ const navigate = useNavigate();
           <input
             type="text"
             placeholder="Search Forums..."
-            className="w-full p-3 text-cyan-300 bg-gray-700 border-b border-cyan-300"
+            className="w-full p-3 text-cyan-300 border-b border-cyan-300"
             value={searchQuery}
             onChange={handleSearch}
           />

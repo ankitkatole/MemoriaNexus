@@ -10,8 +10,13 @@ const getInbox = async (req, res) => {
     const uniqueEmails = new Set()
 
     try{
-
+        // Check if user's inbox exists
         const inbox = await Inbox.findOne({User : email})
+        
+        if (!inbox) {
+            // If inbox doesn't exist, return empty array
+            return res.send({data : []})
+        }
 
         if(inbox.Messages.length == 0 && inbox.Recived.length == 0){
             res.send("inbox empty")
@@ -24,13 +29,15 @@ const getInbox = async (req, res) => {
                 const to = inbox.Messages[i].to
                 if(!uniqueEmails.has(to)) {
                     const user = await User.findOne({"UserInfo.email" : to})
-                    const segregatedData = {
-                        email : to,
-                        name : user.UserInfo.name,
-                        image : user.UserInfo.picture,
+                    if (user) {
+                        const segregatedData = {
+                            email : to,
+                            name : user.UserInfo.name,
+                            image : user.UserInfo.picture,
+                        }
+                        inboxArray.push(segregatedData)
+                        uniqueEmails.add(to)
                     }
-                    inboxArray.push(segregatedData)
-                    uniqueEmails.add(to)
                 }
             }
     
@@ -38,23 +45,23 @@ const getInbox = async (req, res) => {
                 const from = inbox.Recived[i].from
                 if(!uniqueEmails.has(from)) {
                     const user = await User.findOne({"UserInfo.email" : from})
-                    const segregatedData = {
-                        email : from,
-                        name : user.UserInfo.name,
-                        image : user.UserInfo.picture,
+                    if (user) {
+                        const segregatedData = {
+                            email : from,
+                            name : user.UserInfo.name,
+                            image : user.UserInfo.picture,
+                        }
+                        inboxArray.push(segregatedData)
+                        uniqueEmails.add(from)
                     }
-                    inboxArray.push(segregatedData)
-                    uniqueEmails.add(from)
                 }
             }
     
             res.send({data : inboxArray})
         }
-
-        
-
     }catch(error){
-        console.error(error)
+        console.error("Error in getInbox:", error.message);
+        console.error("Stack trace:", error.stack);
         res.status(500).send("Internal Server Error")
     }
 }
@@ -66,12 +73,17 @@ const getChat = async (req, res) => {
     const other = req.body.other
     console.log(me,other)
 
-    let meArray
-    let otherArray
+    let meArray = []
+    let otherArray = []
 
     try{
-
+        // Check if user's inbox exists
         const inbox = await Inbox.findOne({User : me})
+        
+        if (!inbox) {
+            // If inbox doesn't exist, return empty arrays
+            return res.send({myMessages : [], senderMessages : []})
+        }
 
         const lengthSent = inbox.Messages.length
         const lengthRecived = inbox.Recived.length
@@ -103,7 +115,8 @@ const getChat = async (req, res) => {
         res.send({myMessages : meArray, senderMessages : otherArray})
  
     }catch(error){
-        console.error(error)
+        console.error("Error in getChat:", error.message);
+        console.error("Stack trace:", error.stack);
         res.status(500).send("Internal Server Error")
     }
 }
@@ -116,8 +129,15 @@ const sendMessage = async (req, res) => {
     const message = req.body.message
 
     try{
-
-        const userFrom = await Inbox.findOne({User : from})
+        // Check if sender's inbox exists, create if not
+        let userFrom = await Inbox.findOne({User : from})
+        if (!userFrom) {
+            userFrom = new Inbox({
+                User: from,
+                Messages: [],
+                Recived: []
+            });
+        }
 
         const fromMessagesLength = userFrom.Messages.length
         
@@ -145,7 +165,15 @@ const sendMessage = async (req, res) => {
 
         await userFrom.save()
 
-        const userTo = await Inbox.findOne({User : to})
+        // Check if receiver's inbox exists, create if not
+        let userTo = await Inbox.findOne({User : to})
+        if (!userTo) {
+            userTo = new Inbox({
+                User: to,
+                Messages: [],
+                Recived: []
+            });
+        }
 
         const toRecivedLength = userTo.Recived.length
         
@@ -176,7 +204,8 @@ const sendMessage = async (req, res) => {
         res.send("Message send successfully!")
         
     }catch(error){
-        console.error(error)
+        console.error("Error in sendMessage:", error.message);
+        console.error("Stack trace:", error.stack);
         res.status(500).send("Internal Server Error")
     }
 }

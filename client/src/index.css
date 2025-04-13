@@ -191,8 +191,8 @@ select option {
   /* font-family: "Titillium Web", serif; */
   font-family: "Exo 2", serif;
   scrollbar-width: thin;
-  user-select: none;
-  -moz-user-select: none;
+  user-select: text;
+  -moz-user-select: text;
   scrollbar-color: #646cff #2a1454 !important;
 
 }

@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { MessageSquare, Menu } from "lucide-react";
 import Sidebar from "../../Components/SharedComponents/Sidebar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import SERVER_URL from "../../constant.mjs";
+// import currentUserDatanav from "./currentUserDatanav";
 
 const UserChat = () => {
+  const {encodedEmail}= useParams();
+  const decodedSelecteduserEmail = atob(encodedEmail);
+
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [onlineStatus, setOnlineStatus] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inboxUsers, setInboxUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(true);
   const [currentUserEmail, setCurrentUserEmail] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +33,10 @@ const UserChat = () => {
     if (email) {
       setCurrentUserEmail(email);
       fetchInbox(email);
+      
+    }
+    if(decodedSelecteduserEmail && email){
+      fetchChat(decodedSelecteduserEmail,email);
     }
   }, [navigate]);
 
@@ -39,19 +47,20 @@ const UserChat = () => {
       
       if (response.data === "inbox empty") {
         setInboxUsers([]);
-        setLoading(false);
       } else {
         setInboxUsers(response.data.data);
-        setLoading(false);
       }
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch inbox:", error);
+      setInboxUsers([]);
+      // Show error message to user
+      alert("Failed to load conversations. Please try again later.");
+    } finally {
       setLoading(false);
     }
   };
 
-  const fetchChat = async (otherUserEmail) => {
+  const fetchChat = async (otherUserEmail,currentUserEmail) => {
     try {
       setLoading(true);
       const response = await axios.post(`${SERVER_URL}/message/chats`, { 
@@ -78,9 +87,12 @@ const UserChat = () => {
       
       const allMessages = [...myMessages, ...otherMessages].sort((a, b) => a.timestamp - b.timestamp);
       setMessages(allMessages);
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch chat:", error);
+      setMessages([]);
+      // Show error message to user
+      alert("Failed to load messages. Please try again later.");
+    } finally {
       setLoading(false);
     }
   };
@@ -101,7 +113,7 @@ const UserChat = () => {
 
   const handleUserSelect = (user) => {
     setSelectedUser(user);
-    fetchChat(user.email);
+    fetchChat(decodedSelecteduserEmail);
   };
 
   const handleSendMessage = async () => {
@@ -120,7 +132,7 @@ const UserChat = () => {
       try {
         await axios.post(`${SERVER_URL}/message/chat/send`, {
           from: currentUserEmail,
-          to: selectedUser.email,
+          to: decodedSelecteduserEmail,
           message: input
         });
         
@@ -128,7 +140,11 @@ const UserChat = () => {
         setInput("");
       } catch (error) {
         console.error("Failed to send message:", error);
-        // Could add error handling here to notify user
+        // Remove the optimistically added message
+        setMessages(messages.filter(msg => msg.id !== newMessage.id));
+        
+        // Show error message to user
+        alert("Failed to send message. Please try again later.");
       }
     }
   };
@@ -157,7 +173,7 @@ const UserChat = () => {
                 <div
                   key={user.email}
                   className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                    decodedSelecteduserEmail === user.email ? 'bg-blue-800' : 'bg-gray-800'
                   } hover:bg-gray-700`}
                   onClick={() => handleUserSelect(user)}
                 >
@@ -202,7 +218,7 @@ const UserChat = () => {
                 <div
                   key={user.email}
                   className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                    decodedSelecteduserEmail === user.email ? 'bg-blue-800' : 'bg-gray-800'
                   } hover:bg-gray-700`}
                   onClick={() => {
                     handleUserSelect(user);
@@ -229,7 +245,7 @@ const UserChat = () => {
 
         {/* Main chat area */}
         <div className="lg:mx-64 lg:max-w-[calc(100vw-506px)] h-screen flex flex-col">
-          
+          {/* <currentUserDatanav ProfileImage={ProfileImage} UserName={UserName} userName={userName} /> */}
           {/* Messages container */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div className="max-w-6xl mx-auto space-y-4">
@@ -261,7 +277,7 @@ const UserChat = () => {
                         </div>
                       </div>
                     </div>
-                    <h2 className="text-2xl font-bold">Start a conversation with {selectedUser.name}</h2>
+                    <h2 className="text-2xl font-bold">Start a conversation with {selectedUser.name || 'User'}</h2>
                     <p className="text-base-content/60">
                       No messages yet. Say hello!
                     </p>
