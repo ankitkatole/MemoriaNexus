@@ -10,7 +10,7 @@ const forumSchema = new Schema({
   },
   chats: {
     type: [{
-      user: { type: String},
+      userId: { type: String},
       message: { type: String},
       timestamp: { type: Date, default: Date.now }
     }],

@@ -15,6 +15,7 @@ import TimeCapsuleindex from './Pages/TimeCapsule/TimeCapsuleindex';
 import TimeCapsuleDetail from './Pages/TimeCapsule/TimeCapsuleDetail';  
 import ChatNexus from './Components/ChatNexus';
 import SearchUsers from './Pages/UserChat/SearchUsers';
+import ForumChatPage from './Pages/Forum/ForumChatPage'
 function App() {
  
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
       path: '/UserChat',
       element: <UserChat />
+    },
+    {
+      path: '/ForumChatPage/:forumId',
+      element: <ForumChatPage />
     },
    
     {

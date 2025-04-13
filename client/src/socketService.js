@@ -9,6 +9,84 @@ let onConfirmationCallback = () => {};
 let onStatusChangeCallback = () => {};
 let onErrorCallback = () => {};
 let onlineUsersListCallback = () => {};
+let onForumMessageCallback = () => {};
+let onForumChatHistoryCallback = () => {};
+let onForumOnlineUsersCallback = () => {};
+let onForumErrorCallback = () => {};
+let onUserForumTypingCallback = () => {};
+let onUserForumStoppedTypingCallback = () => {};
+
+
+
+// Add these functions to your socketService export
+
+// Join a forum chat
+export const joinForum = (forumId, userId, username) => {
+  if (!socket) return false;
+  
+  socket.emit('joinForum', { forumId, userId, username });
+  return true;
+};
+
+// Leave a forum chat
+export const leaveForum = (forumId, userId) => {
+  if (!socket) return false;
+  
+  socket.emit('leaveForum', { forumId, userId });
+  return true;
+};
+
+// Send a message to a forum
+export const sendForumMessage = (forumId, userId, message) => {
+  if (!socket) return false;
+  
+  socket.emit('sendForumMessage', { forumId, userId, message });
+  return true;
+};
+
+// Notify users that you're typing in a forum
+export const forumTyping = (forumId, userId, username) => {
+  if (!socket) return false;
+  
+  socket.emit('forumTyping', { forumId, userId, username });
+  return true;
+};
+
+// Notify users that you stopped typing in a forum
+export const forumStopTyping = (forumId, userId) => {
+  if (!socket) return false;
+  
+  socket.emit('forumStopTyping', { forumId, userId });
+  return true;
+};
+
+// Add these callback setters
+export const setForumMessageHandler = (callback) => {
+  onForumMessageCallback = callback;
+};
+
+export const setForumChatHistoryHandler = (callback) => {
+  onForumChatHistoryCallback = callback;
+};
+
+export const setForumOnlineUsersHandler = (callback) => {
+  onForumOnlineUsersCallback = callback;
+};
+
+export const setForumErrorHandler = (callback) => {
+  onForumErrorCallback = callback;
+};
+
+export const setUserForumTypingHandler = (callback) => {
+  onUserForumTypingCallback = callback;
+};
+
+export const setUserForumStoppedTypingHandler = (callback) => {
+  onUserForumStoppedTypingCallback = callback;
+};
+
+
+
 
 export const initializeSocket = () => {
   if (!socket) {
@@ -27,6 +105,31 @@ export const initializeSocket = () => {
         socket.emit('authenticate', email);
       }
     });
+
+    // Add these event listeners to the initializeSocket function
+socket.on('forumMessage', (message) => {
+  onForumMessageCallback(message);
+});
+
+socket.on('forumChatHistory', (chatHistory) => {
+  onForumChatHistoryCallback(chatHistory);
+});
+
+socket.on('forumOnlineUsers', (onlineUsers) => {
+  onForumOnlineUsersCallback(onlineUsers);
+});
+
+socket.on('forumError', (error) => {
+  onForumErrorCallback(error);
+});
+
+socket.on('userForumTyping', (data) => {
+  onUserForumTypingCallback(data);
+});
+
+socket.on('userForumStoppedTyping', (data) => {
+  onUserForumStoppedTypingCallback(data);
+});
     
     // Set up event listeners
     socket.on('newPrivateMessage', (message) => {
@@ -107,5 +210,19 @@ export default {
   setStatusChangeHandler,
   setOnlineUsersListHandler,
   setErrorHandler,
-  disconnect
+  disconnect,
+
+  
+  // New forum methods
+  joinForum,
+  leaveForum,
+  sendForumMessage,
+  forumTyping,
+  forumStopTyping,
+  setForumMessageHandler,
+  setForumChatHistoryHandler,
+  setForumOnlineUsersHandler,
+  setForumErrorHandler,
+  setUserForumTypingHandler,
+  setUserForumStoppedTypingHandler
 };

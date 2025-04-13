@@ -236,7 +236,7 @@ const navigate = useNavigate();
         ) : filteredForums.length > 0 ? (
           <ul className="space-y-2 flex flex-col items-center w-full">
             {filteredForums.map(forum => (
-              <li key={forum.id} className="bg-gray-800 w-[90%] p-4 rounded-lg">
+              <Link to={`/ForumChatPage/${forum._id}`} key={forum.id} className="bg-gray-800 w-[90%] p-4 rounded-lg">
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-xl font-bold">{forum.name}</h2>
@@ -248,7 +248,7 @@ const navigate = useNavigate();
                     </span>
                   )}
                 </div>
-              </li>
+              </Link>
             ))}
           </ul>
         ) : (

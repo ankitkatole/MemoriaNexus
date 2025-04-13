@@ -118,6 +118,95 @@ if (require.main === module) {
 
     io.on('connection', (socket) => {
         console.log('New client connected:', socket.id);
+        socket.on('joinForum', async ({ forumId, userId, username }) => {
+            console.log(`User ${userId} (${username}) joined forum: ${forumId}`);
+            socket.join(forumId);
+          
+            // Add user to online users list with username
+            if (!onlineUsers[forumId]) {
+              onlineUsers[forumId] = [];
+            }
+            
+            // Remove user if already exists (in case of reconnection)
+            onlineUsers[forumId] = onlineUsers[forumId].filter(user => user.userId !== userId);
+            
+            // Add user with username
+            onlineUsers[forumId].push({ userId, username });
+            
+            try {
+              // Fetch forum chat history and send it to the user
+              const forum = await Forum.findById(forumId);
+              if (forum) {
+                socket.emit('forumChatHistory', forum.chats);
+              }
+              
+              // Broadcast updated online users list to all users in the forum
+              io.to(forumId).emit('forumOnlineUsers', onlineUsers[forumId]);
+            } catch (error) {
+              console.error('Error fetching forum data:', error);
+              socket.emit('forumError', { message: 'Failed to load forum data' });
+            }
+          });
+          // Handle forum message sending
+socket.on('sendForumMessage', async ({ forumId, userId, message }) => {
+    console.log(`Message in forum ${forumId} from ${userId}: ${message}`);
+    
+    try {
+      const forum = await Forum.findById(forumId);
+      if (!forum) {
+        socket.emit('forumError', { message: 'Forum not found' });
+        return;
+      }
+  
+      const newMessage = {
+        userId,
+        message,
+        timestamp: Date.now()
+      };
+      
+      // Save message to the database
+      forum.chats.push(newMessage);
+      await forum.save();
+      
+      // Broadcast the message to all users in the forum
+      io.to(forumId).emit('forumMessage', newMessage);
+    } catch (error) {
+      console.error('Error sending forum message:', error);
+      socket.emit('forumError', { message: 'Failed to send message' });
+    }
+  });
+
+  socket.on('forumTyping', ({ forumId, userId, username }) => {
+    socket.to(forumId).emit('userForumTyping', { userId, username });
+  });
+  
+  // Handle user stopped typing indicator for forums
+  socket.on('forumStopTyping', ({ forumId, userId }) => {
+    socket.to(forumId).emit('userForumStoppedTyping', { userId });
+  });
+  
+  // When user leaves a forum
+  socket.on('leaveForum', ({ forumId, userId }) => {
+    console.log(`User ${userId} left forum: ${forumId}`);
+    socket.leave(forumId);
+    
+    // Remove user from online users list
+    if (onlineUsers[forumId]) {
+      onlineUsers[forumId] = onlineUsers[forumId].filter(user => user.userId !== userId);
+      io.to(forumId).emit('forumOnlineUsers', onlineUsers[forumId]);
+    }
+  });
+  
+  // Handle disconnection - add forum cleanup
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+    
+    // Handle removal from all forums
+    for (let forumId in onlineUsers) {
+      onlineUsers[forumId] = onlineUsers[forumId].filter(user => user.userId !== socket.userId);
+      io.to(forumId).emit('forumOnlineUsers', onlineUsers[forumId]);
+    }
+  });
 
         // Chat authentication
         socket.on('authenticate', async (email) => {
@@ -187,19 +276,23 @@ if (require.main === module) {
         });
 
         // When a user joins a forum
-        socket.on('joinForum', ({ forumId, userId }) => {
+        socket.on('joinForum', ({ forumId, userId, username }) => {
+            console.log(`User ${userId} (${username}) joined forum: ${forumId}`);
             socket.join(forumId);
 
             // Add user to onlineUsers list
             if (!onlineUsers[forumId]) {
                 onlineUsers[forumId] = [];
             }
-            if (!onlineUsers[forumId].includes(userId)) {
-                onlineUsers[forumId].push(userId);
-            }
+            
+            // Remove user if already exists (in case of reconnection)
+            onlineUsers[forumId] = onlineUsers[forumId].filter(user => user.userId !== userId);
+            
+            // Add user with username
+            onlineUsers[forumId].push({ userId, username });
 
             // Emit the updated list of online users to the forum
-            io.to(forumId).emit('onlineUsers', onlineUsers[forumId]);
+            io.to(forumId).emit('forumOnlineUsers', onlineUsers[forumId]);
         });
 
         // When a user sends a message to a forum
