@@ -101,7 +101,7 @@ const navigate = useNavigate();
           <div className="space-y-2 flex flex-col items-center w-full">
             {users.map(user => {
                 const encodedEmail = btoa(user.email)
-           return  ( <Link to={`/UserChat/${encodedEmail}`} key={user.id} className=" w-[90%] p-4 rounded-lg backdrop-blur-lg  bg-gradient-to-br  from-black via-black to-cyan-400/25 border-2 border-gray-700/50 hover:border-cyan-300 transition-all duration-500 ">
+           return  ( <Link to={`/UserChat/${encodedEmail}/${user.username}`} key={user.id} className=" w-[90%] p-4 rounded-lg backdrop-blur-lg  bg-gradient-to-br  from-black via-black to-cyan-400/25 border-2 border-gray-700/50 hover:border-cyan-300 transition-all duration-500 ">
                 <div className="flex justify-start gap-5 items-center">
                 <img src={user.profileImage} alt="User Profile" className='h-16 w-16 bg-[#131822] border-2 border-cyan-300 rounded-full object-cover  left-1/2' />
                 <div>

@@ -30,9 +30,13 @@ const router = createBrowserRouter([
      
     },
     {
-      path: '/UserChat/:encodedEmail',
+      path: '/UserChat/:encodedEmail/:username',
       element: <UserChat/>,
      
+    },
+    {
+      path: '/UserChat',
+      element: <UserChat />
     },
    
     {

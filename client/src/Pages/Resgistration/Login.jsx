@@ -80,6 +80,12 @@ function Login({onClose, SignUpOpen}) {
           secure: true,
           sameSite: 'strict',
         });
+        Cookies.set('Email', JSON.stringify(user.email), {
+          expires: 1,
+          path: '/',
+          secure: true,
+          sameSite: 'strict',
+        });
       }
         setLoading(false);
 

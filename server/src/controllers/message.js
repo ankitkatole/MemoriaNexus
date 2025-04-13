@@ -15,7 +15,7 @@ const getInbox = async (req, res) => {
         
         if (!inbox) {
             // If inbox doesn't exist, return empty array
-            return res.send({data : []})
+            return res.send({data : [], message: "inbox empty"})
         }
 
         if(inbox.Messages.length == 0 && inbox.Recived.length == 0){
@@ -28,12 +28,12 @@ const getInbox = async (req, res) => {
             for(let i = 0; i < lengthSent;i++){
                 const to = inbox.Messages[i].to
                 if(!uniqueEmails.has(to)) {
-                    const user = await User.findOne({"UserInfo.email" : to})
+                    const user = await User.findOne({"email" : to})
                     if (user) {
                         const segregatedData = {
                             email : to,
-                            name : user.UserInfo.name,
-                            image : user.UserInfo.picture,
+                            name : user.firstName + " " + user.lastName,
+                            image : user.profileImage,
                         }
                         inboxArray.push(segregatedData)
                         uniqueEmails.add(to)
@@ -44,12 +44,12 @@ const getInbox = async (req, res) => {
             for(let i = 0; i < lengthRecived;i++){
                 const from = inbox.Recived[i].from
                 if(!uniqueEmails.has(from)) {
-                    const user = await User.findOne({"UserInfo.email" : from})
+                    const user = await User.findOne({"email" : from})
                     if (user) {
                         const segregatedData = {
                             email : from,
-                            name : user.UserInfo.name,
-                            image : user.UserInfo.picture,
+                            name : user.firstName + " " + user.lastName,
+                            image : user.profileImage,
                         }
                         inboxArray.push(segregatedData)
                         uniqueEmails.add(from)

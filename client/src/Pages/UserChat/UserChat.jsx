@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { MessageSquare, Menu } from "lucide-react";
 import Sidebar from "../../Components/SharedComponents/Sidebar";
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate,useParams, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import SERVER_URL from "../../constant.mjs";
 // import currentUserDatanav from "./currentUserDatanav";
 
 const UserChat = () => {
-  const {encodedEmail}= useParams();
-  const decodedSelecteduserEmail = atob(encodedEmail);
+  const {encodedEmail,username}= useParams();
 
+  if(encodedEmail) {
+
+  var decodedSelecteduserEmail = atob(encodedEmail);
+  }
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [onlineStatus, setOnlineStatus] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inboxUsers, setInboxUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(true);
+  const [selectedUser, setSelectedUser] = useState({email:decodedSelecteduserEmail,name:username});
+  const[urluserName,setUrluserName]=useState(username);
   const [currentUserEmail, setCurrentUserEmail] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loginTokenCookie = Cookies.get('LoginStatus');
+    const Curretmail = JSON.parse(Cookies.get('Email'));
     if (!loginTokenCookie) {
       navigate('/');
       return;
@@ -29,16 +34,16 @@ const UserChat = () => {
     
     // Get current user email from cookie or localStorage
     // const email = Cookies.get('userEmail') || localStorage.getItem('userEmail');
-    const email = 'xdxchh8@gmail.com';
-    if (email) {
-      setCurrentUserEmail(email);
-      fetchInbox(email);
+    
+    if (Curretmail) {
+      setCurrentUserEmail(Curretmail);
+      fetchInbox(Curretmail);
       
     }
-    if(decodedSelecteduserEmail && email){
-      fetchChat(decodedSelecteduserEmail,email);
+    if(selectedUser && Curretmail){
+      fetchChat(selectedUser,Curretmail);
     }
-  }, [navigate]);
+  }, [navigate,selectedUser]);
 
   const fetchInbox = async (email) => {
     try {
@@ -65,7 +70,7 @@ const UserChat = () => {
       setLoading(true);
       const response = await axios.post(`${SERVER_URL}/message/chats`, { 
         me: currentUserEmail, 
-        other: otherUserEmail 
+        other: otherUserEmail?.email 
       });
       
       // Combine and sort messages by timestamp
@@ -79,7 +84,7 @@ const UserChat = () => {
       
       const otherMessages = response.data.senderMessages.map(msg => ({
         id: `other-${msg.at}`,
-        sender: selectedUser?.name || "User",
+        sender: selectedUser?.name,
         text: msg.mes,
         time: formatTime(msg.at),
         timestamp: msg.at
@@ -113,7 +118,7 @@ const UserChat = () => {
 
   const handleUserSelect = (user) => {
     setSelectedUser(user);
-    fetchChat(decodedSelecteduserEmail);
+    fetchChat(user, currentUserEmail);
   };
 
   const handleSendMessage = async () => {
@@ -132,7 +137,7 @@ const UserChat = () => {
       try {
         await axios.post(`${SERVER_URL}/message/chat/send`, {
           from: currentUserEmail,
-          to: decodedSelecteduserEmail,
+          to: selectedUser?.email,
           message: input
         });
         
@@ -167,13 +172,16 @@ const UserChat = () => {
             {loading ? (
               <div className="text-center text-gray-400">Loading...</div>
             ) : inboxUsers.length === 0 ? (
-              <div className="text-center text-gray-400">No conversations yet</div>
+              <div className="text-center flex flex-col text-gray-400">No conversations yet
+              <Link className="box p-2 mt-4" to='/SearchUsers'>Search Users</Link>
+              </div>
+              
             ) : (
               inboxUsers.map((user) => (
-                <div
+                <button
                   key={user.email}
-                  className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                    decodedSelecteduserEmail === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                  className={`flex w-full items-center space-x-3 p-2 rounded-lg cursor-pointer ${
+                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
                   } hover:bg-gray-700`}
                   onClick={() => handleUserSelect(user)}
                 >
@@ -189,7 +197,7 @@ const UserChat = () => {
                     </div>
                   )}
                   <span className="text-white">{user.name}</span>
-                </div>
+                </button>
               ))
             )}
           </div>
@@ -218,7 +226,7 @@ const UserChat = () => {
                 <div
                   key={user.email}
                   className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                    decodedSelecteduserEmail === user.email ? 'bg-blue-800' : 'bg-gray-800'
+                    selectedUser?.email === user.email ? 'bg-blue-800' : 'bg-gray-800'
                   } hover:bg-gray-700`}
                   onClick={() => {
                     handleUserSelect(user);
@@ -277,7 +285,7 @@ const UserChat = () => {
                         </div>
                       </div>
                     </div>
-                    <h2 className="text-2xl font-bold">Start a conversation with {selectedUser.name || 'User'}</h2>
+                    <h2 className="text-2xl font-bold">Start a conversation with {selectedUser?.name || urluserName}</h2>
                     <p className="text-base-content/60">
                       No messages yet. Say hello!
                     </p>
@@ -323,7 +331,7 @@ const UserChat = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={selectedUser ? `Message ${selectedUser.name}...` : "Select a user to chat with..."}
+                placeholder={selectedUser ? `Message ${selectedUser?.name || urluserName}...` : "Select a user to chat with..."}
                 className="flex-1 p-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border-2 border-cyan-300 hover:border-[#646cff]"
                 disabled={!selectedUser}
               />
