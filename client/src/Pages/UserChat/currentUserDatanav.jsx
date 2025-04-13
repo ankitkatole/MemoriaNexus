@@ -1,22 +1,37 @@
 import React from 'react'
 
-function currentUserDatanav({ProfileImage,Name,userName}) {
+function CurrentUserDatanav({data, Status,urlName}) {
   return (
     <>
-      <header className="sticky top-0 w-full z-10 backdrop-blur-md bg-black/50 border-b border-gray-800 mb-3">
-                <div className="container md:ml-4 ml-2 py-4 flex items-start">
-
-                  <div className="flex gap-3  border-b border-cyan-300">
-                <img src={ProfileImage} alt="UserName" />
-               <h4 className='text-lg font-bold text-white'>{UserName}</h4>
-               <p className='text-gray-500'>{userName}</p>
-                 </div>
-
-
+    {data.name && data.email && (
+                <div className="bg-gray-900 p-3 flex items-center border-b border-gray-800">
+                 {/* { data.image ?
+                    (<img 
+                      src={data.image} 
+                      className="h-10 w-10 rounded-full object-cover mr-3" 
+                      alt={data.name}
+                    />)
+                  :( */}
+                    <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white mr-3">
+                      {data.name ? data.name[0] : '?'}
+                    </div>
+                    {/* )
+                  } */}
+                  <div>
+                    <div className="text-white font-medium">{data.name || urlName}</div>
+                    <div className="text-sm flex items-center">
+                      <span className={`inline-block h-2 w-2 rounded-full mr-2 ${
+                        Status.has(data.email) ? 'bg-green-500' : 'bg-gray-500'
+                      }`}></span>
+                      <span className="text-gray-300">
+                        {Status.has(data.email) ? 'Online' : 'Offline'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </header>
+              )}
     </>
   )
 }
 
-export default currentUserDatanav
+export default CurrentUserDatanav
