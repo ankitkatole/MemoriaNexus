@@ -216,7 +216,7 @@ const Diary = () => {
             >
               <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
                 <div
-                  className="front absolute inset-0 will-change-scroll bg-gradient-to-b overflow-y-auto Diary from-gray-950 via-blue-950 to-violet-950 border-2 border-cyan-300"
+                  className="front absolute inset-0 will-change-scroll bg-black overflow-y-auto Diary  border-2 border-cyan-300"
                   onWheel={handleWheel}
                   style={{
                     backfaceVisibility: "hidden",
@@ -236,7 +236,7 @@ const Diary = () => {
                   )}
                 </div>
                 <div
-                  className="back absolute inset-0 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950"
+                  className="back absolute inset-0 bg-gradient-to-l border-2 border-cyan-300 from-black  to-cyan-900"
                   style={{
                     backfaceVisibility: "hidden",
                     transform: "rotateY(180deg)",

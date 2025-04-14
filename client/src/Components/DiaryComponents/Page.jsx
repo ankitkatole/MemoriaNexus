@@ -21,8 +21,10 @@ const Page = memo(({ page, onEdit, jumpToIndex }) => {
 
   if (page.isCover) {
     return (
-      <div className="w-full h-full bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 flex flex-col items-center gap-8 md:gap-16 justify-center text-white overflow-hidden relative">
-        <img src={cover} alt="bg-img" className="object-cover w-16 h-16 md:w-20 md:h-20 z-0" />
+      <div className="w-full h-full bg-black flex flex-col items-center gap-8 md:gap-16 justify-center text-white overflow-hidden relative">
+       
+       <div className="flex flex-col gap-8 items-center justify-center">
+        <img src={cover} alt="bg-img" className=" w-16 mr-3 h-16 md:w-36 md:h-36 z-0" />
         <div className="relative text-3xl md:text-5xl z-10 px-4 text-center">
           {isEditingTitle ? (
             <input
@@ -40,11 +42,12 @@ const Page = memo(({ page, onEdit, jumpToIndex }) => {
           )}
         </div>
       </div>
+      </div>
     );
   }
 
   return (
-    <div className="text-center space-y-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 w-full h-full text-white pt-8 px-4 md:px-6 relative">
+    <div className="text-center space-y-4 bg-black w-full h-full text-white pt-8 px-4 md:px-6 relative">
       <button 
         onClick={() => onEdit(page)}
         className="absolute top-4 right-4 p-1.5 md:p-2 box hover:bg-white/10 !rounded-full transition-colors"

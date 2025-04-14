@@ -48,14 +48,12 @@ function Navbar({LoginOpen, SignupOpen}) {
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className='flex  items-center gap-10'>
            
-          <div className='flex gap-4'> <img src={Logo} alt="" className='w-7 h-7' />
-           
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
-            MemoriaNexus
-            </h1>
-
-          </div> 
-
+           <div className="flex gap-2 my-3 items-center justify-center">
+                    <img src={Logo} alt="" className="w-9 h-9" />
+                    <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text">
+                      MemoriaNexus
+                    </h1>
+                  </div>
 
           <div className="hidden lg:flex space-x-6">
           {navLinks.map((navLink, index) => (

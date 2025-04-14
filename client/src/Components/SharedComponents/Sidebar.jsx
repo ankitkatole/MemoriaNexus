@@ -79,8 +79,8 @@ function Sidebar({ className, setonlineStatus, onlineStatus }) {
 
       {/* Sidebar for larger screens */}
       <aside className={`hidden ${className} lg:flex flex-col gap-4 p-4 w-64 bg-gray-900 border-r pr-5 border-[#646cff] h-screen`}>
-        <div className="flex gap-4 my-3">
-          <img src={Logo} alt="" className="w-7 h-7" />
+        <div className="flex gap-2 my-3 items-center justify-center">
+          <img src={Logo} alt="" className="w-9 h-9" />
           <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text">
             MemoriaNexus
           </h1>

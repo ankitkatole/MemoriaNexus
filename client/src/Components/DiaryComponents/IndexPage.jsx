@@ -5,7 +5,7 @@ const IndexPage = memo(({ pages, currentPage, onPageSelect, onDelete }) => {
   
   if (contentPages.length === 0) {
     return (
-      <div className="text-center space-y-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 w-full h-full text-white pt-8 px-4 md:px-6">
+      <div className="text-center space-y-4 bg-black w-full h-full text-white pt-8 px-4 md:px-6">
         <h2 className="text-[1.2em] sm:text-[3vmin] font-bold mb-8">Table of Contents</h2>
         <p className="text-gray-300 text-sm md:text-base">No memories yet. Add your first memory!</p>
       </div>
@@ -13,7 +13,7 @@ const IndexPage = memo(({ pages, currentPage, onPageSelect, onDelete }) => {
   }
 
   return (
-    <div className="text-center space-y-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950 w-full h-full text-white pt-8 px-4 md:px-6">
+    <div className="text-center space-y-4 bg-black w-full h-full text-white pt-8 px-4 md:px-6">
       <h2 className="text-[1.2em] sm:text-[3vmin] font-bold mb-8">Table of Contents</h2>
       <div className="space-y-3 md:space-y-4">
         {contentPages.map((page) => (

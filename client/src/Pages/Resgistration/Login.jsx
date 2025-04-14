@@ -128,10 +128,12 @@ function Login({onClose, SignUpOpen}) {
                       <X size={24} />
                     </button>
           
-          <div className='flex gap-2 items-center mb-6'> 
-                    <img src={Logo} alt="" className='w-7 h-7' />
-                    <h2 className="text-2xl font-semibold text-cyan-400 ">Log In</h2>
-                    </div>
+           <div className="flex gap-2 mb-6 items-center justify-center">
+                    <img src={Logo} alt="" className="w-9 h-9" />
+                    <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text">
+                      MemoriaNexus
+                    </h1>
+                  </div>
           <form className="w-full md:min-w-96" onSubmit={handleSubmit}>
             <div className="mb-6">
               <input
