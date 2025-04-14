@@ -212,8 +212,7 @@ export default {
   setErrorHandler,
   disconnect,
 
-  
-  // New forum methods
+
   joinForum,
   leaveForum,
   sendForumMessage,

@@ -20,7 +20,6 @@ const ForumChat = ({ forumId, forumName }) => {
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
   
-  // Initialize user data and socket
   useEffect(() => {
     const userIdFromCookie = Cookies.get('Userid');
     const userEmailFromCookie = JSON.parse(Cookies.get('Email') || '""');
@@ -254,7 +253,7 @@ const ForumChat = ({ forumId, forumName }) => {
           {usersTyping.length > 0 && (
             <div className="bg-gray-800 px-4 py-2 text-sm text-gray-400">
               {usersTyping.length === 1 
-                ? `${usersTyping[0].username} is typing...` 
+                ? `${usersTyping[0].userId} is typing...` 
                 : `${usersTyping.length} people are typing...`}
             </div>
           )}
