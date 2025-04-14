@@ -174,9 +174,40 @@ const UserChat = () => {
     if (diffMinutes < 60) return `${diffMinutes}m ago`;
     
     const diffHours = Math.floor(diffMinutes / 60);
-    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffHours < 12) return `${diffHours}h ago`;
     
-    return date.toLocaleDateString();
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+  const formatTimePlate = (timestamp) => {
+    const messageDate = new Date(timestamp);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+  
+    const isToday = messageDate.toDateString() === today.toDateString();
+    const isYesterday = messageDate.toDateString() === yesterday.toDateString();
+  
+    if (isToday) return "Today";
+    if (isYesterday) return "Yesterday";
+  
+    return messageDate.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const shouldShowDate = (index) => {
+    if (index === 0) return true;
+    
+    const currentDate = new Date(messages[index].timestamp).toDateString();
+    const prevDate = new Date(messages[index - 1].timestamp).toDateString();
+    
+    return currentDate !== prevDate;
   };
 
   const handleUserSelect = (user) => {
@@ -311,11 +342,18 @@ const UserChat = () => {
                   </div>
                 </div>
               ) : (
-                messages.map((msg) => {
+                messages.map((msg,index) => {
                   const isOwnMessage = msg.sender === "Me";
                   return (
+                    <React.Fragment key={msg.id}>
+                    {shouldShowDate(index) && (
+                      <div className="text-center my-4">
+                        <span className="bg-gray-800 text-teal-400 text-xs px-2 py-1 rounded-full">
+                          {formatTimePlate(msg.timestamp)}
+                        </span>
+                      </div>
+                    )}
                     <div
-                      key={msg.id}
                       className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
@@ -336,7 +374,8 @@ const UserChat = () => {
                         }`}>{msg.text}</p>
                       </div>
                     </div>
-                  );
+                 </React.Fragment> 
+                 );
                 })
               )}
               {/* Invisible element to scroll to */}
