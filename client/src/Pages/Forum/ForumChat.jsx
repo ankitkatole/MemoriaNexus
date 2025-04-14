@@ -161,9 +161,24 @@ const ForumChat = ({ forumId, forumName }) => {
   };
   
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString();
+    const messageDate = new Date(timestamp);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+  
+    const isToday = messageDate.toDateString() === today.toDateString();
+    const isYesterday = messageDate.toDateString() === yesterday.toDateString();
+  
+    if (isToday) return "Today";
+    if (isYesterday) return "Yesterday";
+  
+    return messageDate.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   };
+  
   
   const shouldShowDate = (index) => {
     if (index === 0) return true;
@@ -216,7 +231,7 @@ const ForumChat = ({ forumId, forumName }) => {
                   <React.Fragment key={index}>
                     {shouldShowDate(index) && (
                       <div className="text-center my-4">
-                        <span className="bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded-full">
+                        <span className="bg-gray-800 text-teal-400 text-xs px-2 py-1 rounded-full">
                           {formatDate(msg.timestamp)}
                         </span>
                       </div>
