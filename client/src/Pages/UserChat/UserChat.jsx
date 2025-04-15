@@ -8,6 +8,9 @@ import SERVER_URL from "../../constant.mjs";
 // Import the socket service
 import socketService from "../../socketService";
 import CurrentUserDatanav from "./currentUserDatanav";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const UserChat = () => {
   const { encodedEmail, username } = useParams();
@@ -72,7 +75,7 @@ const UserChat = () => {
     });
     
     socketService.setErrorHandler((error) => {
-      alert(error.message || "Failed to send message");
+      toast.error(error.message || "Failed to send message");
     });
     
     // Clean up on unmount
@@ -123,7 +126,7 @@ const UserChat = () => {
     } catch (error) {
       console.error("Failed to fetch inbox:", error);
       setInboxUsers([]);
-      alert("Failed to load conversations. Please try again later.");
+      toast.error("Failed to load conversations. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -159,7 +162,7 @@ const UserChat = () => {
     } catch (error) {
       console.error("Failed to fetch chat:", error);
       setMessages([]);
-      alert("Failed to load messages. Please try again later.");
+      toast.error("Failed to load messages. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -230,6 +233,24 @@ const UserChat = () => {
   };
 
   return (
+    <>
+     <ToastContainer
+                position="top-right"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Slide}
+                closeButton={false}
+                containerId="UserChat"
+                />
+          
+   
     <div className="h-screen w-screen flex flex-col lg:flex-row">
       <Sidebar className='fixed inset-0 z-50' setonlineStatus={setOnlineStatus} onlineStatus={true} />
       <div className="flex-1 relative bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950">
@@ -409,6 +430,7 @@ const UserChat = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

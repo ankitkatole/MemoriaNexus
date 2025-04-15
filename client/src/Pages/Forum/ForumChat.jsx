@@ -6,6 +6,7 @@ import axios from 'axios';
 import SERVER_URL from '../../constant.mjs';
 import socketService from '../../socketService';
 
+
 const ForumChat = ({ forumId, forumName }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -22,7 +23,6 @@ const ForumChat = ({ forumId, forumName }) => {
   
   useEffect(() => {
     const userIdFromCookie = Cookies.get('Userid');
-    const userEmailFromCookie = JSON.parse(Cookies.get('Email') || '""');
     const userFirstName = Cookies.get('firstName');
     const userLastName = Cookies.get('lastName');
     
@@ -190,6 +190,8 @@ const ForumChat = ({ forumId, forumName }) => {
   };
   
   return (
+    <>
+    
     <div className="flex flex-col h-full">
       {/* Forum chat header */}
       <div className="bg-gray-900 p-4 flex justify-between items-center border-b border-cyan-300">
@@ -319,6 +321,8 @@ const ForumChat = ({ forumId, forumName }) => {
         )}
       </div>
     </div>
+    </>
+
   );
 };
 

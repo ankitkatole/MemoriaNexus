@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 import SERVER_URL from '../../constant.mjs';
 import Sidebar from '../../Components/SharedComponents/Sidebar';
 import ForumChat from './ForumChat';
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ForumChatPage = () => {
   const { forumId } = useParams();
@@ -36,6 +38,8 @@ const ForumChatPage = () => {
       const userIdFromCookie = Cookies.get('Userid');
       if (!response.data.members.includes(userIdFromCookie)) {
         setError('You are not a member of this forum');
+      }else {
+        setError(null);
       }
     } catch (error) {
       console.error('Error fetching forum details:', error);
@@ -45,11 +49,13 @@ const ForumChatPage = () => {
     }
   };
   
-  // Function to join the forum
+  //join the forum
   const handleJoinForum = async () => {
     try {
       await axios.post(`${SERVER_URL}/forum/join/${forumId}`, { userId });
-      fetchForumDetails(); // Refresh forum details
+      toast.success('You have joined the forum', { containerId: "ForumChatPage" });
+      
+      fetchForumDetails(); 
     } catch (error) {
       console.error('Error joining forum:', error);
       setError('Failed to join forum');
@@ -57,6 +63,24 @@ const ForumChatPage = () => {
   };
   
   return (
+    <>
+
+     <ToastContainer
+      position="top-right"
+      autoClose={1000}
+      hideProgressBar={false}
+      newestOnTop={true}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      transition={Slide}
+      closeButton={false}
+      containerId="ForumChatPage"
+      />
+
     <div className="h-screen w-screen flex flex-col lg:flex-row">
       <Sidebar />
       
@@ -90,6 +114,7 @@ const ForumChatPage = () => {
         )}
       </div>
     </div>
+  </>
   );
 };
 

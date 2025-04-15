@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SERVER_URL from '../../constant.mjs';
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TimeCapsuleForm = ({setopenStatus}) => {
   const [fileName, setFileName] = useState('');
@@ -50,13 +52,13 @@ const TimeCapsuleForm = ({setopenStatus}) => {
     
     const userId = Cookies.get('Userid');
     if (!userId) {
-      alert('User not logged in');
+      toast.error('User not logged in', { containerId: "Timecapsule" });
       return;
     }
 
     const { title, description, unlockDate } = formData;
     if (!title || !description || !unlockDate || !file) {
-      alert('Please fill out all fields and select an image.');
+      toast.warn('Please fill out all fields and select an image.', { containerId: "Timecapsule" });
       return;
     }
 
@@ -79,7 +81,7 @@ const TimeCapsuleForm = ({setopenStatus}) => {
         }
       });
 
-      alert('Time capsule created successfully');
+      toast.success('Time capsule created successfully');
       
       // Reset form
       setFormData({
@@ -94,7 +96,7 @@ const TimeCapsuleForm = ({setopenStatus}) => {
     } catch (error) {
         setLoading(false);
       console.error('Error uploading time capsule:', error);
-      alert('Error creating time capsule');
+      toast.error('Error creating time capsule');
     } 
   };
 
@@ -102,7 +104,25 @@ const TimeCapsuleForm = ({setopenStatus}) => {
   const closeModal = () => setopenStatus(false);
 
   return (
-    <div>
+    <>
+
+      <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            transition={Slide}
+            closeButton={false}
+            containerId="Timecapsule"
+            />
+      
+
       {/* Button to trigger modal */}
       {/* <button
         onClick={openModal}
@@ -205,7 +225,7 @@ const TimeCapsuleForm = ({setopenStatus}) => {
           </div>
         </div>
       
-    </div>
+    </>
   );
 };
 
