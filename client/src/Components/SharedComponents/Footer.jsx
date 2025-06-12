@@ -8,7 +8,7 @@ function Footer() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-             <div className="flex gap-2 my-3 items-center justify-center">
+             <div className="flex gap-2 my-3 items-center justify-start">
                       <img src={Logo} alt="" className="w-9 h-9" />
                       <h1 className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text">
                         MemoriaNexus
@@ -30,7 +30,7 @@ function Footer() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} AceGrid. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Team Cinfinite. All rights reserved.</p>
           </div>
         </div>
       </footer>
