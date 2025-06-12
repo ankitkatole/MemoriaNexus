@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { ArrowLeft, Clock, Calendar, Loader2 } from "lucide-react"
+import { ArrowLeft, Clock, Calendar } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import SERVER_URL from "../../constant.mjs"
@@ -49,12 +49,13 @@ export default function TimeCapsuleDetail() {
 
   if (loading) {
     return (
-      <div className="flex flex-col w-screen items-center justify-center min-h-screen bg-black">
-        <div className="flex flex-col items-center space-y-4">
-          <Loader2 className="h-12 w-12 animate-spin text-gray-400" />
-          <p className="text-gray-400 text-lg font-medium">Loading your time capsule...</p>
+       <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading your time capsule...</p>
+          </div>
         </div>
-      </div>
+         
     )
   }
 

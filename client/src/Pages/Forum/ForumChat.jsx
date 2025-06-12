@@ -215,9 +215,13 @@ const ForumChat = ({ forumId, forumName }) => {
           {/* Messages container */}
           <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-950 via-blue-950 to-violet-950">
             {loading ? (
-              <div className="flex justify-center items-center h-full">
-                <p className="text-gray-400">Loading messages...</p>
-              </div>
+              
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading messages...</p>
+          </div>
+        </div>
             ) : error ? (
               <div className="flex justify-center items-center h-full">
                 <p className="text-red-500">{error}</p>

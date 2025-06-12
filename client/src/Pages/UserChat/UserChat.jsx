@@ -260,7 +260,12 @@ const UserChat = () => {
           <div className="text-center text-xl font-semibold mb-6 text-white">Inbox</div>
           <div className="space-y-4">
             {loading ? (
-              <div className="text-center text-gray-400">Loading...</div>
+               <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading...</p>
+          </div>
+        </div>
             ) : inboxUsers.length === 0 ? (
               <div className="text-center flex flex-col text-gray-400">No conversations yet
               <Link className="box p-2 mt-4" to='/SearchUsers'>Search Users</Link>
@@ -345,7 +350,12 @@ const UserChat = () => {
                   </div>
                 </div>
               ) : loading ? (
-                <div className="text-center text-white p-8">Loading messages...</div>
+                 <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading messages...</p>
+          </div>
+        </div>
               ) : messages.length === 0 ? (
                 <div className="w-full flex flex-1 mt-[24vh] flex-col items-center justify-center p-16">
                   <div className="max-w-md text-center space-y-6">

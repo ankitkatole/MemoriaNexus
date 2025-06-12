@@ -96,7 +96,12 @@ const navigate = useNavigate();
         </div>
 
         {loading ? (
-          <p className="text-gray-400">Loading Users...</p>
+           <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading Users...</p>
+          </div>
+        </div>
         ) : users.length > 0 ? (
           <div className="space-y-2 flex flex-col items-center w-full">
             {users.map(user => {

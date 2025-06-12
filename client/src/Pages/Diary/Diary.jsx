@@ -187,9 +187,12 @@ const Diary = () => {
 
   if (loading) {
     return (
-      <section className="w-screen bg-gradient-to-b bg-black px-4 h-screen flex items-center justify-center">
-        <div className="text-cyan-300 text-xl">Loading your diary...</div>
-      </section>
+       <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p className="text-cyan-300">Loading your diary...</p>
+          </div>
+        </div>
     );
   }
 
